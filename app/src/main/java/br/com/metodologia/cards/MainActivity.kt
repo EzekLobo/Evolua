@@ -26,15 +26,20 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AccountTree
+import androidx.compose.material.icons.outlined.Assignment
+import androidx.compose.material.icons.outlined.AutoStories
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.CheckCircle
+import androidx.compose.material.icons.outlined.EditNote
 import androidx.compose.material.icons.outlined.ErrorOutline
-import androidx.compose.material.icons.outlined.LocalFireDepartment
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.MenuBook
 import androidx.compose.material.icons.outlined.Psychology
 import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material.icons.outlined.Source
+import androidx.compose.material.icons.outlined.Style
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -203,15 +208,15 @@ enum class Confidence(val label: String, val score: Int) {
 }
 
 enum class Screen(val label: String, val icon: ImageVector) {
-    Home("Início", Icons.Outlined.LocalFireDepartment),
-    Study("Estudo", Icons.Outlined.Psychology),
-    Cards("Cards", Icons.Outlined.MenuBook),
+    Home("Início", Icons.Outlined.Home),
+    Study("Estudo", Icons.Outlined.AutoStories),
+    Cards("Cards", Icons.Outlined.Style),
     Quiz("Quiz", Icons.Outlined.Quiz),
     Errors("Erros", Icons.Outlined.ErrorOutline),
-    Relations("Relações", Icons.Outlined.CheckCircle),
+    Relations("Relações", Icons.Outlined.AccountTree),
     Glossary("Termos", Icons.Outlined.Source),
-    Exam("Treino", Icons.Outlined.CheckCircle),
-    Prova("Prova", Icons.Outlined.CheckCircle)
+    Exam("Treino", Icons.Outlined.EditNote),
+    Prova("Prova", Icons.Outlined.Assignment)
 }
 
 enum class ExamRoundMode {
@@ -441,6 +446,7 @@ class StudyViewModel(application: Application) : AndroidViewModel(application) {
 }
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun MetodologiaApp(viewModel: StudyViewModel = viewModel()) {
     var screen by remember { mutableStateOf(Screen.Home) }
     var source by remember { mutableStateOf<SourceReference?>(null) }
@@ -459,6 +465,14 @@ fun MetodologiaApp(viewModel: StudyViewModel = viewModel()) {
             } else {
                 val bottomScreens = listOf(Screen.Home, Screen.Study, Screen.Cards, Screen.Quiz, Screen.Prova)
                 Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = { Text(screen.label) },
+                            colors = TopAppBarDefaults.topAppBarColors(
+                                containerColor = MaterialTheme.colorScheme.surface
+                            )
+                        )
+                    },
                     bottomBar = {
                         Surface(color = MaterialTheme.colorScheme.surface) {
                             Row(

@@ -43,8 +43,16 @@ describe("Evolua application flows without network or browser automation", () =>
     expect(
       screen.queryByRole("button", { name: "Consigo explicar" }),
     ).toBeNull();
-    await user.click(screen.getByRole("button", { name: "Revelar resposta" }));
-    await user.click(screen.getByRole("button", { name: "Consigo explicar" }));
+    const controls = screen.getByRole("complementary", {
+      name: "Controles da atividade",
+    });
+    await user.click(
+      within(controls).getByRole("button", { name: "Revelar resposta" }),
+    );
+    expect(within(controls).getAllByRole("button")).toHaveLength(4);
+    await user.click(
+      within(controls).getByRole("button", { name: "Consigo explicar" }),
+    );
     expect(
       await screen.findByRole("heading", {
         name: "Boa! Mais uma conexão feita.",
@@ -53,7 +61,9 @@ describe("Evolua application flows without network or browser automation", () =>
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)!);
     expect(saved.xp).toBe(12);
     expect(Object.keys(saved.items)).toHaveLength(1);
-    await user.click(screen.getByRole("button", { name: "Próxima atividade" }));
+    await user.click(
+      within(controls).getByRole("button", { name: "Próxima atividade" }),
+    );
     expect(
       screen.getByRole("button", { name: "Revelar resposta" }),
     ).toBeTruthy();
@@ -73,6 +83,15 @@ describe("Evolua application flows without network or browser automation", () =>
       true,
     );
     expect(screen.getByText("Entender todas as alternativas")).toBeTruthy();
+    const controls = screen.getByRole("complementary", {
+      name: "Controles da atividade",
+    });
+    expect(
+      within(controls).getByRole("region", { name: "Explicação da resposta" }),
+    ).toBeTruthy();
+    expect(
+      within(controls).getByRole("button", { name: "Próxima atividade" }),
+    ).toBeTruthy();
     expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!).xp).toBeGreaterThan(
       0,
     );

@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -262,6 +262,10 @@ export function StudySession({
     [answer, setAnswer] = useState<number | null>(null);
   const [results, setResults] = useState<Result[]>([]);
   const current = queue[index];
+  const questionBodyRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (questionBodyRef.current) questionBodyRef.current.scrollTop = 0;
+  }, [current?.item.id]);
   const options = useMemo(
     () =>
       current?.kind === "quiz"
@@ -360,243 +364,251 @@ export function StudySession({
     );
   }
   const topic = content.topics.find((t) => t.id === current.item.topicId);
+  const correct = answered && results[index].correct;
+  const due = progress.items[current.item.id]?.due;
   return (
     <div className="study-session">
-      <div className="session-toolbar">
-        <button className="text-button" onClick={onClose}>
-          <ArrowLeft size={17} /> Sair da rodada
-        </button>
-        <span>{title}</span>
-        <span>
-          {index + 1} de {queue.length}
-        </span>
-      </div>
-      <ProgressBar
-        value={(index / queue.length) * 100}
-        label="Progresso da rodada"
-      />
-      <div className="session-context">
-        <span className="tag">{topic?.name}</span>
-        <span className="muted small-text">
-          {current.kind === "card"
-            ? "Pense antes de revelar"
-            : "Escolha uma alternativa"}
-        </span>
-      </div>
-      <section
-        className={`question-card ${current.kind === "card" ? "flashcard" : ""}`}
-      >
-        <div className="question-kind">
+      <header className="session-header">
+        <div className="session-toolbar">
+          <button className="text-button" onClick={onClose}>
+            <ArrowLeft size={17} /> Sair da rodada
+          </button>
+          <span>{title}</span>
           <span>
-            {current.kind === "card" ? (
-              <Layers size={16} />
-            ) : (
-              <Target size={16} />
-            )}{" "}
-            {current.kind === "card" ? current.item.type : "QUIZ"}
+            {index + 1} de {queue.length}
           </span>
-          {current.kind === "card" && (
-            <span>
-              {
-                ["", "Essencial", "Intermediário", "Avançado"][
-                  current.item.difficulty
-                ]
-              }
-            </span>
-          )}
         </div>
-        <h1>
-          {current.kind === "card" ? current.item.front : current.item.question}
-        </h1>
-        {current.kind === "card" ? (
-          <>
-            {revealed ? (
+        <ProgressBar
+          value={(index / queue.length) * 100}
+          label="Progresso da rodada"
+        />
+        <div className="session-context">
+          <span className="tag">{topic?.name}</span>
+          <span className="muted small-text">
+            {current.kind === "card"
+              ? "Pense antes de revelar"
+              : "Escolha uma alternativa"}
+          </span>
+        </div>
+      </header>
+      <div className="session-layout">
+        <section
+          ref={questionBodyRef}
+          className={`question-card ${current.kind === "card" ? "flashcard" : ""}`}
+          aria-label="Conteúdo da atividade"
+          tabIndex={0}
+        >
+          <div className="question-kind">
+            <span>
+              {current.kind === "card" ? (
+                <Layers size={16} />
+              ) : (
+                <Target size={16} />
+              )}
+              {current.kind === "card" ? current.item.type : "QUIZ"}
+            </span>
+            {current.kind === "card" && (
+              <span>
+                {
+                  ["", "Essencial", "Intermediário", "Avançado"][
+                    current.item.difficulty
+                  ]
+                }
+              </span>
+            )}
+          </div>
+          <h1>
+            {current.kind === "card"
+              ? current.item.front
+              : current.item.question}
+          </h1>
+          {current.kind === "card" ? (
+            revealed ? (
               <div className="card-answer">
                 <span className="eyebrow">CONECTE COM A SUA RESPOSTA</span>
                 <p>{current.item.back}</p>
               </div>
             ) : (
-              <div className="card-reveal">
-                <span className="card-hint">
-                  <BrainIllustration />
-                </span>
+              <div className="recall-prompt">
+                <BookOpen size={25} strokeWidth={1.4} />
                 <p>
                   Formule a resposta na sua mente.
                   <br />
-                  Quando estiver pronto, confira o outro lado.
+                  Depois, revele para conferir o que lembrou.
                 </p>
+              </div>
+            )
+          ) : (
+            <div className="quiz-options">
+              {options.map((option, i) => {
+                const optionCorrect =
+                  option.index === current.item.correctOptionIndex;
+                const selected = answer === option.index;
+                return (
+                  <button
+                    className={`quiz-option ${answered && optionCorrect ? "correct" : ""} ${answered && selected && !optionCorrect ? "incorrect" : ""}`}
+                    key={option.index}
+                    disabled={answered}
+                    onClick={() => {
+                      setAnswer(option.index);
+                      record(optionCorrect);
+                    }}
+                  >
+                    <span className="option-letter">
+                      {String.fromCharCode(65 + i)}
+                    </span>
+                    <span>{option.text}</span>
+                    {answered && optionCorrect ? (
+                      <CheckCircle2 size={19} />
+                    ) : answered && selected ? (
+                      <X size={19} />
+                    ) : null}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          <div className="question-source">
+            <SourceButton source={current.item.source} onSource={onSource} />
+          </div>
+        </section>
+        <aside
+          className={`session-actions ${answered ? (correct ? "positive" : "needs-review") : ""}`}
+          aria-label="Controles da atividade"
+        >
+          {answered ? (
+            <>
+              <div className="session-result-heading" role="status">
+                <span className="round-icon lime">
+                  {correct ? (
+                    <CheckCircle2 size={22} />
+                  ) : (
+                    <BookOpen size={22} />
+                  )}
+                </span>
+                <h2>
+                  {correct
+                    ? "Boa! Mais uma conexão feita."
+                    : "Aprender também é revisitar."}
+                </h2>
+                <p className="review-date">
+                  <Zap size={13} />
+                  {due === dateKey()
+                    ? "Revisão hoje"
+                    : due
+                      ? "Próxima revisão: " +
+                        new Date(`${due}T12:00:00Z`).toLocaleDateString(
+                          "pt-BR",
+                          { timeZone: "UTC" },
+                        )
+                      : "Progresso registrado"}
+                </p>
+              </div>
+              {current.kind === "quiz" && (
+                <div
+                  className="session-explanation"
+                  tabIndex={0}
+                  role="region"
+                  aria-label="Explicação da resposta"
+                >
+                  <p>
+                    {answer !== null
+                      ? current.item.optionExplanations[answer]
+                      : ""}
+                  </p>
+                  {!correct && (
+                    <p>
+                      <strong>Resposta correta: </strong>
+                      {current.item.options[current.item.correctOptionIndex]}
+                    </p>
+                  )}
+                  <details>
+                    <summary>Entender todas as alternativas</summary>
+                    {options.map((option) => (
+                      <p key={option.index}>
+                        <strong>{option.text}</strong>
+                        <br />
+                        {current.item.optionExplanations[option.index]}
+                      </p>
+                    ))}
+                  </details>
+                </div>
+              )}
+              <div className="session-action-footer">
+                <button className="button button-primary full" onClick={next}>
+                  {index === queue.length - 1
+                    ? "Ver meu resultado"
+                    : "Próxima atividade"}
+                  <ArrowRight size={17} />
+                </button>
+              </div>
+            </>
+          ) : current.kind === "card" && revealed ? (
+            <div className="confidence-panel">
+              <h2>Como foi lembrar disso?</h2>
+              <p>Sua resposta orienta a próxima revisão.</p>
+              <div className="confidence-options">
+                {[
+                  "Não lembrei",
+                  "Lembrei parcialmente",
+                  "Consigo explicar",
+                  "Consigo diferenciar",
+                ].map((label, i) => (
+                  <button
+                    key={label}
+                    className={`confidence confidence-${i}`}
+                    onClick={() => record(i >= 2, i)}
+                  >
+                    <span>
+                      {i === 0 ? (
+                        <RotateCcw size={18} />
+                      ) : i === 1 ? (
+                        <BookOpen size={18} />
+                      ) : i === 2 ? (
+                        <Check size={18} />
+                      ) : (
+                        <Sparkles size={18} />
+                      )}
+                    </span>
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="session-guidance">
+              <span className="round-icon lime">
+                {current.kind === "card" ? (
+                  <Layers size={22} />
+                ) : (
+                  <Target size={22} />
+                )}
+              </span>
+              <h2>
+                {current.kind === "card"
+                  ? "Primeiro, tente lembrar."
+                  : "Qual alternativa faz sentido?"}
+              </h2>
+              <p>
+                {current.kind === "card"
+                  ? "Explique o conceito com suas palavras antes de conferir a resposta."
+                  : "Leia com atenção e escolha uma opção. Você verá a explicação logo depois."}
+              </p>
+              {current.kind === "card" && (
                 <button
-                  className="button button-primary"
+                  className="button button-primary full"
                   onClick={() => setRevealed(true)}
                 >
                   <RotateCcw size={16} /> Revelar resposta
                 </button>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="quiz-options">
-            {options.map((option, i) => {
-              const correct = option.index === current.item.correctOptionIndex;
-              const selected = answer === option.index;
-              return (
-                <button
-                  className={`quiz-option ${answered && correct ? "correct" : ""} ${answered && selected && !correct ? "incorrect" : ""}`}
-                  key={option.index}
-                  disabled={answered}
-                  onClick={() => {
-                    setAnswer(option.index);
-                    record(correct);
-                  }}
-                >
-                  <span className="option-letter">
-                    {String.fromCharCode(65 + i)}
-                  </span>
-                  <span>{option.text}</span>
-                  {answered && correct ? (
-                    <CheckCircle2 size={19} />
-                  ) : answered && selected ? (
-                    <X size={19} />
-                  ) : null}
-                </button>
-              );
-            })}
-          </div>
-        )}
-        <SourceButton source={current.item.source} onSource={onSource} />
-      </section>
-      {current.kind === "card" && revealed && !answered && (
-        <section className="confidence-panel">
-          <h2>Como foi lembrar disso?</h2>
-          <p>Sua resposta orienta a próxima revisão.</p>
-          <div className="confidence-options">
-            {[
-              "Não lembrei",
-              "Lembrei parcialmente",
-              "Consigo explicar",
-              "Consigo diferenciar",
-            ].map((label, i) => (
-              <button
-                key={label}
-                className={`confidence confidence-${i}`}
-                onClick={() => record(i >= 2, i)}
-              >
-                <span>
-                  {i === 0 ? (
-                    <RotateCcw size={20} />
-                  ) : i === 1 ? (
-                    <BookOpen size={20} />
-                  ) : i === 2 ? (
-                    <Check size={20} />
-                  ) : (
-                    <Sparkles size={20} />
-                  )}
-                </span>
-                {label}
-              </button>
-            ))}
-          </div>
-        </section>
-      )}
-      {answered && (
-        <section
-          className={`feedback ${results[index].correct ? "positive" : "needs-review"}`}
-          role="status"
-        >
-          <div className="feedback-title">
-            {results[index].correct ? (
-              <CheckCircle2 size={22} />
-            ) : (
-              <BookOpen size={22} />
-            )}
-            <h2>
-              {results[index].correct
-                ? "Boa! Mais uma conexão feita."
-                : "Aprender também é revisitar."}
-            </h2>
-            <span>
-              <Zap size={14} />{" "}
-              {progress.items[current.item.id]?.due === dateKey()
-                ? "Revisão hoje"
-                : "Próxima revisão: " +
-                  new Date(
-                    `${progress.items[current.item.id]?.due}T12:00:00Z`,
-                  ).toLocaleDateString("pt-BR", { timeZone: "UTC" })}
-            </span>
-          </div>
-          {current.kind === "quiz" && (
-            <>
-              <p>
-                {answer !== null ? current.item.optionExplanations[answer] : ""}
-              </p>
-              {!results[index].correct && (
-                <p>
-                  <strong>Resposta correta: </strong>
-                  {current.item.options[current.item.correctOptionIndex]}
-                </p>
               )}
-              <details>
-                <summary>Entender todas as alternativas</summary>
-                {options.map((option) => (
-                  <p key={option.index}>
-                    <strong>{option.text}</strong>
-                    <br />
-                    {current.item.optionExplanations[option.index]}
-                  </p>
-                ))}
-              </details>
-            </>
+            </div>
           )}
-          <button className="button button-primary" onClick={next}>
-            {index === queue.length - 1
-              ? "Ver meu resultado"
-              : "Próxima atividade"}
-            <ArrowRight size={17} />
-          </button>
-        </section>
-      )}
-      <p className="session-footnote">
-        <span className="status-dot" /> Progresso salvo neste navegador · A sua
-        jornada é no seu ritmo.
-      </p>
+          <p className="session-save-status">
+            <span className="status-dot" /> Progresso salvo neste navegador
+          </p>
+        </aside>
+      </div>
     </div>
-  );
-}
-function BrainIllustration() {
-  return (
-    <svg
-      viewBox="0 0 100 70"
-      width="100"
-      height="70"
-      fill="none"
-      aria-hidden="true"
-    >
-      <rect
-        x="17"
-        y="8"
-        width="48"
-        height="55"
-        rx="8"
-        fill="#e5ecd9"
-        transform="rotate(-12 17 8)"
-      />
-      <rect
-        x="34"
-        y="4"
-        width="48"
-        height="55"
-        rx="8"
-        fill="#fff"
-        stroke="#a7b9a0"
-        transform="rotate(10 34 4)"
-      />
-      <path
-        d="m46 34 8 8 14-17"
-        stroke="#407156"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }

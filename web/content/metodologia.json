@@ -1,0 +1,2653 @@
+{
+  "title": "Metodologia Científica - Plano Intensivo",
+  "topics": [
+    {
+      "id": "fundamentos_prova",
+      "name": "Fundamentos de prova",
+      "description": "Senso comum, conhecimento científico, empirismo, ciências formais e ciências factuais."
+    },
+    {
+      "id": "autores_correntes",
+      "name": "Autores e correntes",
+      "description": "Galileu, Bacon, Descartes, racionalismo, empirismo e mecanicismo."
+    },
+    {
+      "id": "falseabilidade_pesquisa",
+      "name": "Falseabilidade e pesquisa",
+      "description": "Popper, hipóteses falseadoras, método hipotético-falseável e tipos de pesquisa."
+    },
+    {
+      "id": "treino_discursivo",
+      "name": "Treino discursivo",
+      "description": "DREC, respostas-mãe, simulados, rubricas e checklists para prova."
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "fc_def_01",
+      "topicId": "fundamentos_prova",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "Defina senso comum em uma frase de prova.",
+      "back": "Senso comum é conhecimento cotidiano, espontâneo e marcado pela subjetividade da vivência, sem validação sistemática.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "fc_def_02",
+      "topicId": "fundamentos_prova",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "Defina conhecimento científico sem dizer que ele é verdade absoluta.",
+      "back": "Conhecimento científico é sistemático e metodológico, pois usa critérios rigorosos de aquisição, teste, validação e revisão.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "fc_def_03",
+      "topicId": "fundamentos_prova",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "O que é empirismo de senso comum.",
+      "back": "É a confiança na experiência imediata, nos hábitos e nas percepções pessoais do cotidiano.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "fc_def_04",
+      "topicId": "fundamentos_prova",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "O que transforma empirismo em empirismo científico.",
+      "back": "A experiência passa por observação controlada, registro, comparação, teste e análise crítica.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "fc_def_05",
+      "topicId": "fundamentos_prova",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "O que são ciências formais.",
+      "back": "São ciências de objetos abstratos e relações lógicas, como matemática e lógica, validadas pela coerência interna.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "fc_def_06",
+      "topicId": "fundamentos_prova",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "O que são ciências factuais.",
+      "back": "São ciências que estudam fatos e fenômenos da realidade, usando observação, dados e confronto empírico.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "fc_def_07",
+      "topicId": "autores_correntes",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "O que o racionalismo prioriza.",
+      "back": "Prioriza razão, dedução, clareza lógica e organização metódica do pensamento.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "fc_def_08",
+      "topicId": "autores_correntes",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "O que o empirismo prioriza.",
+      "back": "Prioriza experiência, observação, dados e experimentação como base do conhecimento.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "fc_def_09",
+      "topicId": "autores_correntes",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "O que significa mecanicismo na ciência moderna.",
+      "back": "É a visão da natureza como ordenada, regular e explicável por leis, quase como um mecanismo.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "fc_def_10",
+      "topicId": "autores_correntes",
+      "type": "autor",
+      "difficulty": 1,
+      "front": "Qual é o método associado a Galileu.",
+      "back": "Galileu combina observação, experimentação e matematização da natureza.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "fc_def_11",
+      "topicId": "autores_correntes",
+      "type": "autor",
+      "difficulty": 1,
+      "front": "Qual é o método associado a Bacon.",
+      "back": "Bacon defende observação, experimentação, registro dos fatos e indução.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "fc_def_12",
+      "topicId": "autores_correntes",
+      "type": "autor",
+      "difficulty": 1,
+      "front": "Qual é o método associado a Descartes.",
+      "back": "Descartes defende dúvida metódica, análise racional e dedução lógica.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "fc_def_13",
+      "topicId": "falseabilidade_pesquisa",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "O que é falseabilidade.",
+      "back": "É a possibilidade de uma teoria ser testada de modo que possa ser refutada.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "fc_def_14",
+      "topicId": "falseabilidade_pesquisa",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "O que é uma hipótese falseadora.",
+      "back": "É uma previsão, situação ou teste que poderia contrariar uma teoria caso ocorresse.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "fc_def_15",
+      "topicId": "falseabilidade_pesquisa",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "Qual é o objetivo da pesquisa aplicada.",
+      "back": "Usar conhecimento científico para resolver problemas práticos, técnicos ou sociais.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "fc_def_16",
+      "topicId": "falseabilidade_pesquisa",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "Qual é o objetivo da pesquisa de falseamento.",
+      "back": "Testar criticamente uma teoria ou hipótese, buscando condições em que ela possa falhar.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "fc_def_17",
+      "topicId": "falseabilidade_pesquisa",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "Qual é o objetivo da pesquisa experimental.",
+      "back": "Testar relações entre variáveis por controle, manipulação e observação dos efeitos.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "fc_def_18",
+      "topicId": "falseabilidade_pesquisa",
+      "type": "definição",
+      "difficulty": 1,
+      "front": "Qual é o objetivo da pesquisa exploratória.",
+      "back": "Conhecer melhor um problema pouco delimitado, levantar informações e formular hipóteses.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "fc_def_19",
+      "topicId": "treino_discursivo",
+      "type": "método de resposta",
+      "difficulty": 1,
+      "front": "O que significa DREC.",
+      "back": "Definir, Relacionar, Explicar e Concluir: a estrutura para respostas discursivas articuladas.",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "fc_cmp_01",
+      "topicId": "fundamentos_prova",
+      "type": "comparação",
+      "difficulty": 2,
+      "front": "Compare senso comum e conhecimento científico pelo processo, não pelo objeto.",
+      "back": "O mesmo objeto pode ser observado pelos dois; muda o modo de aquisição e validação: vivência subjetiva no senso comum, método e critérios na ciência.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "fc_cmp_02",
+      "topicId": "fundamentos_prova",
+      "type": "comparação",
+      "difficulty": 2,
+      "front": "Diferencie empirismo comum e empirismo científico.",
+      "back": "Ambos partem da experiência, mas o comum é espontâneo; o científico organiza a experiência por método, controle e análise.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "fc_cmp_03",
+      "topicId": "fundamentos_prova",
+      "type": "comparação",
+      "difficulty": 2,
+      "front": "Diferencie ciências formais e factuais pelo modo de validação.",
+      "back": "Formais validam pela coerência lógica; factuais validam pelo confronto com dados e fenômenos reais.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "fc_cmp_04",
+      "topicId": "autores_correntes",
+      "type": "comparação",
+      "difficulty": 2,
+      "front": "Compare Bacon e Descartes em uma resposta curta.",
+      "back": "Bacon se aproxima do empirismo e da indução; Descartes se aproxima do racionalismo e da dedução.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "fc_cmp_05",
+      "topicId": "autores_correntes",
+      "type": "comparação",
+      "difficulty": 2,
+      "front": "Como Galileu se diferencia de Bacon.",
+      "back": "Ambos valorizam experiência, mas Galileu articula experimento com matemática; Bacon enfatiza observação, registro e indução.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "fc_cmp_06",
+      "topicId": "falseabilidade_pesquisa",
+      "type": "comparação",
+      "difficulty": 2,
+      "front": "Diferencie pesquisa aplicada e pesquisa de falseamento pela finalidade.",
+      "back": "Aplicada busca resolver problema prático; falseamento busca testar criticamente uma teoria.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "fc_cmp_07",
+      "topicId": "falseabilidade_pesquisa",
+      "type": "comparação",
+      "difficulty": 2,
+      "front": "Diferencie pesquisa experimental e exploratória pela finalidade.",
+      "back": "Experimental testa variáveis; exploratória delimita um problema e levanta hipóteses iniciais.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "fc_cmp_08",
+      "topicId": "falseabilidade_pesquisa",
+      "type": "comparação",
+      "difficulty": 2,
+      "front": "Qual é a diferença entre fortalecer uma hipótese e provar definitivamente.",
+      "back": "Resistir aos testes fortalece provisoriamente; não transforma a hipótese em verdade absoluta.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "fc_err_01",
+      "topicId": "fundamentos_prova",
+      "type": "erro comum",
+      "difficulty": 2,
+      "front": "Erro comum: dizer que senso comum é sempre falso.",
+      "back": "Corrija dizendo que o problema não é ser sempre falso, mas não usar validação sistemática.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "fc_err_02",
+      "topicId": "fundamentos_prova",
+      "type": "erro comum",
+      "difficulty": 2,
+      "front": "Erro comum: dizer que ciência estuda sempre outro objeto.",
+      "back": "Corrija: a diferença está no processo de aquisição e validação, não necessariamente no objeto estudado.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "fc_err_03",
+      "topicId": "autores_correntes",
+      "type": "erro comum",
+      "difficulty": 2,
+      "front": "Erro comum: colocar Descartes como empirista.",
+      "back": "Descartes é racionalista: razão, dúvida metódica, análise e dedução.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "fc_err_04",
+      "topicId": "autores_correntes",
+      "type": "erro comum",
+      "difficulty": 2,
+      "front": "Erro comum: esquecer o mecanicismo na questão dos autores.",
+      "back": "Inclua que a natureza passa a ser vista como regular, ordenada e explicável por leis.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "fc_err_05",
+      "topicId": "falseabilidade_pesquisa",
+      "type": "erro comum",
+      "difficulty": 2,
+      "front": "Erro comum: confundir falseabilidade com confirmar uma teoria.",
+      "back": "Falseabilidade é expor a teoria ao risco de refutação; confirmação é sempre provisória.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "fc_err_06",
+      "topicId": "falseabilidade_pesquisa",
+      "type": "erro comum",
+      "difficulty": 2,
+      "front": "Erro comum: trocar exploratória por experimental.",
+      "back": "Exploratória investiga e delimita; experimental testa variáveis sob controle.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "fc_drec_01",
+      "topicId": "treino_discursivo",
+      "type": "DREC",
+      "difficulty": 2,
+      "front": "Monte a abertura DREC para senso comum vs ciência.",
+      "back": "Defina os dois conceitos, relacione pelo objeto possível em comum, explique a diferença de processo e conclua pelo critério de validação.",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "fc_drec_02",
+      "topicId": "treino_discursivo",
+      "type": "DREC",
+      "difficulty": 2,
+      "front": "Monte a resposta-mãe da Questão 2 em quatro movimentos.",
+      "back": "Galileu: observação, experimento e matemática; Bacon: empirismo indutivo; Descartes: racionalismo dedutivo; mecanicismo: natureza regular por leis.",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "fc_drec_03",
+      "topicId": "treino_discursivo",
+      "type": "DREC",
+      "difficulty": 2,
+      "front": "Como iniciar uma resposta sobre método hipotético-falseável.",
+      "back": "Comece definindo falseabilidade, depois explique hipótese, teste crítico, possível refutação e validação provisória.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "fc_drec_04",
+      "topicId": "treino_discursivo",
+      "type": "DREC",
+      "difficulty": 3,
+      "front": "Como concluir uma comparação de pesquisas.",
+      "back": "Feche pela finalidade: uma aplica, outra testa teoria; uma manipula variáveis, outra delimita problema.",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "fc_app_01",
+      "topicId": "fundamentos_prova",
+      "type": "aplicação em prova",
+      "difficulty": 3,
+      "front": "Se a questão pedir “aponte e explique”, qual cuidado tomar.",
+      "back": "Não liste palavras soltas: defina o conceito, relacione com outro e explique o processo.",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "fc_app_02",
+      "topicId": "autores_correntes",
+      "type": "aplicação em prova",
+      "difficulty": 3,
+      "front": "Se a Questão 2 valer mais pontos, o que não pode faltar.",
+      "back": "Método de Galileu, Bacon e Descartes, relação com racionalismo/empirismo e mecanicismo da natureza.",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "fc_app_03",
+      "topicId": "falseabilidade_pesquisa",
+      "type": "aplicação em prova",
+      "difficulty": 3,
+      "front": "Se a questão pedir hipóteses falseadoras, qual exemplo de frase serve.",
+      "back": "Uma hipótese falseadora indica que resultado contrariaria a teoria se fosse observado.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "fc_app_04",
+      "topicId": "treino_discursivo",
+      "type": "aplicação em prova",
+      "difficulty": 3,
+      "front": "Como transformar uma resposta média em forte.",
+      "back": "Adicionar comparação, autor ou corrente, explicação do processo e conclusão clara.",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "fc_app_05",
+      "topicId": "autores_correntes",
+      "type": "aplicação em prova",
+      "difficulty": 3,
+      "front": "Mini resposta: por que Galileu representa síntese.",
+      "back": "Porque articula experiência, experimento, razão e matemática para explicar a natureza.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "fc_app_06",
+      "topicId": "falseabilidade_pesquisa",
+      "type": "aplicação em prova",
+      "difficulty": 3,
+      "front": "Mini resposta: por que Popper critica a verificação definitiva.",
+      "back": "Porque uma teoria científica deve poder ser refutada e só permanece válida provisoriamente.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "q01",
+      "topicId": "fundamentos_prova",
+      "question": "Qual frase resume melhor a diferença entre senso comum e conhecimento científico?",
+      "options": [
+        "A diferença está no processo de aquisição e validação do conhecimento.",
+        "A ciência estuda objetos impossíveis ao senso comum.",
+        "O senso comum é sempre falso e a ciência é sempre definitiva.",
+        "Os dois seguem o mesmo método."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "A prova valoriza a diferença de método, rigor e validação, não uma separação absoluta de objetos.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      },
+      "optionExplanations": [
+        "Correta: A prova valoriza a diferença de método, rigor e validação, não uma separação absoluta de objetos.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Incorreta: transforma a ciência em verdade absoluta, mas o conteúdo trabalha com validação provisória, crítica e possibilidade de revisão.",
+        "Incorreta: apaga justamente a diferença central de método, controle e validação entre os conceitos comparados."
+      ]
+    },
+    {
+      "id": "q02",
+      "topicId": "fundamentos_prova",
+      "question": "Uma pessoa conclui algo apenas pela vivência cotidiana. Isso se aproxima de qual ideia?",
+      "options": [
+        "Empirismo científico.",
+        "Empirismo de senso comum.",
+        "Ciência factual.",
+        "Método hipotético-falseável."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "é experiência imediata, sem controle, registro e teste sistemático.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      },
+      "optionExplanations": [
+        "Incorreta: reduz o conceito a um único elemento e deixa de articular definição, relação e finalidade, como a prova pede.",
+        "Correta: é experiência imediata, sem controle, registro e teste sistemático.",
+        "Incorreta: reduz o conceito a um único elemento e deixa de articular definição, relação e finalidade, como a prova pede.",
+        "Incorreta: reduz o conceito a um único elemento e deixa de articular definição, relação e finalidade, como a prova pede."
+      ]
+    },
+    {
+      "id": "q03",
+      "topicId": "fundamentos_prova",
+      "question": "Qual alternativa diferencia corretamente ciências formais e factuais?",
+      "options": [
+        "Ambas dependem apenas de opinião.",
+        "Formais estudam fatos sociais; factuais estudam números abstratos.",
+        "Formais usam coerência lógica; factuais confrontam dados e realidade.",
+        "Factuais não precisam de observação."
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "A distinção central é objeto e validação: lógica abstrata versus fenômenos reais.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      },
+      "optionExplanations": [
+        "Incorreta: reduz o conceito a um único elemento e deixa de articular definição, relação e finalidade, como a prova pede.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Correta: A distinção central é objeto e validação: lógica abstrata versus fenômenos reais.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida."
+      ]
+    },
+    {
+      "id": "q04",
+      "topicId": "autores_correntes",
+      "question": "Qual associação está correta?",
+      "options": [
+        "Bacon: dedução racional pura.",
+        "Descartes: empirismo indutivo.",
+        "Popper: mecanicismo clássico.",
+        "Galileu: observação, experimento e matematização."
+      ],
+      "correctOptionIndex": 3,
+      "explanation": "Galileu combina experiência e linguagem matemática na ciência moderna.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      },
+      "optionExplanations": [
+        "Incorreta: mistura autor, método ou corrente. Na prova, é preciso ligar cada autor ao modo correto de produzir conhecimento.",
+        "Incorreta: mistura autor, método ou corrente. Na prova, é preciso ligar cada autor ao modo correto de produzir conhecimento.",
+        "Incorreta: desloca a ideia de falseabilidade; o ponto é testar hipóteses de modo que possam ser refutadas, não confirmar verdades finais.",
+        "Correta: Galileu combina experiência e linguagem matemática na ciência moderna."
+      ]
+    },
+    {
+      "id": "q05",
+      "topicId": "autores_correntes",
+      "question": "Por que Bacon se aproxima do empirismo?",
+      "options": [
+        "Porque valoriza observação, experimento, registro e indução.",
+        "Porque privilegia ideias inatas.",
+        "Porque rejeita qualquer experiência.",
+        "Porque defende apenas cálculo matemático."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Bacon parte dos fatos observados e registrados para produzir conhecimento.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      },
+      "optionExplanations": [
+        "Correta: Bacon parte dos fatos observados e registrados para produzir conhecimento.",
+        "Incorreta: mistura autor, método ou corrente. Na prova, é preciso ligar cada autor ao modo correto de produzir conhecimento.",
+        "Incorreta: mistura autor, método ou corrente. Na prova, é preciso ligar cada autor ao modo correto de produzir conhecimento.",
+        "Incorreta: reduz o conceito a um único elemento e deixa de articular definição, relação e finalidade, como a prova pede."
+      ]
+    },
+    {
+      "id": "q06",
+      "topicId": "autores_correntes",
+      "question": "Por que Descartes se aproxima do racionalismo?",
+      "options": [
+        "Porque transforma toda ciência em hábito cotidiano.",
+        "Porque prioriza dúvida metódica, análise e dedução.",
+        "Porque rejeita a razão.",
+        "Porque substitui método por tradição."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Descartes organiza o conhecimento pelo exercício metódico da razão.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      },
+      "optionExplanations": [
+        "Incorreta: mistura autor, método ou corrente. Na prova, é preciso ligar cada autor ao modo correto de produzir conhecimento.",
+        "Correta: Descartes organiza o conhecimento pelo exercício metódico da razão.",
+        "Incorreta: mistura autor, método ou corrente. Na prova, é preciso ligar cada autor ao modo correto de produzir conhecimento.",
+        "Incorreta: mistura autor, método ou corrente. Na prova, é preciso ligar cada autor ao modo correto de produzir conhecimento."
+      ]
+    },
+    {
+      "id": "q07",
+      "topicId": "autores_correntes",
+      "question": "O mecanicismo ajuda a explicar a natureza como:",
+      "options": [
+        "Um conjunto sem regularidade.",
+        "Uma opinião subjetiva.",
+        "Algo ordenado e explicável por leis.",
+        "Um conhecimento sem método."
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "No mecanicismo, a natureza é regular e pode ser compreendida por relações semelhantes a mecanismos.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      },
+      "optionExplanations": [
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Correta: No mecanicismo, a natureza é regular e pode ser compreendida por relações semelhantes a mecanismos.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida."
+      ]
+    },
+    {
+      "id": "q08",
+      "topicId": "falseabilidade_pesquisa",
+      "question": "Segundo a lógica da falseabilidade, uma teoria científica deve:",
+      "options": [
+        "Aceitar qualquer resultado.",
+        "Ser impossível de testar.",
+        "Ser provada definitivamente por um exemplo.",
+        "Poder ser refutada por testes críticos."
+      ],
+      "correctOptionIndex": 3,
+      "explanation": "Popper valoriza a exposição da teoria ao risco de refutação.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      },
+      "optionExplanations": [
+        "Incorreta: desloca a ideia de falseabilidade; o ponto é testar hipóteses de modo que possam ser refutadas, não confirmar verdades finais.",
+        "Incorreta: desloca a ideia de falseabilidade; o ponto é testar hipóteses de modo que possam ser refutadas, não confirmar verdades finais.",
+        "Incorreta: transforma a ciência em verdade absoluta, mas o conteúdo trabalha com validação provisória, crítica e possibilidade de revisão.",
+        "Correta: Popper valoriza a exposição da teoria ao risco de refutação."
+      ]
+    },
+    {
+      "id": "q09",
+      "topicId": "falseabilidade_pesquisa",
+      "question": "Se uma hipótese resiste a testes rigorosos, o correto é dizer que ela:",
+      "options": [
+        "Foi fortalecida provisoriamente.",
+        "Virou verdade absoluta.",
+        "Não é científica.",
+        "Não precisa mais ser revisada."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "A validação científica permanece provisória e aberta à crítica.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      },
+      "optionExplanations": [
+        "Correta: A validação científica permanece provisória e aberta à crítica.",
+        "Incorreta: transforma a ciência em verdade absoluta, mas o conteúdo trabalha com validação provisória, crítica e possibilidade de revisão.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida."
+      ]
+    },
+    {
+      "id": "q10",
+      "topicId": "falseabilidade_pesquisa",
+      "question": "Qual pergunta combina com pesquisa aplicada?",
+      "options": [
+        "Como tornar uma teoria impossível de testar?",
+        "Como resolver um problema concreto usando conhecimento científico?",
+        "Como evitar dados empíricosó",
+        "Como provar uma verdade absoluta?"
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "A pesquisa aplicada busca solução prática, técnica ou social.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      },
+      "optionExplanations": [
+        "Incorreta: confunde a finalidade do tipo de pesquisa. A comparação deve mostrar se o objetivo é aplicar, explorar, testar variável ou refutar hipótese.",
+        "Correta: A pesquisa aplicada busca solução prática, técnica ou social.",
+        "Incorreta: reduz o conceito a um único elemento e deixa de articular definição, relação e finalidade, como a prova pede.",
+        "Incorreta: transforma a ciência em verdade absoluta, mas o conteúdo trabalha com validação provisória, crítica e possibilidade de revisão."
+      ]
+    },
+    {
+      "id": "q11",
+      "topicId": "falseabilidade_pesquisa",
+      "question": "Qual pergunta combina com pesquisa de falseamento?",
+      "options": [
+        "Qual tema geral parece interessante?",
+        "Como aplicar uma técnica em uma empresa?",
+        "Em que condições esta teoria pode falhar?",
+        "Como evitar a crítica?"
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Falseamento é teste crítico voltado à possível falha da hipótese ou teoria.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      },
+      "optionExplanations": [
+        "Incorreta: confunde a finalidade do tipo de pesquisa. A comparação deve mostrar se o objetivo é aplicar, explorar, testar variável ou refutar hipótese.",
+        "Incorreta: confunde a finalidade do tipo de pesquisa. A comparação deve mostrar se o objetivo é aplicar, explorar, testar variável ou refutar hipótese.",
+        "Correta: Falseamento é teste crítico voltado à possível falha da hipótese ou teoria.",
+        "Incorreta: confunde a finalidade do tipo de pesquisa. A comparação deve mostrar se o objetivo é aplicar, explorar, testar variável ou refutar hipótese."
+      ]
+    },
+    {
+      "id": "q12",
+      "topicId": "falseabilidade_pesquisa",
+      "question": "Uma pesquisa manipula uma variável e observa efeitos. Ela é:",
+      "options": [
+        "Exploratória.",
+        "De senso comum.",
+        "Formal.",
+        "Experimental."
+      ],
+      "correctOptionIndex": 3,
+      "explanation": "Pesquisa experimental testa relações entre variáveis com controle e manipulação.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      },
+      "optionExplanations": [
+        "Incorreta: confunde a finalidade do tipo de pesquisa. A comparação deve mostrar se o objetivo é aplicar, explorar, testar variável ou refutar hipótese.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Correta: Pesquisa experimental testa relações entre variáveis com controle e manipulação."
+      ]
+    },
+    {
+      "id": "q13",
+      "topicId": "falseabilidade_pesquisa",
+      "question": "Uma pesquisa busca conhecer melhor um problema ainda pouco delimitado. Ela é:",
+      "options": [
+        "Exploratória.",
+        "Experimental.",
+        "Racionalista.",
+        "Mecanicista."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "A exploratória abre caminho, levanta informações e formula hipóteses.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      },
+      "optionExplanations": [
+        "Correta: A exploratória abre caminho, levanta informações e formula hipóteses.",
+        "Incorreta: confunde a finalidade do tipo de pesquisa. A comparação deve mostrar se o objetivo é aplicar, explorar, testar variável ou refutar hipótese.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida."
+      ]
+    },
+    {
+      "id": "q14",
+      "topicId": "treino_discursivo",
+      "question": "Qual resposta segue melhor o DREC?",
+      "options": [
+        "Lista três palavras-chave e para.",
+        "Define, relaciona, explica o processo e conclui a diferença.",
+        "Conta uma opinião pessoal longa.",
+        "Copia uma frase sem conectar conceitos."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "DREC é a estrutura mais segura para resposta discursiva articulada.",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      },
+      "optionExplanations": [
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Correta: DREC É a estrutura mais segura para resposta discursiva articulada.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida."
+      ]
+    },
+    {
+      "id": "q15",
+      "topicId": "treino_discursivo",
+      "question": "Em uma questão sobre Galileu, Bacon e Descartes, o maior erro seria:",
+      "options": [
+        "Relacionar autores a métodos.",
+        "Comparar racionalismo e empirismo.",
+        "Não citar os métodos nem as correntes.",
+        "Explicar mecanicismo."
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "A questão normalmente cobra método, produção do conhecimento e correntes.",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      },
+      "optionExplanations": [
+        "Incorreta: mistura autor, método ou corrente. Na prova, é preciso ligar cada autor ao modo correto de produzir conhecimento.",
+        "Incorreta: mistura autor, método ou corrente. Na prova, é preciso ligar cada autor ao modo correto de produzir conhecimento.",
+        "Correta: A questão normalmente cobra método, produção do conhecimento e correntes.",
+        "Incorreta: mistura autor, método ou corrente. Na prova, é preciso ligar cada autor ao modo correto de produzir conhecimento."
+      ]
+    },
+    {
+      "id": "q16",
+      "topicId": "fundamentos_prova",
+      "question": "Qual termo resume experiência pessoal, hábitos e percepções imediatas?",
+      "options": [
+        "Dedução formal.",
+        "Validação sistemática.",
+        "Matematização da natureza.",
+        "Subjetividade da vivência cotidiana."
+      ],
+      "correctOptionIndex": 3,
+      "explanation": "Essa expressão engloba o caráter pessoal e imediato do senso comum.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      },
+      "optionExplanations": [
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Correta: Essa expressão engloba o caráter pessoal e imediato do senso comum."
+      ]
+    },
+    {
+      "id": "q17",
+      "topicId": "autores_correntes",
+      "question": "Qual alternativa mostra a síntese de Galileu?",
+      "options": [
+        "Experiência, experimento, razão e matemática.",
+        "Apenas tradição e opinião.",
+        "Somente dúvida metódica.",
+        "Apenas aplicação prática."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Galileu é importante porque une observação, experimentação e matemática.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      },
+      "optionExplanations": [
+        "Correta: Galileu é importante porque une observação, experimentação e matemática.",
+        "Incorreta: reduz o conceito a um único elemento e deixa de articular definição, relação e finalidade, como a prova pede.",
+        "Incorreta: mistura autor, método ou corrente. Na prova, é preciso ligar cada autor ao modo correto de produzir conhecimento.",
+        "Incorreta: reduz o conceito a um único elemento e deixa de articular definição, relação e finalidade, como a prova pede."
+      ]
+    },
+    {
+      "id": "q18",
+      "topicId": "falseabilidade_pesquisa",
+      "question": "Uma teoria que se adapta para aceitar qualquer resultado tem qual problema?",
+      "options": [
+        "Fica mais falseável.",
+        "Fica protegida contra crítica e perde força científica.",
+        "Vira ciência formal.",
+        "Vira pesquisa aplicada."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Uma teoria científica precisa se expor ao risco de ser contrariada.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      },
+      "optionExplanations": [
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Correta: Uma teoria científica precisa se expor ao risco de ser contrariada.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Incorreta: confunde a finalidade do tipo de pesquisa. A comparação deve mostrar se o objetivo é aplicar, explorar, testar variável ou refutar hipótese."
+      ]
+    },
+    {
+      "id": "q19",
+      "topicId": "treino_discursivo",
+      "question": "O que transforma uma resposta fraca em resposta forte?",
+      "options": [
+        "Mais termos soltos.",
+        "Apenas uma opinião pessoal.",
+        "Definição, comparação, autor ou exemplo, processo e conclusão.",
+        "Resposta sem relações."
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "A professora cobra conceitos relacionados e explicações articuladas.",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      },
+      "optionExplanations": [
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Incorreta: reduz o conceito a um único elemento e deixa de articular definição, relação e finalidade, como a prova pede.",
+        "Correta: A professora cobra conceitos relacionados e explicações articuladas.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida."
+      ]
+    },
+    {
+      "id": "q20",
+      "topicId": "fundamentos_prova",
+      "question": "Qual frase evita uma simplificação errada sobre ciência?",
+      "options": [
+        "Ciência é verdade absoluta.",
+        "Senso comum nunca funciona.",
+        "Empirismo científico é só ver para crer.",
+        "Ciência é método, crítica e revisão."
+      ],
+      "correctOptionIndex": 3,
+      "explanation": "Conhecimento científico é rigoroso, mas revisável.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      },
+      "optionExplanations": [
+        "Incorreta: transforma a ciência em verdade absoluta, mas o conteúdo trabalha com validação provisória, crítica e possibilidade de revisão.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Incorreta: reduz o conceito a um único elemento e deixa de articular definição, relação e finalidade, como a prova pede.",
+        "Correta: Conhecimento científico é rigoroso, mas revisável."
+      ]
+    },
+    {
+      "id": "q21",
+      "topicId": "autores_correntes",
+      "question": "Qual par está corretamente contrastado?",
+      "options": [
+        "Bacon-indução e Descartes-dedução.",
+        "Bacon-dúvida metódica e Descartes-indução.",
+        "Galileu-sem matemática e Bacon-mecanicismo puro.",
+        "Popper-mecanicismo e Galileu-falseamento."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Bacon é empírico-indutivo; Descartes é racional-dedutivo.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      },
+      "optionExplanations": [
+        "Correta: Bacon é empírico-indutivo; Descartes é racional-dedutivo.",
+        "Incorreta: mistura autor, método ou corrente. Na prova, é preciso ligar cada autor ao modo correto de produzir conhecimento.",
+        "Incorreta: mistura autor, método ou corrente. Na prova, é preciso ligar cada autor ao modo correto de produzir conhecimento.",
+        "Incorreta: mistura autor, método ou corrente. Na prova, é preciso ligar cada autor ao modo correto de produzir conhecimento."
+      ]
+    },
+    {
+      "id": "q22",
+      "topicId": "falseabilidade_pesquisa",
+      "question": "Qual alternativa explica hipótese falseadora?",
+      "options": [
+        "Um recurso para impedir testes.",
+        "Uma previsão que poderia refutar uma teoria.",
+        "Uma opinião sem relação com dados.",
+        "Uma prova definitiva da teoria."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "Ela indica o que teria que ocorrer para contrariar a teoria.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      },
+      "optionExplanations": [
+        "Incorreta: desloca a ideia de falseabilidade; o ponto é testar hipóteses de modo que possam ser refutadas, não confirmar verdades finais.",
+        "Correta: Ela indica o que teria que ocorrer para contrariar a teoria.",
+        "Incorreta: desloca a ideia de falseabilidade; o ponto é testar hipóteses de modo que possam ser refutadas, não confirmar verdades finais.",
+        "Incorreta: transforma a ciência em verdade absoluta, mas o conteúdo trabalha com validação provisória, crítica e possibilidade de revisão."
+      ]
+    },
+    {
+      "id": "q23",
+      "topicId": "treino_discursivo",
+      "question": "Na conclusão de uma comparação, o ideal é fechar com:",
+      "options": [
+        "Uma frase sem relação com a pergunta.",
+        "Uma lista nova de autores.",
+        "A finalidade ou diferença principal.",
+        "Um exemplo que contradiz a resposta."
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "A conclusão deve amarrar a diferença, finalidade, importância ou limite.",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      },
+      "optionExplanations": [
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Correta: A conclusão deve amarrar a diferença, finalidade, importância ou limite.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida."
+      ]
+    },
+    {
+      "id": "q24",
+      "topicId": "fundamentos_prova",
+      "question": "Quando a questão pede empirismo científico, qual elemento não pode faltar?",
+      "options": [
+        "Impossibilidade de teste.",
+        "Apenas hábito pessoal.",
+        "Autoridade da tradição.",
+        "Experiência organizada por método."
+      ],
+      "correctOptionIndex": 3,
+      "explanation": "O empirismo científico depende de observação controlada e análise.",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      },
+      "optionExplanations": [
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Incorreta: reduz o conceito a um único elemento e deixa de articular definição, relação e finalidade, como a prova pede.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Correta: O empirismo científico depende de observação controlada e análise."
+      ]
+    },
+    {
+      "id": "q25",
+      "topicId": "autores_correntes",
+      "question": "Qual conceito liga ciência moderna à ideia de leis da natureza?",
+      "options": [
+        "Mecanicismo.",
+        "Exploratória.",
+        "Subjetividade.",
+        "Senso comum."
+      ],
+      "correctOptionIndex": 0,
+      "explanation": "Mecanicismo entende a natureza como regular e explicável por leis.",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      },
+      "optionExplanations": [
+        "Correta: Mecanicismo entende a natureza como regular e explicável por leis.",
+        "Incorreta: confunde a finalidade do tipo de pesquisa. A comparação deve mostrar se o objetivo é aplicar, explorar, testar variável ou refutar hipótese.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida."
+      ]
+    },
+    {
+      "id": "q26",
+      "topicId": "falseabilidade_pesquisa",
+      "question": "Qual opção indica melhor pesquisa exploratória?",
+      "options": [
+        "Testar duas variáveis já definidas.",
+        "Levantar informações para delimitar um problema.",
+        "Resolver diretamente um problema técnico.",
+        "Refutar uma teoria específica."
+      ],
+      "correctOptionIndex": 1,
+      "explanation": "A exploratória prepara a investigação quando o problema ainda está pouco definido.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      },
+      "optionExplanations": [
+        "Incorreta: confunde a finalidade do tipo de pesquisa. A comparação deve mostrar se o objetivo é aplicar, explorar, testar variável ou refutar hipótese.",
+        "Correta: A exploratória prepara a investigação quando o problema ainda está pouco definido.",
+        "Incorreta: confunde a finalidade do tipo de pesquisa. A comparação deve mostrar se o objetivo é aplicar, explorar, testar variável ou refutar hipótese.",
+        "Incorreta: confunde a finalidade do tipo de pesquisa. A comparação deve mostrar se o objetivo é aplicar, explorar, testar variável ou refutar hipótese."
+      ]
+    },
+    {
+      "id": "q27",
+      "topicId": "treino_discursivo",
+      "question": "Se faltar tempo na prova, qual estrutura mínima usar?",
+      "options": [
+        "Definição e conclusão apenas.",
+        "Somente exemplo.",
+        "DREC em versão curta.",
+        "Somente nomes de autores."
+      ],
+      "correctOptionIndex": 2,
+      "explanation": "Mesmo curta, a resposta deve definir, relacionar, explicar e concluir.",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      },
+      "optionExplanations": [
+        "Incorreta: reduz o conceito a um único elemento e deixa de articular definição, relação e finalidade, como a prova pede.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida.",
+        "Correta: Mesmo curta, a resposta deve definir, relacionar, explicar e concluir.",
+        "Incorreta: parece relacionada ao tema, mas não responde ao comando principal da questão nem fecha a comparação pedida."
+      ]
+    },
+    {
+      "id": "q28",
+      "topicId": "falseabilidade_pesquisa",
+      "question": "Qual afirmação é compatível com Popper?",
+      "options": [
+        "Teste crítico atrapalha o conhecimento.",
+        "A ciência termina quando encontra uma confirmação.",
+        "Teorias boas não podem ser refutadas.",
+        "A ciência avança pela crítica e pela possibilidade de erro."
+      ],
+      "correctOptionIndex": 3,
+      "explanation": "Para Popper, o conhecimento científico se fortalece pela crítica e revisão.",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      },
+      "optionExplanations": [
+        "Incorreta: desloca a ideia de falseabilidade; o ponto é testar hipóteses de modo que possam ser refutadas, não confirmar verdades finais.",
+        "Incorreta: desloca a ideia de falseabilidade; o ponto é testar hipóteses de modo que possam ser refutadas, não confirmar verdades finais.",
+        "Incorreta: desloca a ideia de falseabilidade; o ponto é testar hipóteses de modo que possam ser refutadas, não confirmar verdades finais.",
+        "Correta: Para Popper, o conhecimento científico se fortalece pela crítica e revisão."
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "id": "rel_01",
+      "from": "Senso comum",
+      "to": "Conhecimento científico",
+      "description": "A diferença está no processo de aquisição e validação, não necessariamente no objeto.",
+      "topicId": "fundamentos_prova",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "rel_02",
+      "from": "Empirismo de senso comum",
+      "to": "Empirismo científico",
+      "description": "Ambos valorizam experiência, mas só o científico transforma experiência em observação controlada.",
+      "topicId": "fundamentos_prova",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "rel_03",
+      "from": "Ciências formais",
+      "to": "Ciências factuais",
+      "description": "Formais validam coerência lógica; factuais confrontam fatos e dados.",
+      "topicId": "fundamentos_prova",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "rel_04",
+      "from": "Subjetividade",
+      "to": "Vivência cotidiana",
+      "description": "Resume experiência pessoal, hábitos e percepções imediatas.",
+      "topicId": "fundamentos_prova",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "rel_05",
+      "from": "Galileu",
+      "to": "Matematização da natureza",
+      "description": "Galileu une observação, experimento e linguagem matemática.",
+      "topicId": "autores_correntes",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "rel_06",
+      "from": "Bacon",
+      "to": "Empirismo",
+      "description": "Bacon valoriza observação, experiência, registro e indução.",
+      "topicId": "autores_correntes",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "rel_07",
+      "from": "Descartes",
+      "to": "Racionalismo",
+      "description": "Descartes valoriza razão, dúvida metódica, análise e dedução.",
+      "topicId": "autores_correntes",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "rel_08",
+      "from": "Mecanicismo",
+      "to": "Natureza regular",
+      "description": "A natureza é vista como ordenada e explicável por leis.",
+      "topicId": "autores_correntes",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "rel_09",
+      "from": "Galileu",
+      "to": "Bacon",
+      "description": "Ambos usam experiência, mas Galileu enfatiza matemática e Bacon indução.",
+      "topicId": "autores_correntes",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "rel_10",
+      "from": "Bacon",
+      "to": "Descartes",
+      "description": "Bacon se aproxima do empirismo; Descartes se aproxima do racionalismo.",
+      "topicId": "autores_correntes",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "rel_11",
+      "from": "Popper",
+      "to": "Falseabilidade",
+      "description": "O critério científico está na possibilidade de refutação.",
+      "topicId": "falseabilidade_pesquisa",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "rel_12",
+      "from": "Hipótese falseadora",
+      "to": "Teste crítico",
+      "description": "A hipótese falseadora indica uma condição que poderia contrariar a teoria.",
+      "topicId": "falseabilidade_pesquisa",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "rel_13",
+      "from": "Falseabilidade",
+      "to": "Validação provisória",
+      "description": "Resistir ao teste fortalece, mas não prova definitivamente.",
+      "topicId": "falseabilidade_pesquisa",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "rel_14",
+      "from": "Pesquisa de falseamento",
+      "to": "Pesquisa aplicada",
+      "description": "Falseamento testa teorias; aplicada resolve problemas práticos.",
+      "topicId": "falseabilidade_pesquisa",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "rel_15",
+      "from": "Pesquisa experimental",
+      "to": "Pesquisa exploratória",
+      "description": "Experimental testa variáveis; exploratória delimita problemas e levanta hipóteses.",
+      "topicId": "falseabilidade_pesquisa",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "rel_16",
+      "from": "DREC",
+      "to": "Resposta discursiva",
+      "description": "DREC organiza conceito, relação, processo e conclusão.",
+      "topicId": "treino_discursivo",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "rel_17",
+      "from": "Definir",
+      "to": "Relacionar",
+      "description": "Depois de definir, conecte com autor, corrente ou conceito próximo.",
+      "topicId": "treino_discursivo",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "rel_18",
+      "from": "Explicar",
+      "to": "Concluir",
+      "description": "Explicar mostra processo; concluir fecha diferença, finalidade ou limite.",
+      "topicId": "treino_discursivo",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "rel_19",
+      "from": "Resposta-mãe",
+      "to": "Questão 2",
+      "description": "A resposta sobre Galileu, Bacon e Descartes deve ser adaptável a várias formulações.",
+      "topicId": "treino_discursivo",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "rel_20",
+      "from": "Checklist",
+      "to": "Correção",
+      "description": "O checklist verifica definição, comparação, autor, processo e conclusão.",
+      "topicId": "treino_discursivo",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "rel_21",
+      "from": "Kuhn",
+      "to": "Paradigma",
+      "description": "Paradigma é um modelo compartilhado de ciência em uma comunidade.",
+      "topicId": "treino_discursivo",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "rel_22",
+      "from": "Paradigma",
+      "to": "Anomalia",
+      "description": "Anomalia é um problema que tensiona explicações aceitas.",
+      "topicId": "treino_discursivo",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "rel_23",
+      "from": "Tema",
+      "to": "Problema",
+      "description": "Tema é área ampla; problema transforma o tema em pergunta investigável.",
+      "topicId": "treino_discursivo",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "rel_24",
+      "from": "Hipótese",
+      "to": "Teste",
+      "description": "Hipótese precisa orientar teste, comparação ou tentativa de refutação.",
+      "topicId": "falseabilidade_pesquisa",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    }
+  ],
+  "glossary": [
+    {
+      "id": "gl_01",
+      "term": "Senso comum",
+      "definition": "Senso comum é conhecimento cotidiano, espontâneo e marcado pela subjetividade da vivência, sem validação sistemática.",
+      "topicId": "fundamentos_prova",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "gl_02",
+      "term": "Conhecimento científico",
+      "definition": "Conhecimento científico é sistemático e metodológico, pois usa critérios rigorosos de aquisição, teste, validação e revisão.",
+      "topicId": "fundamentos_prova",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "gl_03",
+      "term": "Empirismo de senso comum",
+      "definition": "É a confiança na experiência imediata, nos hábitos e nas percepções pessoais do cotidiano.",
+      "topicId": "fundamentos_prova",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "gl_04",
+      "term": "Empirismo científico",
+      "definition": "A experiência passa por observação controlada, registro, comparação, teste e análise crítica.",
+      "topicId": "fundamentos_prova",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "gl_05",
+      "term": "Ciências formais",
+      "definition": "São ciências de objetos abstratos e relações lógicas, como matemática e lógica, validadas pela coerência interna.",
+      "topicId": "fundamentos_prova",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "gl_06",
+      "term": "Ciências factuais",
+      "definition": "São ciências que estudam fatos e fenômenos da realidade, usando observação, dados e confronto empírico.",
+      "topicId": "fundamentos_prova",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "gl_07",
+      "term": "Racionalismo",
+      "definition": "Prioriza razão, dedução, clareza lógica e organização metódica do pensamento.",
+      "topicId": "autores_correntes",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "gl_08",
+      "term": "Empirismo",
+      "definition": "Prioriza experiência, observação, dados e experimentação como base do conhecimento.",
+      "topicId": "autores_correntes",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "gl_09",
+      "term": "Mecanicismo",
+      "definition": "É a visão da natureza como ordenada, regular e explicável por leis, quase como um mecanismo.",
+      "topicId": "autores_correntes",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "gl_10",
+      "term": "Galileu",
+      "definition": "Galileu combina observação, experimentação e matematização da natureza.",
+      "topicId": "autores_correntes",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "gl_11",
+      "term": "Bacon",
+      "definition": "Bacon defende observação, experimentação, registro dos fatos e indução.",
+      "topicId": "autores_correntes",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "gl_12",
+      "term": "Descartes",
+      "definition": "Descartes defende dúvida metódica, análise racional e dedução lógica.",
+      "topicId": "autores_correntes",
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "gl_13",
+      "term": "Falseabilidade",
+      "definition": "É a possibilidade de uma teoria ser testada de modo que possa ser refutada.",
+      "topicId": "falseabilidade_pesquisa",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "gl_14",
+      "term": "Hipótese falseadora",
+      "definition": "É uma previsão, situação ou teste que poderia contrariar uma teoria caso ocorresse.",
+      "topicId": "falseabilidade_pesquisa",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "gl_15",
+      "term": "Pesquisa aplicada",
+      "definition": "Usar conhecimento científico para resolver problemas práticos, técnicos ou sociais.",
+      "topicId": "falseabilidade_pesquisa",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "gl_16",
+      "term": "Pesquisa de falseamento",
+      "definition": "Testar criticamente uma teoria ou hipótese, buscando condições em que ela possa falhar.",
+      "topicId": "falseabilidade_pesquisa",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "gl_17",
+      "term": "Pesquisa experimental",
+      "definition": "Testar relações entre variáveis por controle, manipulação e observação dos efeitos.",
+      "topicId": "falseabilidade_pesquisa",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "gl_18",
+      "term": "Pesquisa exploratória",
+      "definition": "Conhecer melhor um problema pouco delimitado, levantar informações e formular hipóteses.",
+      "topicId": "falseabilidade_pesquisa",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "gl_19",
+      "term": "DREC",
+      "definition": "Definir, Relacionar, Explicar e Concluir: a estrutura para respostas discursivas articuladas.",
+      "topicId": "treino_discursivo",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "gl_20",
+      "term": "Subjetividade da vivência cotidiana",
+      "definition": "Expressão que resume experiência pessoal, hábitos e percepções imediatas presentes no senso comum.",
+      "topicId": "fundamentos_prova",
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "gl_21",
+      "term": "Validação provisória",
+      "definition": "Ideia de que uma hipótese pode ser fortalecida por testes, mas permanece aberta é revisão.",
+      "topicId": "falseabilidade_pesquisa",
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "gl_22",
+      "term": "Resposta-mãe",
+      "definition": "Resposta base que pode ser adaptada para variações de uma questão recorrente.",
+      "topicId": "treino_discursivo",
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    }
+  ],
+  "examPractice": [
+    {
+      "id": "ep_01",
+      "topicId": "fundamentos_prova",
+      "prompt": "Compare senso comum e conhecimento científico e mostre que a diferença está no processo de aquisição e validação.",
+      "weight": "Questão provável de 2,5 pontos",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "ep_02",
+      "topicId": "fundamentos_prova",
+      "prompt": "Explique empirismo comum e empirismo científico e explique experiência espontânea versus experiência organizada por método.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "ep_03",
+      "topicId": "fundamentos_prova",
+      "prompt": "Diferencie ciências formais e factuais e compare objeto e modo de validação.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "ep_04",
+      "topicId": "fundamentos_prova",
+      "prompt": "Construa subjetividade da vivência cotidiana e use o termo para resumir experiência pessoal, hábitos e percepções imediatas.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "ep_05",
+      "topicId": "autores_correntes",
+      "prompt": "Analise Galileu, Bacon e Descartes e relacione método, corrente e produção do conhecimento.",
+      "weight": "Questão provável de 2,5 pontos",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "ep_06",
+      "topicId": "autores_correntes",
+      "prompt": "Relacione racionalismo, empirismo e mecanicismo e explique como as correntes ajudam a ciência moderna.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "ep_07",
+      "topicId": "autores_correntes",
+      "prompt": "Proponha Galileu e Bacon e compare experiência, experimento, indução e matematização.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "ep_08",
+      "topicId": "autores_correntes",
+      "prompt": "Elabore Descartes e Bacon e contraste razão/dedução com experiência/indução.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "ep_09",
+      "topicId": "falseabilidade_pesquisa",
+      "prompt": "Compare falseabilidade e método hipotético-falseável e explique hipótese, teste crítico, refutação e validação provisória.",
+      "weight": "Questão provável de 2,5 pontos",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "ep_10",
+      "topicId": "falseabilidade_pesquisa",
+      "prompt": "Explique hipóteses falseadoras e mostre como elas expõem a teoria ao risco de erro.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "ep_11",
+      "topicId": "falseabilidade_pesquisa",
+      "prompt": "Diferencie pesquisa de falseamento e pesquisa aplicada e diferencie pela finalidade.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "ep_12",
+      "topicId": "falseabilidade_pesquisa",
+      "prompt": "Construa pesquisa experimental e exploratória e diferencie teste de variáveis e compreensão inicial.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "ep_13",
+      "topicId": "treino_discursivo",
+      "prompt": "Analise método DREC e aplique definir, relacionar, explicar e concluir.",
+      "weight": "Questão provável de 2,5 pontos",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "ep_14",
+      "topicId": "treino_discursivo",
+      "prompt": "Relacione resposta forte, média e fraca e use a rubrica para mostrar o que melhora a nota.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "ep_15",
+      "topicId": "treino_discursivo",
+      "prompt": "Proponha simulado de quatro questões e organize tempo e checklist de correção.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "ep_16",
+      "topicId": "treino_discursivo",
+      "prompt": "Elabore erros comuns de prova e evite lista solta, verdade absoluta e confusão entre autores.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "ep_17",
+      "topicId": "fundamentos_prova",
+      "prompt": "Compare senso comum e conhecimento científico e mostre que a diferença está no processo de aquisição e validação em resposta comparativa.",
+      "weight": "Questão provável de 2,5 pontos",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "ep_18",
+      "topicId": "fundamentos_prova",
+      "prompt": "Explique empirismo comum e empirismo científico e explique experiência espontânea versus experiência organizada por método em resposta comparativa.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "ep_19",
+      "topicId": "fundamentos_prova",
+      "prompt": "Diferencie ciências formais e factuais e compare objeto e modo de validação em resposta comparativa.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "ep_20",
+      "topicId": "fundamentos_prova",
+      "prompt": "Construa subjetividade da vivência cotidiana e use o termo para resumir experiência pessoal, hábitos e percepções imediatas em resposta comparativa.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "ep_21",
+      "topicId": "autores_correntes",
+      "prompt": "Analise Galileu, Bacon e Descartes e relacione método, corrente e produção do conhecimento em resposta comparativa.",
+      "weight": "Questão provável de 2,5 pontos",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "ep_22",
+      "topicId": "autores_correntes",
+      "prompt": "Relacione racionalismo, empirismo e mecanicismo e explique como as correntes ajudam a ciência moderna em resposta comparativa.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "ep_23",
+      "topicId": "autores_correntes",
+      "prompt": "Proponha Galileu e Bacon e compare experiência, experimento, indução e matematização em resposta comparativa.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "ep_24",
+      "topicId": "autores_correntes",
+      "prompt": "Elabore Descartes e Bacon e contraste razão/dedução com experiência/indução em resposta comparativa.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "ep_25",
+      "topicId": "falseabilidade_pesquisa",
+      "prompt": "Compare falseabilidade e método hipotético-falseável e explique hipótese, teste crítico, refutação e validação provisória em resposta comparativa.",
+      "weight": "Questão provável de 2,5 pontos",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "ep_26",
+      "topicId": "falseabilidade_pesquisa",
+      "prompt": "Explique hipóteses falseadoras e mostre como elas expõem a teoria ao risco de erro em resposta comparativa.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "ep_27",
+      "topicId": "falseabilidade_pesquisa",
+      "prompt": "Diferencie pesquisa de falseamento e pesquisa aplicada e diferencie pela finalidade em resposta comparativa.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "ep_28",
+      "topicId": "falseabilidade_pesquisa",
+      "prompt": "Construa pesquisa experimental e exploratória e diferencie teste de variáveis e compreensão inicial em resposta comparativa.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    },
+    {
+      "id": "ep_29",
+      "topicId": "treino_discursivo",
+      "prompt": "Analise método DREC e aplique definir, relacionar, explicar e concluir em resposta comparativa.",
+      "weight": "Questão provável de 2,5 pontos",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "ep_30",
+      "topicId": "treino_discursivo",
+      "prompt": "Relacione resposta forte, média e fraca e use a rubrica para mostrar o que melhora a nota em resposta comparativa.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "ep_31",
+      "topicId": "treino_discursivo",
+      "prompt": "Proponha simulado de quatro questões e organize tempo e checklist de correção em resposta comparativa.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "ep_32",
+      "topicId": "treino_discursivo",
+      "prompt": "Elabore erros comuns de prova e evite lista solta, verdade absoluta e confusão entre autores em resposta comparativa.",
+      "weight": "Treino discursivo curto",
+      "approach": "Use DREC: defina o conceito central, relacione com autor ou conceito próximo, explique o processo e conclua com diferença, finalidade ou importância.",
+      "checklist": [
+        "Começa com definição clara",
+        "Compara ou relaciona conceitos",
+        "Explica o processo, não só a palavra-chave",
+        "Conclui com finalidade, diferença ou limite"
+      ],
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    }
+  ],
+  "examModels": [
+    {
+      "id": "model_prova_1",
+      "title": "Simulado 1 - Prova discursiva de Metodologia",
+      "focus": "Fundamentos e comparações iniciais",
+      "duration": "Sugestáo: 90 minutos, 4 questões discursivas.",
+      "questions": [
+        "Explique a diferença entre empirismo científico e empirismo de senso comum.",
+        "Aponte os métodos de Galileu, Bacon e Descartes e relacione-os às correntes.",
+        "Explique hipóteses falseadoras e método hipotético-falseável.",
+        "Diferencie pesquisa de falseamento, aplicada, experimental e exploratória."
+      ],
+      "rubric": [
+        "Define conceitos centrais",
+        "Relaciona autores, correntes ou métodos",
+        "Explica processos com articulação",
+        "Conclui por diferença, finalidade ou importância"
+      ],
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "model_prova_2",
+      "title": "Simulado 2 - Prova discursiva de Metodologia",
+      "focus": "Autores, correntes e mecanicismo",
+      "duration": "Sugestáo: 90 minutos, 4 questões discursivas.",
+      "questions": [
+        "Explique a diferença entre empirismo científico e empirismo de senso comum.",
+        "Aponte os métodos de Galileu, Bacon e Descartes e relacione-os às correntes.",
+        "Explique hipóteses falseadoras e método hipotético-falseável.",
+        "Diferencie pesquisa de falseamento, aplicada, experimental e exploratória."
+      ],
+      "rubric": [
+        "Define conceitos centrais",
+        "Relaciona autores, correntes ou métodos",
+        "Explica processos com articulação",
+        "Conclui por diferença, finalidade ou importância"
+      ],
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "model_prova_3",
+      "title": "Simulado 3 - Prova discursiva de Metodologia",
+      "focus": "Falseabilidade e tipos de pesquisa",
+      "duration": "Sugestáo: 90 minutos, 4 questões discursivas.",
+      "questions": [
+        "Explique a diferença entre empirismo científico e empirismo de senso comum.",
+        "Aponte os métodos de Galileu, Bacon e Descartes e relacione-os às correntes.",
+        "Explique hipóteses falseadoras e método hipotético-falseável.",
+        "Diferencie pesquisa de falseamento, aplicada, experimental e exploratória."
+      ],
+      "rubric": [
+        "Define conceitos centrais",
+        "Relaciona autores, correntes ou métodos",
+        "Explica processos com articulação",
+        "Conclui por diferença, finalidade ou importância"
+      ],
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "model_prova_4",
+      "title": "Simulado 4 - Prova discursiva de Metodologia",
+      "focus": "Integração entre todos os blocos",
+      "duration": "Sugestáo: 90 minutos, 4 questões discursivas.",
+      "questions": [
+        "Explique a diferença entre empirismo científico e empirismo de senso comum.",
+        "Aponte os métodos de Galileu, Bacon e Descartes e relacione-os às correntes.",
+        "Explique hipóteses falseadoras e método hipotético-falseável.",
+        "Diferencie pesquisa de falseamento, aplicada, experimental e exploratória."
+      ],
+      "rubric": [
+        "Define conceitos centrais",
+        "Relaciona autores, correntes ou métodos",
+        "Explica processos com articulação",
+        "Conclui por diferença, finalidade ou importância"
+      ],
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "model_prova_5",
+      "title": "Simulado 5 - Prova discursiva de Metodologia",
+      "focus": "Simulado final para nota máxima",
+      "duration": "Sugestáo: 90 minutos, 4 questões discursivas.",
+      "questions": [
+        "Explique a diferença entre empirismo científico e empirismo de senso comum.",
+        "Aponte os métodos de Galileu, Bacon e Descartes e relacione-os às correntes.",
+        "Explique hipóteses falseadoras e método hipotético-falseável.",
+        "Diferencie pesquisa de falseamento, aplicada, experimental e exploratória."
+      ],
+      "rubric": [
+        "Define conceitos centrais",
+        "Relaciona autores, correntes ou métodos",
+        "Explica processos com articulação",
+        "Conclui por diferença, finalidade ou importância"
+      ],
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    }
+  ],
+  "studyGuides": [
+    {
+      "id": "guide_plano_intensivo",
+      "pdf": "Prova_Comp_T2_2021_2.pdf",
+      "title": "Plano intensivo para a prova",
+      "purpose": "Use esta tela como roteiro central: entenda o padrão da prova, domine os blocos mais recorrentes e pratique respostas discursivas pelo método DREC.",
+      "visualTree": [
+        "Padrão da prova: 4 questões discursivas em 90 minutos",
+        "Prioridade máxima: Galileu, Bacon, Descartes e correntes",
+        "Tema recorrente: falseabilidade, hipóteses falseadoras e Popper",
+        "Fechamento: tipos de pesquisa e comparações conceituais",
+        "Método de resposta: DREC"
+      ],
+      "flow": [
+        "Defina o conceito central sem rodeio",
+        "Relacione com autor, corrente ou conceito próximo",
+        "Explique o processo de produção ou validação do conhecimento",
+        "Conclua com diferença, finalidade, importância ou limite"
+      ],
+      "diagram": [
+        "Senso comum x ciência: muda o processo de aquisição e validação, não necessariamente o objeto",
+        "Bacon x Descartes: empirismo indutivo x racionalismo dedutivo",
+        "Falseamento x aplicada: testar teoria x resolver problema prático",
+        "Experimental x exploratória: testar variáveis x delimitar problema"
+      ],
+      "metacognition": [
+        "Resposta-modelo: A ciência não é verdade absoluta; ela usa método, crítica, validação e revisão.",
+        "Resposta-modelo: Galileu articula observação, experimento e matemática; Bacon privilegia indução; Descartes privilegia dedução.",
+        "Resposta-modelo: No método hipotético-falseável, uma hipótese deve se expor ao risco de refutação."
+      ],
+      "strategies": [
+        "Evite lista solta de palavras-chave",
+        "Não diga que ciência prova verdades absolutas",
+        "Sempre feche comparações pela finalidade ou diferença principal",
+        "Revise se a resposta tem definição, relação, explicação e conclusão"
+      ],
+      "source": {
+        "pdf": "Prova_Comp_T2_2021_2.pdf",
+        "page": 1,
+        "excerpt": "Provas passadas cobram quatro questões discursivas com definições, relações conceituais e explicações articuladas."
+      }
+    },
+    {
+      "id": "guide_fundamentos",
+      "pdf": "METODOLOGIA 1.pdf",
+      "title": "Fundamentos: ciência, senso comum e empirismo",
+      "purpose": "Este guia prepara a Questão 1: conceitos básicos, diferenças entre formas de conhecimento e classificação das ciências.",
+      "visualTree": [
+        "Senso comum: espontâneo e subjetivo",
+        "Conhecimento científico: sistemático e metodológico",
+        "Empirismo comum: experiência cotidiana",
+        "Empirismo científico: experiência controlada e analisada",
+        "Ciências formais e factuais: objetos e validações diferentes"
+      ],
+      "flow": [
+        "Comece pelo conceito mais amplo",
+        "Compare pelo modo de aquisição",
+        "Mostre como ocorre a validação",
+        "Conclua que a diferença não esté necessariamente no objeto"
+      ],
+      "diagram": [
+        "Senso comum x conhecimento científico: vivência subjetiva x método e validação",
+        "Empirismo comum x científico: observação espontânea x observação controlada",
+        "Formais x factuais: coerência lógica x confronto com dados reais"
+      ],
+      "metacognition": [
+        "Resposta-modelo: O senso comum é espontâneo e marcado pela subjetividade da vivência; o conhecimento científico é sistemático e metodológico.",
+        "Resposta-modelo: O empirismo científico não é apenas ver para crer; é organizar a experiência por método."
+      ],
+      "strategies": [
+        "Evite dizer que senso comum é sempre falso",
+        "Use subjetividade da vivência cotidianaé para resumir hábitos e percepções imediatas",
+        "Cite exemplo apenas se ele ajudar a comparação",
+        "Conclua pelo processo de aquisição e validação"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 1.pdf",
+        "page": 1,
+        "excerpt": "Fundamentos de conhecimento científico, senso comum, empirismo e classificação das ciências."
+      }
+    },
+    {
+      "id": "guide_autores",
+      "pdf": "METODOLOGIA 2.pdf",
+      "title": "Autores e correntes: a questão mais pesada",
+      "purpose": "Este guia organiza a resposta-mãe da Questão 2, normalmente a mais valiosa nas provas passadas.",
+      "visualTree": [
+        "Galileu: observação, experimento e matemática",
+        "Bacon: empirismo, registro e indução",
+        "Descartes: racionalismo, dúvida metódica e dedução",
+        "Mecanicismo: natureza regular explicada por leis",
+        "Ciência moderna: articulação entre razão e experiência"
+      ],
+      "flow": [
+        "Apresente os três autores",
+        "Explique o método de cada um",
+        "Relacione Bacon ao empirismo e Descartes ao racionalismo",
+        "Inclua o mecanicismo como visão ordenada da natureza",
+        "Conclua com a síntese da ciência moderna"
+      ],
+      "diagram": [
+        "Galileu x Bacon: ambos usam experiência, mas Galileu enfatiza matemática e Bacon indução",
+        "Bacon x Descartes: dados e indução x razão e dedução",
+        "Racionalismo x empirismo: razão como ponto de partida x experiência como ponto de partida"
+      ],
+      "metacognition": [
+        "Resposta-modelo: Galileu combina observação, experimentação e matematização da natureza.",
+        "Resposta-modelo: Bacon se aproxima do empirismo por valorizar fatos, registros e indução.",
+        "Resposta-modelo: Descartes se aproxima do racionalismo por defender dúvida metódica, análise e dedução."
+      ],
+      "strategies": [
+        "Não esqueça o mecanicismo",
+        "Não troque Bacon e Descartes",
+        "Explique produção do conhecimento, não sé o nome do método",
+        "Feche mostrando a relação entre experiência, razão e leis da natureza"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 2.pdf",
+        "page": 1,
+        "excerpt": "Autores, correntes modernas, racionalismo, empirismo, mecanicismo e produção do conhecimento."
+      }
+    },
+    {
+      "id": "guide_falseabilidade",
+      "pdf": "METODOLOGIA 3.pdf",
+      "title": "Falseabilidade e tipos de pesquisa",
+      "purpose": "Este guia prepara as questões sobre Popper, hipóteses falseadoras, método hipotético-falseável e delineamentos de pesquisa.",
+      "visualTree": [
+        "Falseabilidade: possibilidade de refutação",
+        "Hipótese falseadora: situação que poderia contrariar a teoria",
+        "Validação provisória: resistir ao teste não prova definitivamente",
+        "Pesquisa de falseamento: testar teoria",
+        "Aplicada, experimental e exploratória: finalidades diferentes"
+      ],
+      "flow": [
+        "Formule a hipótese",
+        "Defina o que poderia refutá-la",
+        "Realize teste crítico",
+        "Se resistir, fortaleça provisoriamente",
+        "Revise a teoria diante de erro ou anomalia"
+      ],
+      "diagram": [
+        "Falseabilidade x verificação: crítica e refutação x confirmação definitiva",
+        "Falseamento x aplicada: teoria sob teste x solução prática",
+        "Experimental x exploratória: controle de variáveis x compreensão inicial do problema"
+      ],
+      "metacognition": [
+        "Resposta-modelo: Falseabilidade é o critério segundo o qual uma teoria científica deve poder ser refutada.",
+        "Resposta-modelo: Hipóteses falseadoras impedem que a teoria aceite qualquer resultado.",
+        "Resposta-modelo: Pesquisa experimental testa variáveis; pesquisa exploratória delimita o problema."
+      ],
+      "strategies": [
+        "Não confunda falseabilidade com provar que algo é verdadeiro",
+        "Sempre use a ideia de validação provisória",
+        "Diferencie pesquisas pela finalidade",
+        "Inclua Popper quando a questão pedir método hipotético-falseável"
+      ],
+      "source": {
+        "pdf": "METODOLOGIA 3.pdf",
+        "page": 1,
+        "excerpt": "Falseabilidade, método hipotético-falseável e objetivos dos delineamentos de pesquisa."
+      }
+    }
+  ]
+}

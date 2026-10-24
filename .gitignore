@@ -8,3 +8,12 @@ app/build/
 *.hprof
 *.apk
 *.aab
+node_modules/
+.next/
+.vercel/
+.env*
+!.env.example
+*.tsbuildinfo
+coverage/
+test-results/
+.vercel

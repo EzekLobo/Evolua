@@ -1,28 +1,75 @@
-# Metodologia Cards
+# Evolua
 
-App Android offline para estudar Metodologia Científica com flashcards, quizzes, revisão de erros e metacognição.
+**Aprendizado em movimento.** Plataforma web gamificada para transformar estudo em hábito: trilhas, flashcards, quizzes, revisão espaçada e prática discursiva.
 
-## Como abrir
+O projeto nasceu como **Metodologia Cards**, um app Android offline. A Evolua preserva o conteúdo e o aplicativo Android e acrescenta uma experiência web responsiva em Next.js e TypeScript.
 
-1. Abra esta pasta no Android Studio.
-2. Aguarde o Gradle sincronizar.
-3. Rode o módulo `app` em um emulador ou aparelho Android.
+## O que já funciona
 
-## Garantias da v1
+- Dashboard com métricas reais, XP, níveis, sequência e meta diária configurável.
+- Quatro trilhas de Metodologia Científica, com 43 flashcards e 28 quizzes.
+- Autoavaliação de memória e explicação individual de cada alternativa.
+- Revisão de cards e quizzes: erros voltam no mesmo dia; acertos consecutivos usam intervalos de 1, 3, 7, 14 e 30 dias.
+- Seis conquistas, mantidas depois de desbloqueadas.
+- Biblioteca com 4 guias, 22 termos, 24 relações, 32 exercícios discursivos e 5 simulados.
+- Rascunhos salvos, exportação/importação validada de backup e confirmação antes de apagar dados.
+- Interface para celular e desktop, teclado, referências de fonte e PWA com cache para uso offline após carregamento.
 
-- Sem backend, login ou permissão de internet.
-- Conteúdo embarcado em `app/src/main/assets/study_content.json`.
-- Cada card, quiz e relação possui PDF, página e trecho-base.
-- Progresso salvo localmente em `SharedPreferences`.
+**Persistência da versão 1:** o progresso fica no navegador (`localStorage`). Esta entrega não possui login, banco remoto, ranking nem sincronização automática. Para transferir dados, use **Meu perfil → Exportar/Importar backup**. A avaliação discursiva é feita pelo estudante com roteiro e rubrica, sem correção automática.
 
-## Testes
+## Executar a web
 
-Validação rápida de conteúdo/offline nesta pasta:
+Requisito: Node.js 22 ou superior (produção configurada com Node.js 24).
 
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/validate-content.ps1
+```sh
+npm ci
+npm run dev
 ```
 
-No Android Studio, rode a task Gradle `testDebugUnitTest` ou `test`.
+Abra `http://127.0.0.1:3000`.
 
-Os testes validam que o conteúdo tem fonte obrigatória, quizzes estão completos e o app não solicita permissão de internet. Este ambiente atual não tem Java/Gradle/Android SDK instalados, então a build completa deve ser executada no Android Studio.
+```sh
+npm test
+npm run build
+npm run typecheck
+npm start
+```
+
+Os testes verificam a preservação do conteúdo Android, IDs e referências, correção das alternativas, cálculo de XP, deduplicação, revisão espaçada, calendário de São Paulo, conquistas e os fluxos de interface em DOM simulado. O workflow `.github/workflows/web.yml` executa os testes, build e checagem de tipos no GitHub.
+
+## Organização
+
+```text
+app/                       Aplicativo Android original (Kotlin/Compose)
+web/
+  content/metodologia.json  Conteúdo migrado, com referências de origem
+  src/app/                 Aplicação Next.js, metadados e estilos
+  src/components/          Dashboard, atividades, biblioteca e perfil
+  src/hooks/               Persistência e recuperação do progresso
+  src/lib/                 Schema de conteúdo e motor de aprendizado
+  public/                  Ícone, manifesto e service worker
+  test/                    Testes de conteúdo, regras e interface
+docs/                      Arquitetura e evolução planejada
+```
+
+O conteúdo Android em `app/src/main/assets/study_content.json` e a cópia web precisam permanecer iguais. Após uma alteração editorial, rode `node scripts/sync-web-content.mjs` e `npm test`. O schema Zod rejeita fontes ausentes, tópicos inexistentes, IDs repetidos e quizzes inválidos. As referências foram preservadas do original; a presença de uma referência não equivale a uma auditoria editorial das páginas. PDFs completos não são publicados pela web.
+
+## Deploy na Vercel
+
+Projeto: `evolua`. Framework: Next.js. **Root Directory: `web`**. Instalação e build usam os padrões do framework e o lockfile npm na raiz do repositório. Nenhuma variável de ambiente é necessária para esta versão.
+
+```sh
+vercel link --project evolua --yes
+vercel deploy
+vercel deploy --prod
+```
+
+Execute os comandos na raiz do repositório. A configuração remota do projeto aponta para `web`; a integração Git deve usar `main` como branch de produção. Nunca versionar `.vercel/`, `.env*` ou tokens.
+
+## Android
+
+Abra a raiz do repositório no Android Studio e execute o módulo `app`. A identidade foi atualizada para **Evolua**, mantendo o identificador do aplicativo e o armazenamento existente para preservar a compatibilidade com a versão anterior. A compilação e os testes Android exigem Java 17 e Android SDK e são independentes do build web.
+
+## Próximas evoluções
+
+Consulte [docs/web-architecture.md](docs/web-architecture.md) para autenticação, sincronização, múltiplos cursos e ferramentas editoriais.

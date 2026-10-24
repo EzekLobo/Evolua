@@ -1,0 +1,9 @@
+.git
+.env*
+node_modules
+web/node_modules
+web/.next
+/app/
+/gradle/
+/*.pdf
+test-results

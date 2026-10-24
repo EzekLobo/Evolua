@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./study-session.css";
 export const metadata: Metadata = {
   title: "Evolua — Seu próximo nível começa aqui",
   description:

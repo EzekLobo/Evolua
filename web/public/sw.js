@@ -1,4 +1,4 @@
-const CACHE = "evolua-v1";
+const CACHE = "evolua-v2";
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches

@@ -101,12 +101,17 @@ export function EvoluaApp() {
   const due = Object.keys(progress.items).filter((id) =>
     isDue(progress, id),
   ).length;
-  const currentLabel =
-    view === "perfil"
+  const currentLabel = session
+    ? session.kind === "card"
+      ? "Flashcards"
+      : session.kind === "quiz" || session.kind === "exam"
+        ? "Quiz"
+        : "Revisão"
+    : view === "perfil"
       ? "Meu perfil"
       : navigation.find((n) => n.view === view)?.label;
   return (
-    <div className="app-shell">
+    <div className={`app-shell${session ? " app-shell--studying" : ""}`}>
       <a
         className="skip-link"
         href="#main-content"

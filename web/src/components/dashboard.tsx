@@ -7,7 +7,7 @@ import {
   ChevronRight,
   Clock,
   Flame,
-  Layers,
+  Gamepad2,
   Sparkles,
   Target,
   Trophy,
@@ -37,6 +37,7 @@ export type View =
   | "trilhas"
   | "cards"
   | "quiz"
+  | "jogos"
   | "revisao"
   | "biblioteca"
   | "conquistas"
@@ -61,8 +62,8 @@ export function Dashboard({
   const known = content.flashcards.filter((c) =>
     mastered(progress, c.id),
   ).length;
-  const due = Object.keys(progress.items).filter((id) =>
-    isDue(progress, id),
+  const due = [...content.flashcards, ...content.quizzes].filter((item) =>
+    isDue(progress, item.id),
   ).length;
   const rewards = achievements(
     progress,
@@ -164,17 +165,17 @@ export function Dashboard({
           </div>
           <section className="practice-banner">
             <span className="round-icon lavender">
-              <Layers size={23} />
+              <Gamepad2 size={23} />
             </span>
             <div>
-              <h3>Conhecimento bom é conhecimento praticado.</h3>
-              <p>Desafie sua memória com uma rodada de quiz.</p>
+              <h3>Aprender também pode ser um jogo.</h3>
+              <p>Conecte pares, avalie afirmações e vença novos desafios.</p>
             </div>
             <button
               className="button button-outline"
-              onClick={() => start({ kind: "quiz" })}
+              onClick={() => navigate("jogos")}
             >
-              Praticar agora <ArrowRight size={16} />
+              Explorar jogos <ArrowRight size={16} />
             </button>
           </section>
         </div>

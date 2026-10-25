@@ -50,5 +50,11 @@ export function useProgress() {
     },
     [],
   );
-  return { progress, update, ready, warning };
+  return {
+    progress,
+    update,
+    ready,
+    warning,
+    loadRestoredProgress: setProgress,
+  };
 }

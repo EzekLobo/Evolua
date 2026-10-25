@@ -10,6 +10,8 @@
 - O treino discursivo e os cinco simulados usam autoavaliação com rubrica. Rascunhos não geram XP.
 - O service worker armazena páginas e recursos do mesmo domínio. Uso offline depende de o aplicativo e seus recursos já terem sido carregados. A primeira visita exige conexão; fontes externas podem cair no fallback do sistema offline.
 - Não há processamento de pagamentos, envio de material para IA ou distribuição dos PDFs pelo site.
+- O laboratório de jogos usa um contrato JSON versionado e validado por Zod. O prompt é montado localmente e apenas copiado ou baixado pelo usuário; a aplicação não chama uma IA nem envia o material-base. Pacotes importados ficam em `evolua.game-packs.v1`, separados do progresso, e seus IDs compõem as chaves usadas pelo motor de XP.
+- A autoria assistida usa contrato v2 com objetivos e evidências, preservando pacotes v1. Parsing/diagnósticos, catálogo de provedores, estúdio de autoria e persistência são separados. O perfil exporta ambos os conjuntos de dados e restaura com reversão de gravações em caso de falha. Sincronização por eventos de armazenamento usa a última escrita em conflitos simultâneos.
 
 ## Limites conhecidos
 

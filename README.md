@@ -11,6 +11,8 @@ O projeto nasceu como **Metodologia Cards**, um app Android offline. A Evolua pr
 - Autoavaliação de memória e explicação individual de cada alternativa.
 - Revisão de cards e quizzes: erros voltam no mesmo dia; acertos consecutivos usam intervalos de 1, 3, 7, 14 e 30 dias.
 - Seis conquistas, mantidas depois de desbloqueadas.
+- Laboratório com três jogos: conectar pares, verdadeiro/falso e desafio de alternativas.
+- Entrada modular de conteúdo: a plataforma gera um prompt, valida e importa pacotes JSON produzidos por qualquer IA compatível.
 - Biblioteca com 4 guias, 22 termos, 24 relações, 32 exercícios discursivos e 5 simulados.
 - Rascunhos salvos, exportação/importação validada de backup e confirmação antes de apagar dados.
 - Interface para celular e desktop, teclado, referências de fonte e PWA com cache para uso offline após carregamento.
@@ -36,6 +38,14 @@ npm start
 ```
 
 Os testes verificam a preservação do conteúdo Android, IDs e referências, correção das alternativas, cálculo de XP, deduplicação, revisão espaçada, calendário de São Paulo, conquistas e os fluxos de interface em DOM simulado. O workflow `.github/workflows/web.yml` executa os testes, build e checagem de tipos no GitHub.
+
+## Criar novos jogos com um prompt
+
+Abra **Jogos → Entrada modular**, descreva o assunto, público, objetivo e dificuldade e selecione sua IA: ChatGPT, Claude, Gemini, Microsoft Copilot ou outra. **Copiar prompt e abrir IA** abre o site escolhido e copia as instruções para você colar e enviar. Também é possível baixar ou compartilhar o prompt quando o navegador permitir.
+
+Cole a resposta na Evolua ou importe o JSON. A plataforma aceita um bloco Markdown externo, aponta erros por campo e gera um prompt de correção. Após validação, confira a prévia e confirme a ativação. O formato `evolua-game-pack` v2 inclui objetivos, fontes e explicações por alternativa; o v1 continua aceito. Validação estrutural rejeita IDs e textos de pares duplicados e índices inválidos, mas a precisão factual e possíveis ambiguidades exigem revisão do material-base. Consulte [docs/game-packs.md](docs/game-packs.md).
+
+Pacotes acompanham o backup do perfil, podem ser baixados individualmente e sincronizam entre abas. As afirmações de verdadeiro/falso montadas automaticamente a partir de respostas trocadas do curso original foram retiradas até revisão editorial; esse jogo fica disponível em pacotes importados com afirmações próprias.
 
 ## Organização
 

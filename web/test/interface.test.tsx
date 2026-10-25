@@ -10,6 +10,8 @@ import {
 import userEvent from "@testing-library/user-event";
 import { EvoluaApp } from "../src/components/evolua-app";
 import { emptyProgress, STORAGE_KEY } from "../src/lib/learning-engine";
+import { GAME_PACKS_STORAGE_KEY } from "../src/hooks/use-game-packs";
+import { testGamePack } from "./game-fixture";
 beforeEach(() => {
   localStorage.clear();
   history.replaceState(null, "", "/");
@@ -169,5 +171,89 @@ describe("Evolua application flows without network or browser automation", () =>
     await waitFor(() =>
       expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!).xp).toBe(0),
     );
+  });
+  it("opens the game laboratory and records a true-or-false answer", async () => {
+    localStorage.setItem(
+      GAME_PACKS_STORAGE_KEY,
+      JSON.stringify([testGamePack]),
+    );
+    const user = await load();
+    await user.click(screen.getByRole("link", { name: "Jogos" }));
+    expect(
+      await screen.findByRole("heading", {
+        name: "Aprenda jogando com qualquer assunto.",
+      }),
+    ).toBeTruthy();
+    await user.selectOptions(
+      screen.getByLabelText("Pacote de conteúdo"),
+      testGamePack.id,
+    );
+    await user.click(
+      screen.getByRole("button", { name: "Jogar Verdadeiro ou falso" }),
+    );
+    await user.click(screen.getByRole("button", { name: "Verdadeiro" }));
+    expect(screen.getByRole("status")).toBeTruthy();
+    expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!).xp).toBeGreaterThan(
+      0,
+    );
+  });
+  it("imports and activates a valid modular game package", async () => {
+    const user = await load();
+    await user.click(screen.getByRole("link", { name: "Jogos" }));
+    const pack = {
+      schema: "evolua-game-pack",
+      version: 1,
+      id: "matematica-basica",
+      title: "Matemática básica",
+      description: "Operações fundamentais.",
+      modules: [
+        {
+          id: "soma",
+          title: "Adição",
+          description: "Pratique somas simples.",
+          pairs: [
+            {
+              id: "par-um",
+              prompt: "2 + 2",
+              answer: "4",
+              explanation: "Dois mais dois é quatro.",
+            },
+            {
+              id: "par-dois",
+              prompt: "3 + 2",
+              answer: "5",
+              explanation: "Três mais dois é cinco.",
+            },
+          ],
+          trueFalse: [],
+          multipleChoice: [],
+        },
+      ],
+    };
+    const file = new File([JSON.stringify(pack)], "matematica.json", {
+      type: "application/json",
+    });
+    await user.upload(
+      screen.getByLabelText("Selecionar pacote de jogos"),
+      file,
+    );
+    await screen.findByRole("region", { name: "Prévia do pacote" });
+    expect(localStorage.getItem(GAME_PACKS_STORAGE_KEY)).toBeNull();
+    await user.click(
+      screen.getByLabelText(
+        "Revisei as atividades, as referências e os alertas apresentados.",
+      ),
+    );
+    await user.click(screen.getByRole("button", { name: "Ativar pacote" }));
+    expect(
+      await screen.findByText(
+        "Pacote “Matemática básica” importado e pronto para jogar.",
+      ),
+    ).toBeTruthy();
+    expect(
+      (screen.getByLabelText("Pacote de conteúdo") as HTMLSelectElement).value,
+    ).toBe("matematica-basica");
+    const saved = JSON.parse(localStorage.getItem(GAME_PACKS_STORAGE_KEY)!);
+    expect(saved[0].title).toBe("Matemática básica");
   });
 });

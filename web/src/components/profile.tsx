@@ -12,29 +12,40 @@ import {
 import {
   accuracy,
   emptyProgress,
-  progressSchema,
   totalAttempts,
   type Progress,
 } from "../lib/learning-engine";
 import { Modal, PageHeading } from "./ui";
+import { backupSchema, restoreBackup, type Backup } from "../lib/backup";
+import type { GamePack } from "../lib/game-content";
+import { storageError } from "../lib/assisted-authoring";
 export function Profile({
   progress,
   update,
+  packs,
+  onRestore,
 }: {
   progress: Progress;
   update: (value: Progress | ((p: Progress) => Progress)) => void;
+  packs: GamePack[];
+  onRestore: (backup: Backup) => void;
 }) {
   const [name, setName] = useState(progress.name),
     [goal, setGoal] = useState(progress.goal),
     [message, setMessage] = useState(""),
     [reset, setReset] = useState(false),
-    [pending, setPending] = useState<Progress | null>(null);
+    [pending, setPending] = useState<Backup | null>(null);
   const input = useRef<HTMLInputElement>(null);
   function exportBackup() {
     const blob = new Blob(
       [
         JSON.stringify(
-          { app: "evolua", exportedAt: new Date().toISOString(), progress },
+          {
+            app: "evolua",
+            exportedAt: new Date().toISOString(),
+            progress,
+            packs,
+          },
           null,
           2,
         ),
@@ -51,12 +62,12 @@ export function Profile({
   }
   async function importBackup(file: File) {
     try {
-      if (file.size > 2 * 1024 * 1024)
-        throw Error("Arquivo muito grande. O limite é 2 MB.");
+      if (file.size > 24 * 1024 * 1024)
+        throw Error("Arquivo muito grande. O limite é 24 MB.");
       const raw = JSON.parse(await file.text());
       if (raw.app !== "evolua")
         throw Error("Este arquivo não é um backup da Evolua.");
-      setPending(progressSchema.parse(raw.progress));
+      setPending(backupSchema.parse(raw));
     } catch (error) {
       setMessage(
         error instanceof Error && error.message.includes("Arquivo")
@@ -222,9 +233,12 @@ export function Profile({
       {pending && (
         <Modal title="Restaurar este backup?" onClose={() => setPending(null)}>
           <p>
-            O backup contém {pending.xp} XP e {totalAttempts(pending)}{" "}
-            atividades. Ele substituirá o progresso e os rascunhos deste
-            navegador.
+            O backup contém {pending.progress.xp} XP e{" "}
+            {totalAttempts(pending.progress)} atividades. Ele substituirá o
+            progresso e os rascunhos deste navegador.{" "}
+            {pending.packs === undefined
+              ? "Backup antigo: os pacotes atuais serão mantidos."
+              : `Os ${pending.packs.length} pacotes do backup substituirão os pacotes importados atuais.`}
           </p>
           <div className="modal-actions">
             <button
@@ -236,11 +250,22 @@ export function Profile({
             <button
               className="button button-primary"
               onClick={() => {
-                update(pending);
-                setName(pending.name);
-                setGoal(pending.goal);
-                setPending(null);
-                setMessage("Backup restaurado. Sua jornada continua!");
+                try {
+                  const restored = restoreBackup(pending);
+                  onRestore(restored);
+                  setName(restored.progress.name);
+                  setGoal(restored.progress.goal);
+                  setPending(null);
+                  setMessage("Backup restaurado. Sua jornada continua!");
+                } catch (error) {
+                  setPending(null);
+                  setMessage(
+                    error instanceof Error &&
+                      error.message.startsWith("A restauração")
+                      ? error.message
+                      : storageError(error),
+                  );
+                }
               }}
             >
               Restaurar backup

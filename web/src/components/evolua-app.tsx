@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import {
   BookOpen,
   Flame,
+  Gamepad2,
   House,
   Layers,
   LayoutGrid,
@@ -16,8 +17,10 @@ import {
   Zap,
 } from "lucide-react";
 import { isDue, streak } from "../lib/learning-engine";
+import { content } from "../lib/content";
 import type { Source } from "../lib/content-schema";
 import { useProgress } from "../hooks/use-progress";
+import { useGamePacks } from "../hooks/use-game-packs";
 import {
   Awards,
   Dashboard,
@@ -26,6 +29,7 @@ import {
   type View,
 } from "./dashboard";
 import { Library } from "./library";
+import { Games } from "./games";
 import { Profile } from "./profile";
 import { SessionPicker, StudySession } from "./study-session";
 import { Logo, ProgressBar, SourceModal } from "./ui";
@@ -34,12 +38,15 @@ const navigation = [
   { view: "trilhas", label: "Minhas trilhas", icon: LayoutGrid },
   { view: "cards", label: "Flashcards", icon: Layers },
   { view: "quiz", label: "Quizzes", icon: Target },
+  { view: "jogos", label: "Jogos", icon: Gamepad2 },
   { view: "revisao", label: "Revisão", icon: RotateCcw },
   { view: "biblioteca", label: "Biblioteca", icon: BookOpen },
   { view: "conquistas", label: "Conquistas", icon: Trophy },
 ] as const;
 export function EvoluaApp() {
-  const { progress, update, ready, warning } = useProgress();
+  const { progress, update, ready, warning, loadRestoredProgress } =
+    useProgress();
+  const gamePacks = useGamePacks();
   const [view, setView] = useState<View>("inicio"),
     [menu, setMenu] = useState(false),
     [session, setSession] = useState<SessionConfig | null>(null),
@@ -98,8 +105,8 @@ export function EvoluaApp() {
     setSession(config);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
-  const due = Object.keys(progress.items).filter((id) =>
-    isDue(progress, id),
+  const due = [...content.flashcards, ...content.quizzes].filter((item) =>
+    isDue(progress, item.id),
   ).length;
   const currentLabel = session
     ? session.kind === "card"
@@ -240,6 +247,11 @@ export function EvoluaApp() {
               {warning}
             </div>
           )}
+          {gamePacks.warning && (
+            <div className="inline-message warning" role="alert">
+              {gamePacks.warning}
+            </div>
+          )}
           {!ready ? (
             <div className="loading">
               <Logo />
@@ -269,10 +281,28 @@ export function EvoluaApp() {
             />
           ) : view === "biblioteca" ? (
             <Library progress={progress} update={update} onSource={setSource} />
+          ) : view === "jogos" ? (
+            <Games
+              packs={gamePacks.packs}
+              customPacks={gamePacks.customPacks}
+              savePack={gamePacks.savePack}
+              removePack={gamePacks.removePack}
+              progress={progress}
+              update={update}
+            />
           ) : view === "conquistas" ? (
             <Awards progress={progress} />
           ) : (
-            <Profile progress={progress} update={update} />
+            <Profile
+              progress={progress}
+              update={update}
+              packs={gamePacks.customPacks}
+              onRestore={(backup) => {
+                loadRestoredProgress(backup.progress);
+                if (backup.packs !== undefined)
+                  gamePacks.loadRestoredPacks(backup.packs);
+              }}
+            />
           )}
         </main>
         <footer className="app-footer">

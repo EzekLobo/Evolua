@@ -8,8 +8,6 @@ import {
   type GamePromptOptions,
 } from "../lib/game-content";
 import {
-  AI_PREFERENCE_KEY,
-  AI_PROVIDERS,
   changedActivityIds,
   copyPrompt,
   correctionPrompt,
@@ -32,20 +30,18 @@ export function GamePackStudio({
     audience: "Estudantes em geral",
     objective: "",
     difficulty: "intermediário",
-    itemCount: 6,
   });
-  const [providerId, setProviderId] = useState<string>("chatgpt");
   const [text, setText] = useState("");
   const [issues, setIssues] = useState<PackIssue[]>([]);
   const [pending, setPending] = useState<GamePack | null>(null);
   const [reviewed, setReviewed] = useState(false);
   const [message, setMessage] = useState("");
   const [canShare, setCanShare] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const generationInProgress = useRef(false);
   const fileInput = useRef<HTMLInputElement>(null);
   const preview = useRef<HTMLElement>(null);
   const prompt = useMemo(() => buildGamePackPrompt(options), [options]);
-  const provider =
-    AI_PROVIDERS.find((item) => item.id === providerId) ?? AI_PROVIDERS[0];
   const correction = issues.length ? correctionPrompt(text, issues) : "";
   const existing =
     pending && customPacks.find((pack) => pack.id === pending.id);
@@ -55,14 +51,6 @@ export function GamePackStudio({
     if (pending) preview.current?.focus();
   }, [pending]);
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(AI_PREFERENCE_KEY);
-      if (AI_PROVIDERS.some((item) => item.id === saved)) setProviderId(saved!);
-    } catch {
-      setMessage(
-        "A preferência de IA não pôde ser carregada. Você pode escolher uma abaixo.",
-      );
-    }
     setCanShare(typeof navigator.share === "function");
   }, []);
 
@@ -117,16 +105,39 @@ export function GamePackStudio({
       if (fileInput.current) fileInput.current.value = "";
     }
   }
-  function openAndCopy(value: string) {
-    // A abertura ocorre no gesto do usuário, antes da operação assíncrona.
-    if (provider.url) {
-      try {
-        window.open(provider.url, "_blank", "noopener,noreferrer");
-      } catch {
-        /* O link explícito abaixo permanece disponível. */
-      }
+  async function generateWithGemini() {
+    if (generationInProgress.current || !options.subject.trim()) return;
+    if (options.subject.length > 4000 || options.audience.length > 240 || options.objective.length > 500) {
+      setMessage("Para gerar com Gemini, use até 4.000 caracteres no assunto, 240 no público e 500 no objetivo.");
+      return;
     }
-    void copyPrompt(value).then(setMessage);
+    generationInProgress.current = true;
+    setGenerating(true);
+    setMessage("Gerando atividades com Gemini…");
+    try {
+      const response = await fetch("/api/content-ai/generate", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(options),
+      });
+      if (response.status === 404) {
+        setMessage("A geração requer o servidor local com CONTENT_AI_ENABLED=true.");
+        return;
+      }
+      const result = await response.json();
+      if (!response.ok) {
+        setMessage(result.error || "Não foi possível gerar as atividades.");
+        return;
+      }
+      const generated = JSON.stringify(result, null, 2);
+      changeText(generated);
+      validate(generated);
+    } catch {
+      setMessage("Não foi possível concluir a geração. Tente novamente.");
+    } finally {
+      generationInProgress.current = false;
+      setGenerating(false);
+    }
   }
   function activate() {
     if (!pending || !reviewed) return;
@@ -158,9 +169,9 @@ export function GamePackStudio({
       <div className="studio-columns">
         <section className="panel prompt-builder">
           <span className="step-number">1</span>
-          <h3>Prepare e abra sua IA</h3>
+          <h3>Prepare o conteúdo</h3>
           <p>
-            Defina o que estudar. O prompt orienta geração, revisão pedagógica e
+            Defina o que estudar. A IA organiza os tópicos e adapta a quantidade de atividades. O prompt manual orienta geração, revisão pedagógica e
             correção do arquivo.
           </p>
           <label className="field-label">
@@ -209,45 +220,7 @@ export function GamePackStudio({
                 ))}
               </select>
             </label>
-            <label className="field-label">
-              Itens por jogo
-              <select
-                value={options.itemCount}
-                onChange={(event) =>
-                  setOptions({
-                    ...options,
-                    itemCount: Number(event.target.value),
-                  })
-                }
-              >
-                {[3, 4, 6, 8, 10, 12].map((value) => (
-                  <option key={value}>{value}</option>
-                ))}
-              </select>
-            </label>
           </div>
-          <label className="field-label">
-            Minha IA preferida
-            <select
-              value={provider.id}
-              onChange={(event) => {
-                setProviderId(event.target.value);
-                try {
-                  localStorage.setItem(AI_PREFERENCE_KEY, event.target.value);
-                } catch {
-                  setMessage(
-                    "A preferência vale nesta sessão; o navegador não permitiu salvá-la.",
-                  );
-                }
-              }}
-            >
-              {AI_PROVIDERS.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
-            </select>
-          </label>
           <label className="field-label">
             Prompt gerado
             <textarea
@@ -262,9 +235,16 @@ export function GamePackStudio({
           <div className="studio-actions">
             <button
               className="button button-primary"
-              onClick={() => openAndCopy(prompt)}
+              disabled={generating || !options.subject.trim()}
+              onClick={() => void generateWithGemini()}
             >
-              {provider.url ? "Copiar prompt e abrir IA" : "Copiar prompt"}
+              {generating ? "Gerando com Gemini…" : "Gerar aqui com Gemini"}
+            </button>
+            <button
+              className="button button-outline"
+              onClick={() => void copyPrompt(prompt).then(setMessage)}
+            >
+              Copiar prompt
             </button>
             <button
               className="button button-outline"
@@ -300,21 +280,9 @@ export function GamePackStudio({
               </button>
             )}
           </div>
-          {provider.url && (
-            <p>
-              <a
-                className="text-button"
-                href={provider.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Abrir {provider.name}
-              </a>
-            </p>
-          )}
           <p className="muted small-text">
-            Cole e envie o prompt na IA. O material não é enviado pela Evolua ao
-            abrir o site.
+            Ao gerar aqui, o assunto ou texto informado é enviado ao Gemini.
+            Para usar outra IA, copie o prompt e importe a resposta em JSON.
           </p>
         </section>
         <section className="panel pack-importer">
@@ -328,6 +296,7 @@ export function GamePackStudio({
             Resposta da IA
             <textarea
               rows={12}
+              disabled={generating}
               value={text}
               onChange={(event) => changeText(event.target.value)}
               spellCheck={false}
@@ -336,13 +305,14 @@ export function GamePackStudio({
           <div className="studio-actions">
             <button
               className="button button-primary"
-              disabled={!text.trim()}
+              disabled={generating || !text.trim()}
               onClick={() => validate(text)}
             >
               Validar e visualizar
             </button>
             <button
               className="button button-outline"
+              disabled={generating}
               onClick={() => fileInput.current?.click()}
             >
               Importar arquivo JSON
@@ -382,11 +352,9 @@ export function GamePackStudio({
               <div className="studio-actions">
                 <button
                   className="button button-outline"
-                  onClick={() => openAndCopy(correction)}
+                  onClick={() => void copyPrompt(correction).then(setMessage)}
                 >
-                  {provider.url
-                    ? "Copiar correção e abrir IA"
-                    : "Copiar correção"}
+                  Copiar correção
                 </button>
                 <button
                   className="button button-outline"
@@ -555,7 +523,7 @@ export function GamePackStudio({
           <div className="studio-actions">
             <button
               className="button button-primary"
-              disabled={!reviewed}
+              disabled={generating || !reviewed}
               onClick={activate}
             >
               {existing ? "Confirmar substituição do pacote" : "Ativar pacote"}

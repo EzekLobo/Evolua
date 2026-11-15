@@ -318,11 +318,17 @@ export type GamePromptOptions = {
   audience: string;
   objective: string;
   difficulty: "iniciante" | "intermediário" | "avançado";
-  itemCount: number;
+  itemCount?: number;
 };
 
+export const gamePackCoverageInstructions = [
+  "Antes de escrever atividades, defina o escopo considerando assunto, público, objetivo e dificuldade. Para temas amplos, cubra os conceitos centrais de cada ramo em nível introdutório. Para temas específicos, aprofunde os pontos relevantes.",
+  "Mapeie pré-requisitos, conceitos essenciais, relações entre conceitos, aplicações e erros comuns. Organize os módulos em ordem de aprendizagem, dos fundamentos à aplicação. Inclua somente pontos pertinentes ao assunto.",
+  "Associe cada conceito central a pelo menos uma atividade. Use pares para relacionar ideias, verdadeiro ou falso para distinguir afirmações corretas de equívocos e múltipla escolha para aplicar ou comparar conceitos. Varie os exemplos e ajuste a quantidade à cobertura.",
+  "Antes de finalizar, confira se todos os conceitos centrais mapeados foram praticados, se há lacunas ou repetições e se respostas e explicações são coerentes. Ao usar material fornecido, mantenha a cobertura dentro do que ele sustenta. Devolva apenas o pacote no formato solicitado.",
+].join("\n");
+
 export function buildGamePackPrompt(options: GamePromptOptions): string {
-  const count = Math.min(12, Math.max(3, Math.round(options.itemCount)));
   return `Crie jogos educacionais para a Evolua usando o contrato evolua-game-pack v2.
 ASSUNTO / MATERIAL-BASE: ${options.subject.trim() || "Solicite o material-base antes de gerar"}
 PÚBLICO: ${options.audience.trim() || "Estudantes em geral"}
@@ -331,7 +337,8 @@ DIFICULDADE: ${options.difficulty}
 
 Procedimento de qualidade: planeje a cobertura dos objetivos; gere as atividades; confira respostas contra o material-base; revise ambiguidades, distratores e explicações; valide a estrutura; corrija as falhas antes de responder. Não exponha raciocínio interno, devolva apenas os resultados finais verificáveis.
 Use somente fatos sustentados pelo material fornecido. Se faltar evidência, solicite esclarecimento em vez de inventar fatos, fontes, páginas ou URLs. Não complete quantidades com conteúdo sem fundamento.
-Crie de 1 a 6 módulos e, quando houver material suficiente, ${count} itens em pairs, ${count} em trueFalse e ${count} em multipleChoice por módulo.
+${gamePackCoverageInstructions}
+Organize o conteúdo em até 6 módulos. Use os três formatos quando houver material suficiente.
 Responda SOMENTE com JSON válido, sem Markdown. Se houver ferramentas de execução, confira JSON com parser e valide os limites; nunca alegue execução de ferramentas que não usou.
 
 Regras do contrato:

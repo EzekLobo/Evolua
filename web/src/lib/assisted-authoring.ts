@@ -101,9 +101,9 @@ ${JSON.stringify(original)}`;
 export async function copyPrompt(text: string): Promise<string> {
   try {
     await navigator.clipboard.writeText(text);
-    return "Prompt copiado. Cole e envie na IA escolhida. Se a aba não abriu, use o link para abrir a IA.";
+    return "Prompt copiado. Cole o texto na ferramenta de IA.";
   } catch {
-    return "Cópia automática indisponível. Selecione o prompt para copiar manualmente ou baixe o texto. Se a aba não abriu, use o link para abrir a IA.";
+    return "Cópia automática indisponível. Selecione o prompt para copiar manualmente ou baixe o texto.";
   }
 }
 

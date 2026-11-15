@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import {
   BookOpen,
+  BookPlus,
   Flame,
   Gamepad2,
   House,
@@ -30,6 +31,7 @@ import {
 } from "./dashboard";
 import { Library } from "./library";
 import { Games } from "./games";
+import { GamePackStudio } from "./game-pack-studio";
 import { Profile } from "./profile";
 import { SessionPicker, StudySession } from "./study-session";
 import { Logo, ProgressBar, SourceModal } from "./ui";
@@ -39,6 +41,7 @@ const navigation = [
   { view: "cards", label: "Flashcards", icon: Layers },
   { view: "quiz", label: "Quizzes", icon: Target },
   { view: "jogos", label: "Jogos", icon: Gamepad2 },
+  { view: "conteudos", label: "Criar conteúdo", icon: BookPlus },
   { view: "revisao", label: "Revisão", icon: RotateCcw },
   { view: "biblioteca", label: "Biblioteca", icon: BookOpen },
   { view: "conquistas", label: "Conquistas", icon: Trophy },
@@ -289,6 +292,12 @@ export function EvoluaApp() {
               removePack={gamePacks.removePack}
               progress={progress}
               update={update}
+            />
+          ) : view === "conteudos" ? (
+            <GamePackStudio
+              customPacks={gamePacks.customPacks}
+              savePack={gamePacks.savePack}
+              removePack={gamePacks.removePack}
             />
           ) : view === "conquistas" ? (
             <Awards progress={progress} />

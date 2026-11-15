@@ -38,6 +38,7 @@ export type View =
   | "cards"
   | "quiz"
   | "jogos"
+  | "conteudos"
   | "revisao"
   | "biblioteca"
   | "conquistas"

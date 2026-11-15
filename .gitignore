@@ -17,3 +17,6 @@ node_modules/
 coverage/
 test-results/
 .vercel
+# Local source extractions, manifests and unreviewed AI content.
+work/content-ai/
+scripts/content-ai/__pycache__/

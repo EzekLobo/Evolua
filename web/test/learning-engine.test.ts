@@ -111,6 +111,52 @@ describe("learning engine", () => {
       progressSchema.safeParse({ ...emptyProgress(), xp: -12 }).success,
     ).toBe(false);
   });
+  it("rejects nonexistent calendar dates in backups", () => {
+    const invalidDay = {
+      reviews: 1,
+      correct: 1,
+      xp: 12,
+      items: { card: 1 },
+    };
+    expect(
+      progressSchema.safeParse({
+        ...emptyProgress(),
+        days: { "2025-02-29": invalidDay },
+      }).success,
+    ).toBe(false);
+    expect(
+      progressSchema.safeParse({
+        ...emptyProgress(),
+        days: { "2024-02-29": invalidDay },
+      }).success,
+    ).toBe(true);
+  });
+  it("rejects impossible attempt and daily counters in backups", () => {
+    expect(
+      progressSchema.safeParse({
+        ...emptyProgress(),
+        days: {
+          [today]: { reviews: 1, correct: 2, xp: 12, items: { card: 1 } },
+        },
+      }).success,
+    ).toBe(false);
+    expect(
+      progressSchema.safeParse({
+        ...emptyProgress(),
+        items: {
+          card: {
+            attempts: 1,
+            correct: 2,
+            consecutive: 2,
+            confidence: 3,
+            lastDay: today,
+            due: today,
+            kind: "card",
+          },
+        },
+      }).success,
+    ).toBe(false);
+  });
   it("keeps an earned mastery badge when a later review is incorrect", () => {
     let p=emptyProgress();
     const ids=Array.from({length:10},(_,i)=>`card-${i}`);

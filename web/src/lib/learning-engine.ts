@@ -3,23 +3,45 @@ import { z } from "zod";
 const day = z
   .string()
   .regex(/^\d{4}-\d{2}-\d{2}$/)
-  .refine((v) => !Number.isNaN(Date.parse(v)), "Data inválida");
+  .refine((value) => {
+    const [year, month, date] = value.split("-").map(Number);
+    const parsed = new Date(Date.UTC(year, month - 1, date));
+    return (
+      parsed.getUTCFullYear() === year &&
+      parsed.getUTCMonth() === month - 1 &&
+      parsed.getUTCDate() === date
+    );
+  }, "Data inválida");
 const integer = z.number().int().nonnegative().max(100000000);
-const itemSchema = z.object({
-  attempts: integer,
-  correct: integer,
-  consecutive: integer,
-  confidence: z.number().int().min(0).max(3),
-  lastDay: day,
-  due: day,
-  kind: z.enum(["card", "quiz"]),
-});
-const dailySchema = z.object({
-  reviews: integer,
-  correct: integer,
-  xp: integer,
-  items: z.record(z.string(), integer),
-});
+const itemSchema = z
+  .object({
+    attempts: integer,
+    correct: integer,
+    consecutive: integer,
+    confidence: z.number().int().min(0).max(3),
+    lastDay: day,
+    due: day,
+    kind: z.enum(["card", "quiz"]),
+  })
+  .refine((item) => item.correct <= item.attempts, {
+    message: "Acertos não podem exceder tentativas",
+    path: ["correct"],
+  })
+  .refine((item) => item.consecutive <= item.correct, {
+    message: "Acertos consecutivos não podem exceder o total de acertos",
+    path: ["consecutive"],
+  });
+const dailySchema = z
+  .object({
+    reviews: integer,
+    correct: integer,
+    xp: integer,
+    items: z.record(z.string(), integer),
+  })
+  .refine((daily) => daily.correct <= daily.reviews, {
+    message: "Acertos não podem exceder revisões",
+    path: ["correct"],
+  });
 export const progressSchema = z.object({
   version: z.literal(1),
   name: z.string().max(40),

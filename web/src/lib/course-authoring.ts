@@ -244,7 +244,13 @@ Revisão estrutural:
 - Conte módulos, aulas, seções, blocos, atividades, texto de cada aula e bytes do JSON; reduza a saída se algum limite for excedido.
 - Confirme tipos discriminados, campos obrigatórios, mínimos de itens e enums exatamente como escritos acima.
 - Confirme que o conteúdo não contém HTML, scripts, javascript:, event handlers ou código executável. Não use Markdown fora das strings necessárias e não envolva o JSON em Markdown.
-- Antes de finalizar, priorize nesta ordem: (1) JSON único parseável e importável, (2) todos os mínimos estruturais, (3) cobertura dos objetivos, (4) profundidade e variedade. Se precisar economizar saída, reduza primeiro a quantidade de unidades e depois encurte exemplos e textos repetidos; nunca interrompa o JSON e nunca explique que não conseguiu.
+- Preserve todos os módulos e aulas concluídos. Não reduza a quantidade de unidades nem substitua explicações por resumos para caber na resposta final. A montagem final deve conservar integralmente o conteúdo revisado, removendo somente os envelopes protocol, courseId, coveredObjectiveIds, sourceIdsUsed e review dos módulos intermediários.
+
+MONTAGEM E ENTREGA DO ARQUIVO FINAL
+- Mantenha um registro dos módulos concluídos e das referências utilizadas. Ao receber “PRÓXIMO MÓDULO”, gere o próximo módulo ainda pendente, sem repetir os anteriores. Ao receber “REVISAR MÓDULO N”, devolva a versão completa corrigida daquele módulo e substitua a anterior no registro.
+- Antes da montagem, confira que todos os módulos planejados estão presentes, completos e revisados. Não monte um pacote com módulos ausentes ou conteúdo reconstruído por suposição.
+- Se houver ferramentas de criação de arquivos, salve cada módulo durante a elaboração e una os dados programaticamente em um único arquivo curso.json. Faça parse do arquivo e verifique IDs, referências, ordem e limites antes de disponibilizar o arquivo para download. Isso evita reescrever todo o curso na mensagem final.
+- Se não houver ferramentas de arquivos, entregue o objeto final completo no chat somente se couber integralmente. Seja transparente caso o limite de saída impeça a consolidação; nunca entregue arquivo truncado, alegue ter criado um anexo inexistente ou elimine conteúdo silenciosamente. O trabalho incremental melhora a elaboração, mas não elimina o limite de tamanho da resposta final.
 
 Revisão pedagógica:
 - Procure objetivo sem explicação, seção sem fonte pertinente, atividade sem vínculo, resposta ambígua, feedback que não ensina, exemplo que não demonstra o conceito, dificuldade incompatível, repetição e lacuna essencial.

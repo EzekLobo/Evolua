@@ -1,89 +1,129 @@
 # Evolua
 
-Documentação consolidada do produto: [PRD da Evolua](docs/PRD-EVOLUA.md), [regras de negócio](docs/regras-negocio-evolua.md), [contratos e dados](docs/contratos-dados-evolua.md) e [diagnóstico atual](docs/diagnostico-evolua.md). O texto abaixo contém registros de entregas anteriores; afirmações sobre visitantes, armazenamento global ou ausência de API devem ser confrontadas com essa consolidação, que distingue estado implementado de evolução planejada.
+**Aprendizado em movimento.** Plataforma de estudo com cursos estruturados, aulas guiadas, jogos, revisão espaçada e apoio de IA para dúvidas e analogias.
 
-Atualização de autenticação (16/11/2026): a versão em desenvolvimento exige login com e-mail/senha e autorização por UID definida pelo administrador. Não há cadastro público na interface nem login Google. A ativação depende das credenciais Firebase do servidor e da configuração do provedor; veja [configuração de acesso](docs/firebase-auth.md). As descrições de uso como visitante abaixo registram o comportamento anterior. Progresso continua local ao navegador; não é sincronizado nem isolado por conta.
+O projeto nasceu como Metodologia Cards, um aplicativo Android offline. A versão web preserva o conteúdo original de Metodologia Científica e permite importar cursos pessoais.
 
-**Aprendizado em movimento.** Plataforma web gamificada para transformar estudo em hábito: trilhas, flashcards, quizzes, revisão espaçada e prática discursiva.
+## Funcionalidades
 
-O projeto nasceu como **Metodologia Cards**, um app Android offline. A Evolua preserva o conteúdo e o aplicativo Android e acrescenta uma experiência web responsiva em Next.js e TypeScript.
+- **Meus cursos:** catálogo de conteúdos originais e importados, plano com módulos e resumos expansíveis das aulas.
+- **Estudo guiado:** explicações, exemplos resolvidos, sínteses e prática apresentados em etapas.
+- **Jogos:** flashcards, quizzes, associação de pares, verdadeiro/falso e desafio de alternativas.
+- **Autoria assistida:** prompt para elaborar e revisar módulos em uma IA externa, com importação de JSON validado.
+- **Tutor Gemini:** dúvidas e analogias com contexto da etapa, via API do servidor.
+- **Geração complementar:** questões de múltipla escolha para cursos importados, geradas por módulo.
+- **Matemática:** renderização de LaTeX e reconhecimento de expressões simples, incluindo frações, raízes e potências.
+- **Acompanhamento:** XP, níveis, sequência de estudo, meta diária, conquistas e revisão espaçada do conteúdo incorporado.
+- **Dados locais:** cursos, pacotes e progresso separados por conta no navegador, com backup e restauração.
 
-## O que já funciona
+## Estado atual e limitações
 
-- Dashboard com métricas reais, XP, níveis, sequência e meta diária configurável.
-- Quatro trilhas de Metodologia Científica, com 43 flashcards e 28 quizzes.
-- Autoavaliação de memória e explicação individual de cada alternativa.
-- Revisão de cards e quizzes: erros voltam no mesmo dia; acertos consecutivos usam intervalos de 1, 3, 7, 14 e 30 dias.
-- Seis conquistas, mantidas depois de desbloqueadas.
-- Laboratório com três jogos: conectar pares, verdadeiro/falso e desafio de alternativas.
-- Entrada modular de conteúdo: a plataforma gera um prompt, valida e importa pacotes JSON produzidos por qualquer IA compatível.
-- Biblioteca com 4 guias, 22 termos, 24 relações, 32 exercícios discursivos e 5 simulados.
-- Rascunhos salvos, exportação/importação validada de backup e confirmação antes de apagar dados.
-- Interface para celular e desktop, teclado, referências de fonte e PWA com cache para uso offline após carregamento.
+A aplicação exige login por e-mail/senha e autorização do administrador por UID. Não há cadastro público ou login Google na interface.
 
-**Persistência da versão 1:** o progresso fica no navegador (`localStorage`). Esta entrega não possui login, banco remoto, ranking nem sincronização automática. Para transferir dados, use **Meu perfil → Exportar/Importar backup**. A avaliação discursiva é feita pelo estudante com roteiro e rubrica, sem correção automática.
+O armazenamento usa localStorage por usuário. Não há sincronização entre dispositivos ou banco remoto de cursos. Limpar os dados do site remove os dados locais; exporte um backup para transferi-los ou preservá-los.
 
-## Executar a web
+Algumas evoluções especificadas no PRD ainda estão pendentes:
 
-Requisito: Node.js 22 ou superior (produção configurada com Node.js 24).
+| Capacidade | Estado |
+|---|---|
+| Banco compartilhado pelas cinco modalidades | Ainda não integrado; a API gera apenas múltipla escolha |
+| Flashcards e quizzes de cursos importados | Ainda vinculados ao conteúdo original |
+| Aprovação objetiva da aula com 80% de acertos | Definida no produto; leitor atual usa autoavaliação de respostas abertas |
+| Limite de uso da API por usuário | Definido como requisito; quota compartilhada ainda não implementada |
+| Importação conjunta de curso e banco | Contrato futuro; atualmente curso e jogos usam arquivos separados |
 
-```sh
-npm ci
-npm run dev
-```
+A validação do arquivo verifica sua estrutura e referências, mas não garante correção factual ou revisão pedagógica. XP e autoavaliação não certificam aprendizagem.
 
-Abra `http://127.0.0.1:3000`.
+## Executar localmente
 
-```sh
-npm test
-npm run build
-npm run typecheck
-npm start
-```
+Requisitos: Node.js 22 ou superior e npm. O workflow de CI usa Node.js 24.
 
-Os testes verificam a preservação do conteúdo Android, IDs e referências, correção das alternativas, cálculo de XP, deduplicação, revisão espaçada, calendário de São Paulo, conquistas e os fluxos de interface em DOM simulado. O workflow `.github/workflows/web.yml` executa os testes, build e checagem de tipos no GitHub.
+1. Instale as dependências na raiz: **npm ci**.
+2. Copie **web/.env.example** para **web/.env.local** e configure os valores abaixo.
+3. Execute **npm run dev** na raiz.
+4. Acesse [http://127.0.0.1:3000](http://127.0.0.1:3000).
 
-## Criar novos jogos com um prompt
+O servidor de desenvolvimento usa o endereço local. Reinicie-o após alterar configurações de ambiente quando necessário.
 
-Abra **Jogos → Entrada modular**, descreva o assunto, público, objetivo e dificuldade e selecione sua IA: ChatGPT, Claude, Gemini, Microsoft Copilot ou outra. **Copiar prompt e abrir IA** abre o site escolhido e copia as instruções para você colar e enviar. Também é possível baixar ou compartilhar o prompt quando o navegador permitir.
+### Configuração
 
-Cole a resposta na Evolua ou importe o JSON. A plataforma aceita um bloco Markdown externo, aponta erros por campo e gera um prompt de correção. Após validação, confira a prévia e confirme a ativação. O formato `evolua-game-pack` v2 inclui objetivos, fontes e explicações por alternativa; o v1 continua aceito. Validação estrutural rejeita IDs e textos de pares duplicados e índices inválidos, mas a precisão factual e possíveis ambiguidades exigem revisão do material-base. Consulte [docs/game-packs.md](docs/game-packs.md).
+| Variáveis | Finalidade |
+|---|---|
+| NEXT_PUBLIC_FIREBASE_API_KEY, NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN, NEXT_PUBLIC_FIREBASE_PROJECT_ID, NEXT_PUBLIC_FIREBASE_APP_ID | Configuração pública do aplicativo Firebase |
+| FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY | Credenciais administrativas, somente no servidor |
+| FIREBASE_OWNER_UID | UID do proprietário |
+| FIREBASE_ALLOWED_UIDS | UIDs de alunos autorizados, separados por vírgula |
+| GEMINI_API_KEY | Chave Gemini, somente no servidor |
+| GEMINI_MODEL | Identificador de modelo disponível para a chave configurada |
 
-Pacotes acompanham o backup do perfil, podem ser baixados individualmente e sincronizam entre abas. As afirmações de verdadeiro/falso montadas automaticamente a partir de respostas trocadas do curso original foram retiradas até revisão editorial; esse jogo fica disponível em pacotes importados com afirmações próprias.
+No Firebase Authentication, habilite e-mail/senha, crie as contas e configure os UIDs autorizados. Criar uma conta no Firebase não libera automaticamente a aplicação. Sem autenticação configurada, a interface permanece bloqueada. Sem Gemini configurado, as funcionalidades locais continuam disponíveis aos usuários autorizados, mas o tutor e a geração não funcionam.
 
-## Organização
+Arquivos .env estão ignorados pelo Git, exceto o modelo .env.example. Nunca coloque segredos em variáveis com prefixo NEXT_PUBLIC. A disponibilidade e a quota do modelo precisam ser verificadas no projeto do provedor.
 
-```text
-app/                       Aplicativo Android original (Kotlin/Compose)
-web/
-  content/metodologia.json  Conteúdo migrado, com referências de origem
-  src/app/                 Aplicação Next.js, metadados e estilos
-  src/components/          Dashboard, atividades, biblioteca e perfil
-  src/hooks/               Persistência e recuperação do progresso
-  src/lib/                 Schema de conteúdo e motor de aprendizado
-  public/                  Ícone, manifesto e service worker
-  test/                    Testes de conteúdo, regras e interface
-docs/                      Arquitetura e evolução planejada
-```
+## Como usar
 
-O conteúdo Android em `app/src/main/assets/study_content.json` e a cópia web precisam permanecer iguais. Após uma alteração editorial, rode `node scripts/sync-web-content.mjs` e `npm test`. O schema Zod rejeita fontes ausentes, tópicos inexistentes, IDs repetidos e quizzes inválidos. As referências foram preservadas do original; a presença de uma referência não equivale a uma auditoria editorial das páginas. PDFs completos não são publicados pela web.
+### Importar um curso
 
-## Deploy na Vercel
+**Meus cursos → Novo curso.** Informe tema, público, objetivo e referência opcional. Copie o prompt para a IA escolhida e siga a elaboração incremental. Ao receber o curso final, cole o JSON ou selecione o arquivo, valide, confira os avisos e confirme sua ativação.
 
-Projeto: `evolua`. Framework: Next.js. **Root Directory: `web`**. Instalação e build usam os padrões do framework e o lockfile npm na raiz do repositório. Nenhuma variável de ambiente é necessária para esta versão.
+O curso aparece no catálogo. Abra o plano, expanda uma aula para consultar seu resumo e inicie a aula liberada. O importador aceita o formato **evolua-course-pack v1**, com limite de 2 MiB.
 
-```sh
-vercel link --project evolua --yes
-vercel deploy
-vercel deploy --prod
-```
+### Jogar e adicionar materiais
 
-Execute os comandos na raiz do repositório. A configuração remota do projeto aponta para `web`; a integração Git deve usar `main` como branch de produção. Nunca versionar `.vercel/`, `.env*` ou tokens.
+Em **Jogos**, selecione um pacote e módulo, depois escolha uma modalidade disponível. **Importar material** abre a tela de preparação e importação de jogos.
+
+Pacotes **evolua-game-pack v1/v2** têm limite de 1 MiB. Para cursos pessoais, **Gerar banco de questões** solicita múltipla escolha ao Gemini e salva cada módulo validado. Se houver falha, módulos já salvos permanecem disponíveis. Geração em andamento depende da página aberta.
+
+### Apoio e backup
+
+Na aula, abra **Precisa de ajuda nesta etapa?** para tirar dúvidas ou pedir analogias. A pergunta e o contexto pertinente são enviados ao Gemini pelo servidor.
+
+Em **Meu perfil**, exporte ou importe um backup. Restauração exige confirmação e substitui os conjuntos incluídos no arquivo. Logout não apaga os estudos locais.
+
+## Desenvolvimento e validação
+
+| Comando na raiz | Ação |
+|---|---|
+| npm run dev | Servidor de desenvolvimento |
+| npm run typecheck | Verificação TypeScript |
+| npm test | Suíte Vitest |
+| npm run build | Build de produção |
+| npm start | Executa o build de produção |
+
+Na última revisão documentada, build e typecheck passaram; a suíte tinha 91 testes aprovados e 14 falhas existentes em autorização, tutor e fluxos de interface. Consulte o [diagnóstico](docs/diagnostico-evolua.md) para o contexto. Esse registro não substitui executar os testes da revisão atual.
+
+O workflow [.github/workflows/web.yml](.github/workflows/web.yml) executa testes, build e typecheck.
+
+## Estrutura do projeto
+
+- **web/src/app:** páginas, rotas de servidor e estilos.
+- **web/src/components:** interface de cursos, sessões, jogos e perfil.
+- **web/src/hooks:** autenticação e persistência.
+- **web/src/lib:** contratos, validação, aprendizado e formatação matemática.
+- **web/content:** conteúdo incorporado.
+- **web/public:** manifesto, recursos e service worker.
+- **web/test:** testes automatizados.
+- **app:** aplicativo Android original.
+- **docs:** PRD, regras, contratos e histórico.
+
+O conteúdo original Android e sua cópia web devem permanecer sincronizados. Após alteração editorial, execute **node scripts/sync-web-content.mjs** e os testes.
+
+## Implantação
+
+O projeto web usa Next.js, com **web** como diretório raiz na hospedagem e lockfile npm na raiz do repositório. Configure as variáveis do Firebase e do Gemini no ambiente de destino; o arquivo local não é enviado pelo Git.
+
+Confira limites de execução das rotas, acesso ao provedor e configuração Firebase do domínio publicado. Cache PWA não significa acesso offline garantido: a autorização atual exige conexão.
 
 ## Android
 
-Abra a raiz do repositório no Android Studio e execute o módulo `app`. A identidade foi atualizada para **Evolua**, mantendo o identificador do aplicativo e o armazenamento existente para preservar a compatibilidade com a versão anterior. A compilação e os testes Android exigem Java 17 e Android SDK e são independentes do build web.
+Abra o projeto no Android Studio e execute o módulo **app**. A compilação exige Java 17 e Android SDK e é independente do build web. Não há sincronização automática de progresso entre Android e web.
 
-## Próximas evoluções
+## Documentação do produto
 
-Consulte [docs/web-architecture.md](docs/web-architecture.md) para autenticação, sincronização, múltiplos cursos e ferramentas editoriais.
+- [PRD principal](docs/PRD-EVOLUA.md): objetivos, requisitos, jornadas e critérios de aceite.
+- [Regras de negócio](docs/regras-negocio-evolua.md): permissões, avaliação, jogos, XP, dados e IA.
+- [Contratos e dados](docs/contratos-dados-evolua.md): schemas, limites, APIs e evolução do banco.
+- [Diagnóstico e decisões](docs/diagnostico-evolua.md): diferenças de implementação, pendências e evidências.
+- [Índice da documentação](docs/README.md): planejamento e referências históricas.
+
+Os documentos distinguem comportamento implementado, decisões confirmadas e propostas. O PRD não significa que todas as funcionalidades descritas já foram entregues.

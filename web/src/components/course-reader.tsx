@@ -8,7 +8,7 @@ import { firebaseAuth } from "../lib/firebase-client";
 import { learningId, readCourseLearning, writeCourseLearning, type CourseLearning } from "../lib/course-learning";
 
 function Block({ block }: { block: CourseBlock }) {
-  if (block.type === "text") return <p><MathText>{block.text}</MathText></p>;
+  if (block.type === "text") return <div className="concept-paragraphs">{block.text.split(/\n\s*\n/).filter(Boolean).map((text,i)=><p key={i}><MathText>{text}</MathText></p>)}</div>;
   if (block.type === "list") { const items=block.items.map((s,i)=><li key={i}><MathText>{s}</MathText></li>); return block.ordered ? <ol>{items}</ol> : <ul>{items}</ul>; }
   if (block.type === "resolved-example") return <aside><h4>{block.title}</h4><p><MathText>{block.prompt}</MathText></p><ol>{block.steps.map(s=><li key={s.id}><MathText>{s.action}</MathText><p><MathText>{s.reasoning}</MathText></p></li>)}</ol><p><MathText>{block.conclusion}</MathText></p></aside>;
   if (block.type === "counterexample") return <aside><h4>{block.title}</h4>{[block.situation,`Erro comum: ${block.commonMistake}`,block.correction,block.whyItMatters].map((s,i)=><p key={i}><MathText>{s}</MathText></p>)}</aside>;

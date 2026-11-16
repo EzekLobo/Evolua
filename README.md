@@ -1,5 +1,7 @@
 # Evolua
 
+Documentação consolidada do produto: [PRD da Evolua](docs/PRD-EVOLUA.md), [regras de negócio](docs/regras-negocio-evolua.md), [contratos e dados](docs/contratos-dados-evolua.md) e [diagnóstico atual](docs/diagnostico-evolua.md). O texto abaixo contém registros de entregas anteriores; afirmações sobre visitantes, armazenamento global ou ausência de API devem ser confrontadas com essa consolidação, que distingue estado implementado de evolução planejada.
+
 Atualização de autenticação (16/11/2026): a versão em desenvolvimento exige login com e-mail/senha e autorização por UID definida pelo administrador. Não há cadastro público na interface nem login Google. A ativação depende das credenciais Firebase do servidor e da configuração do provedor; veja [configuração de acesso](docs/firebase-auth.md). As descrições de uso como visitante abaixo registram o comportamento anterior. Progresso continua local ao navegador; não é sincronizado nem isolado por conta.
 
 **Aprendizado em movimento.** Plataforma web gamificada para transformar estudo em hábito: trilhas, flashcards, quizzes, revisão espaçada e prática discursiva.

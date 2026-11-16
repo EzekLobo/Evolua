@@ -48,6 +48,7 @@ export function Games({
   const module =
     pack.modules.find((item) => item.id === moduleId) ?? pack.modules[0];
   const [active, setActive] = useState<GameType | null>(null);
+  const [importing, setImporting] = useState(false);
 
   function choosePack(id: string) {
     const next = packs.find((item) => item.id === id) ?? packs[0];
@@ -94,6 +95,13 @@ export function Games({
   }
 
   const totals = summarizePack(pack);
+  if (importing) return <>
+    <button className="button button-outline" onClick={()=>setImporting(false)}><ArrowLeft size={16}/> Voltar aos jogos</button>
+    <PageHeading eyebrow="MATERIAIS PARA JOGOS" title="Importar material" description="Prepare o conteúdo com o prompt, valide o arquivo e ative seu material para jogar."/>
+    <GamePackStudio uid={uid} canGenerate={canGenerate} customPacks={customPacks}
+      savePack={newPack=>{const result=savePack(newPack);setPackId(newPack.id);setModuleId(newPack.modules[0].id);setActive(null);setImporting(false);return result;}}
+      removePack={id=>{removePack(id);if(packId===id)choosePack(packs[0].id);}}/>
+  </>;
   return (
     <>
       <PageHeading
@@ -101,6 +109,7 @@ export function Games({
         title="Aprenda jogando com qualquer assunto."
         description="Escolha um pacote, pratique em três formatos e importe novos conteúdos gerados com o prompt da Evolua."
       />
+      <div className="game-import-toolbar"><button className="button button-primary" onClick={()=>setImporting(true)}>Importar material</button></div>
       <section className="panel game-catalog">
         <div className="game-catalog-heading">
           <span className="round-icon lime">
@@ -180,22 +189,6 @@ export function Games({
           e {totals.multipleChoice} questões em {pack.modules.length} módulo(s).
         </p>
       </section>
-      <GamePackStudio
-        uid={uid}
-        canGenerate={canGenerate}
-        customPacks={customPacks}
-        savePack={(newPack) => {
-          const result = savePack(newPack);
-          setPackId(newPack.id);
-          setModuleId(newPack.modules[0].id);
-          setActive(null);
-          return result;
-        }}
-        removePack={(id) => {
-          removePack(id);
-          if (packId === id) choosePack("metodologia-cientifica");
-        }}
-      />
     </>
   );
 }

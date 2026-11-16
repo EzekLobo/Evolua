@@ -82,3 +82,4 @@
  .course-reader.lesson-horizontal > .lesson-help { grid-column:1 / -1; grid-row:auto; }
  .lesson-horizontal > .lesson-help[open] { position:static; width:auto; }
 }
+.game-import-toolbar { display:flex; justify-content:flex-end; margin:0 0 20px; }

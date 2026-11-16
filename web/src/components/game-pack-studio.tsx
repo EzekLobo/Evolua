@@ -8,8 +8,8 @@ import {
   type GamePromptOptions,
 } from "../lib/game-content";
 import {
-  AI_PREFERENCE_KEY,
   AI_PROVIDERS,
+  aiPreferenceStorageKey,
   changedActivityIds,
   copyPrompt,
   correctionPrompt,
@@ -19,11 +19,13 @@ import {
 } from "../lib/assisted-authoring";
 
 export function GamePackStudio({
+  uid,
   customPacks,
   savePack,
   removePack,
   canGenerate = false,
 }: {
+  uid: string;
   canGenerate?: boolean;
   customPacks: GamePack[];
   savePack: (pack: GamePack) => "created" | "updated";
@@ -59,7 +61,7 @@ export function GamePackStudio({
   useEffect(() => {
     if (!canGenerate) return;
     try {
-      const saved = localStorage.getItem(AI_PREFERENCE_KEY);
+      const saved = localStorage.getItem(aiPreferenceStorageKey(uid));
       if (AI_PROVIDERS.some((item) => item.id === saved)) setProviderId(saved!);
     } catch {
       setMessage(
@@ -67,7 +69,7 @@ export function GamePackStudio({
       );
     }
     setCanShare(typeof navigator.share === "function");
-  }, [canGenerate]);
+  }, [canGenerate, uid]);
 
   function download(name: string, body: string, type = "application/json") {
     const url = URL.createObjectURL(new Blob([body], { type }));
@@ -238,7 +240,10 @@ export function GamePackStudio({
               onChange={(event) => {
                 setProviderId(event.target.value);
                 try {
-                  localStorage.setItem(AI_PREFERENCE_KEY, event.target.value);
+                  localStorage.setItem(
+                    aiPreferenceStorageKey(uid),
+                    event.target.value,
+                  );
                 } catch {
                   setMessage(
                     "A preferência vale nesta sessão; o navegador não permitiu salvá-la.",

@@ -9,11 +9,14 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { EvoluaApp } from "../src/components/evolua-app";
-import { emptyProgress, STORAGE_KEY } from "../src/lib/learning-engine";
-import { GAME_PACKS_STORAGE_KEY } from "../src/hooks/use-game-packs";
+import { emptyProgress } from "../src/lib/learning-engine";
+import { privateStorageKey } from "../src/lib/private-storage";
 import { testGamePack } from "./game-fixture";
+const USER_ID = "test-user";
+const STORAGE_KEY = privateStorageKey(USER_ID, "progress");
+const GAME_PACKS_STORAGE_KEY = privateStorageKey(USER_ID, "game-packs");
 vi.mock("../src/hooks/use-auth", () => ({ useAuth: () => ({
-  user: null, ready: true, busy: false, allowed: true, canGenerate: false,
+  user: { uid: "test-user" } as never, ready: true, busy: false, allowed: true, canGenerate: false,
   message: "", configured: true, login: vi.fn(), logout: vi.fn(),
 }) }));
 beforeEach(() => {

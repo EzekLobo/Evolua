@@ -7,44 +7,64 @@ import {
   type GamePack,
 } from "../lib/game-content";
 import { PACKS_STORAGE_KEY } from "../lib/backup";
+import { privateStorageKey } from "../lib/private-storage";
 
+/** Legacy key kept for old callers; runtime storage is UID-scoped. */
 export const GAME_PACKS_STORAGE_KEY = PACKS_STORAGE_KEY;
 
-export function useGamePacks() {
+export function useGamePacks(uid: string) {
   const [customPacks, setCustomPacks] = useState<GamePack[]>([]);
   const [warning, setWarning] = useState("");
 
   useEffect(() => {
+    const key = privateStorageKey(uid, "game-packs");
+    let active = true;
+    setCustomPacks([]);
+    setWarning("");
     const load = () => {
       try {
-        const stored = localStorage.getItem(GAME_PACKS_STORAGE_KEY);
+        const stored = localStorage.getItem(key);
+        if (!active) return;
         setCustomPacks(
           stored ? gamePackCollectionSchema.parse(JSON.parse(stored)) : [],
         );
         setWarning("");
       } catch {
-        setWarning(
-          "Não foi possível carregar os pacotes. Confira o armazenamento ou restaure um backup; os dados existentes não foram sobrescritos.",
-        );
+        if (active) {
+          setWarning(
+            "Não foi possível carregar os pacotes. Confira o armazenamento ou restaure um backup; os dados existentes não foram sobrescritos.",
+          );
+        }
       }
     };
     load();
     const sync = (event: StorageEvent) => {
-      if (event.key === GAME_PACKS_STORAGE_KEY || event.key === null) load();
+      if (event.key === key) load();
     };
     window.addEventListener("storage", sync);
-    return () => window.removeEventListener("storage", sync);
-  }, []);
+    return () => {
+      active = false;
+      window.removeEventListener("storage", sync);
+    };
+  }, [uid]);
 
-  const persist = useCallback((packs: GamePack[]) => {
-    const parsed = gamePackCollectionSchema.parse(packs);
-    localStorage.setItem(GAME_PACKS_STORAGE_KEY, JSON.stringify(parsed));
-    setCustomPacks(parsed);
-  }, []);
+  const persist = useCallback(
+    (packs: GamePack[]) => {
+      const parsed = gamePackCollectionSchema.parse(packs);
+      localStorage.setItem(
+        privateStorageKey(uid, "game-packs"),
+        JSON.stringify(parsed),
+      );
+      setCustomPacks(parsed);
+    },
+    [uid],
+  );
 
   const savePack = useCallback(
     (pack: GamePack) => {
-      const stored = localStorage.getItem(GAME_PACKS_STORAGE_KEY);
+      const stored = localStorage.getItem(
+        privateStorageKey(uid, "game-packs"),
+      );
       const latest = stored
         ? gamePackCollectionSchema.parse(JSON.parse(stored))
         : [];
@@ -55,18 +75,20 @@ export function useGamePacks() {
       persist(next);
       return existing >= 0 ? "updated" : "created";
     },
-    [persist],
+    [persist, uid],
   );
 
   const removePack = useCallback(
     (id: string) => {
-      const stored = localStorage.getItem(GAME_PACKS_STORAGE_KEY);
+      const stored = localStorage.getItem(
+        privateStorageKey(uid, "game-packs"),
+      );
       const latest = stored
         ? gamePackCollectionSchema.parse(JSON.parse(stored))
         : [];
       persist(latest.filter((pack) => pack.id !== id));
     },
-    [persist],
+    [persist, uid],
   );
 
   const packs = useMemo(() => [builtInGamePack, ...customPacks], [customPacks]);

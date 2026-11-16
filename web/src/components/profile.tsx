@@ -20,11 +20,13 @@ import { backupSchema, restoreBackup, type Backup } from "../lib/backup";
 import type { GamePack } from "../lib/game-content";
 import { storageError } from "../lib/assisted-authoring";
 export function Profile({
+  uid,
   progress,
   update,
   packs,
   onRestore,
 }: {
+  uid: string;
   progress: Progress;
   update: (value: Progress | ((p: Progress) => Progress)) => void;
   packs: GamePack[];
@@ -135,8 +137,8 @@ export function Profile({
           </span>
           <h2>Seu conhecimento vai com você</h2>
           <p className="muted">
-            Esta versão salva seu progresso e seus rascunhos neste navegador.
-            Para levar sua jornada a outro dispositivo, exporte um backup e
+            Esta versão salva o progresso e os rascunhos desta conta neste
+            navegador. Para levar sua jornada a outro dispositivo, exporte um backup e
             importe por lá.
           </p>
           <div className="profile-stats">
@@ -175,7 +177,7 @@ export function Profile({
           <div className="privacy-note">
             <ShieldCheck size={20} />
             <p>
-              Seus dados de estudo ficam no seu
+              Seus dados de estudo ficam no namespace desta conta, neste
               navegador. Limpar os dados do site remove o progresso local.
             </p>
           </div>
@@ -251,7 +253,7 @@ export function Profile({
               className="button button-primary"
               onClick={() => {
                 try {
-                  const restored = restoreBackup(pending);
+                  const restored = restoreBackup(pending, uid);
                   onRestore(restored);
                   setName(restored.progress.name);
                   setGoal(restored.progress.goal);

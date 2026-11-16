@@ -47,14 +47,15 @@ const navigation = [
 ] as const;
 export function EvoluaApp() {
   const auth = useAuth();
-  if (!auth.allowed) return <main className="auth-gate"><Logo /><AuthAccount auth={auth} /></main>;
-  return <LearningApp key={auth.user?.uid ?? "authorized"} auth={auth} />;
+  if (!auth.allowed || !auth.user)
+    return <main className="auth-gate"><Logo /><AuthAccount auth={auth} /></main>;
+  return <LearningApp key={auth.user.uid} auth={auth} uid={auth.user.uid} />;
 }
 
-function LearningApp({ auth }: { auth: AuthState }) {
+function LearningApp({ auth, uid }: { auth: AuthState; uid: string }) {
   const { progress, update, ready, warning, loadRestoredProgress } =
-    useProgress();
-  const gamePacks = useGamePacks();
+    useProgress(uid);
+  const gamePacks = useGamePacks(uid);
   const [view, setView] = useState<View>("inicio"),
     [menu, setMenu] = useState(false),
     [session, setSession] = useState<SessionConfig | null>(null),
@@ -291,6 +292,7 @@ function LearningApp({ auth }: { auth: AuthState }) {
             <Library progress={progress} update={update} onSource={setSource} />
           ) : view === "jogos" ? (
             <Games
+              uid={uid}
               canGenerate={auth.canGenerate}
               packs={gamePacks.packs}
               customPacks={gamePacks.customPacks}
@@ -303,6 +305,7 @@ function LearningApp({ auth }: { auth: AuthState }) {
             <Awards progress={progress} />
           ) : (
             <><AuthAccount auth={auth} /><Profile
+              uid={uid}
               progress={progress}
               update={update}
               packs={gamePacks.customPacks}

@@ -4,6 +4,7 @@ import {
   PACK_LIMITS,
   type GamePack,
 } from "./game-content";
+import { privateStorageKey } from "./private-storage";
 
 export const AI_PROVIDERS = [
   { id: "chatgpt", name: "ChatGPT", url: "https://chatgpt.com/" },
@@ -17,6 +18,8 @@ export const AI_PROVIDERS = [
   { id: "other", name: "Outra IA", url: null },
 ] as const;
 export const AI_PREFERENCE_KEY = "evolua.ai-provider.v1";
+export const aiPreferenceStorageKey = (uid: string) =>
+  privateStorageKey(uid, "ai-preference");
 export type PackIssue = { path: string; message: string };
 export type PackValidation =
   | { success: true; pack: GamePack }

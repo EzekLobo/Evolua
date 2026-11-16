@@ -11,17 +11,23 @@ import {
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { EvoluaApp } from "../src/components/evolua-app";
-import { AI_PREFERENCE_KEY } from "../src/lib/assisted-authoring";
-import { restoreBackup, PACKS_STORAGE_KEY } from "../src/lib/backup";
-import { emptyProgress, STORAGE_KEY } from "../src/lib/learning-engine";
+import { aiPreferenceStorageKey } from "../src/lib/assisted-authoring";
+import { restoreBackup } from "../src/lib/backup";
+import { emptyProgress } from "../src/lib/learning-engine";
+import { privateStorageKey } from "../src/lib/private-storage";
 import { testGamePack } from "./game-fixture";
 import { useAuth } from "../src/hooks/use-auth";
 
 vi.mock("../src/hooks/use-auth", () => ({ useAuth: vi.fn() }));
 
+const USER_ID = "test-user";
+const STORAGE_KEY = privateStorageKey(USER_ID, "progress");
+const PACKS_STORAGE_KEY = privateStorageKey(USER_ID, "game-packs");
+const AI_PREFERENCE_KEY = aiPreferenceStorageKey(USER_ID);
+
 beforeEach(() => {
   vi.mocked(useAuth).mockReturnValue({
-    user: null, ready: true, busy: false, allowed: true, canGenerate: true,
+    user: { uid: USER_ID } as never, ready: true, busy: false, allowed: true, canGenerate: true,
     message: "", configured: false, login: vi.fn(), logout: vi.fn(),
   });
   localStorage.clear();
@@ -51,7 +57,7 @@ async function load(withPack = true) {
 describe("assisted authoring and full games", () => {
   it("keeps import available but hides generation for authorized regular users", async () => {
     vi.mocked(useAuth).mockReturnValue({
-      user: null, ready: true, busy: false, allowed: true, canGenerate: false,
+      user: { uid: USER_ID } as never, ready: true, busy: false, allowed: true, canGenerate: false,
       message: "", configured: true, login: vi.fn(), logout: vi.fn(),
     });
     await load(false);
@@ -246,11 +252,11 @@ describe("assisted authoring and full games", () => {
   it("restores both packages and progress, while old backups preserve packages", () => {
     localStorage.setItem(PACKS_STORAGE_KEY, JSON.stringify([testGamePack]));
     const progress = { ...emptyProgress(), xp: 37 };
-    restoreBackup({ app: "evolua", progress });
+    restoreBackup({ app: "evolua", progress }, USER_ID);
     expect(JSON.parse(localStorage.getItem(PACKS_STORAGE_KEY)!)).toHaveLength(
       1,
     );
-    restoreBackup({ app: "evolua", progress, packs: [] });
+    restoreBackup({ app: "evolua", progress, packs: [] }, USER_ID);
     expect(JSON.parse(localStorage.getItem(PACKS_STORAGE_KEY)!)).toEqual([]);
     expect(JSON.parse(localStorage.getItem(STORAGE_KEY)!).xp).toBe(37);
   });
@@ -272,7 +278,7 @@ describe("assisted authoring and full games", () => {
         app: "evolua",
         progress: { ...emptyProgress(), xp: 50 },
         packs: [],
-      }),
+      }, USER_ID),
     ).toThrow();
     expect(JSON.parse(localStorage.getItem(PACKS_STORAGE_KEY)!)).toHaveLength(
       1,

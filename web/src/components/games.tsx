@@ -24,6 +24,7 @@ import { GamePackStudio } from "./game-pack-studio";
 type UpdateProgress = (change: (progress: Progress) => Progress) => void;
 
 export function Games({
+  uid,
   packs,
   customPacks,
   savePack,
@@ -32,6 +33,7 @@ export function Games({
   update,
   canGenerate = false,
 }: {
+  uid: string;
   canGenerate?: boolean;
   packs: GamePack[];
   customPacks: GamePack[];
@@ -179,6 +181,7 @@ export function Games({
         </p>
       </section>
       <GamePackStudio
+        uid={uid}
         canGenerate={canGenerate}
         customPacks={customPacks}
         savePack={(newPack) => {

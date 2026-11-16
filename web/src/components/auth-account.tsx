@@ -33,7 +33,7 @@ export function AuthAccount({ auth }: { auth: AuthState }) {
         <button className="button button-primary" disabled={auth.busy} type="submit">{auth.busy ? "Entrando…" : "Entrar"}</button>
         <p className="muted">Para obter ou recuperar seu acesso, fale com o administrador.</p>
       </form>}
-    {auth.allowed && <p className="muted">O progresso pertence a este navegador e pode ser visto por quem o utiliza. Entrar ou sair não sincroniza, separa ou apaga seus estudos. Use backup para transferir seus dados.</p>}
+    {auth.allowed && <p className="muted">O progresso desta conta fica separado no navegador. Entrar com outra conta não exibe estes estudos; use backup para transferir dados conscientemente.</p>}
     {auth.message && <p role="alert" className="inline-message warning">{auth.message}</p>}
   </section>;
 }

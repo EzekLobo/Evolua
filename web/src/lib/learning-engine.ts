@@ -1,4 +1,5 @@
 import { z } from "zod";
+export { privateStorageKey } from "./private-storage";
 
 const day = z
   .string()
@@ -39,6 +40,7 @@ export type Attempt = {
   correct: boolean;
   confidence?: number;
 };
+/** Legacy key kept for old callers and backups; runtime hooks never read it. */
 export const STORAGE_KEY = "evolua.progress.v1";
 export function emptyProgress(): Progress {
   return {

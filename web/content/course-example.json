@@ -1,0 +1,432 @@
+{
+  "schema": "evolua-course-pack",
+  "version": 1,
+  "id": "metodologia-cientifica-completa",
+  "revision": 1,
+  "title": "Metodologia científica: da pergunta à investigação",
+  "description": "Curso introdutório para transformar uma curiosidade em uma pergunta investigável, escolher evidências e comunicar limites sem confundir opinião com conclusão.",
+  "audience": {
+    "description": "Estudantes e profissionais iniciantes que precisam planejar uma investigação acadêmica ou aplicada.",
+    "priorKnowledge": [
+      "Leitura e escrita em português",
+      "Noções básicas de proporção e comparação"
+    ]
+  },
+  "level": "iniciante",
+  "prerequisites": [
+    {
+      "id": "pre-leitura-critica",
+      "title": "Leitura crítica",
+      "description": "Distinguir uma afirmação, uma evidência apresentada e uma conclusão."
+    },
+    {
+      "id": "pre-registro-observacao",
+      "title": "Registro de observações",
+      "description": "Descrever o que foi observado sem misturar imediatamente explicação e julgamento."
+    }
+  ],
+  "scope": [
+    "formular perguntas investigáveis e objetivos observáveis",
+    "relacionar afirmações a evidências e fontes",
+    "comparar uma explicação com contraexemplos e limites"
+  ],
+  "exclusions": [
+    "cálculos estatísticos avançados",
+    "aprovação ética ou jurídica de pesquisas reais",
+    "certificação de que uma fonte é verdadeira apenas porque foi citada"
+  ],
+  "objectives": [
+    {
+      "id": "obj-pergunta-investigavel",
+      "title": "Formular uma pergunta investigável",
+      "description": "Transformar um tema amplo em uma pergunta delimitada, observável e compatível com as evidências disponíveis.",
+      "evidenceOfLearning": [
+        "delimita população, fenômeno ou contexto",
+        "separa pergunta de opinião",
+        "explicita o que precisaria ser observado"
+      ]
+    },
+    {
+      "id": "obj-evidencia-limites",
+      "title": "Relacionar evidência e conclusão",
+      "description": "Explicar por que uma observação apoia uma conclusão sem tratá-la como prova ilimitada.",
+      "evidenceOfLearning": [
+        "identifica a evidência relevante",
+        "expõe uma premissa da interpretação",
+        "declara o limite da conclusão"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-metodo-pergunta",
+      "title": "Metodologia 1 — pergunta e problema",
+      "kind": "pdf",
+      "locator": "METODOLOGIA 1.pdf, seção Pergunta e problema",
+      "excerpt": "Uma investigação começa quando o problema é formulado de modo que possa ser examinado por observações e argumentos compartilháveis."
+    },
+    {
+      "id": "src-metodo-evidencia",
+      "title": "Metodologia 2 — evidência e argumento",
+      "kind": "pdf",
+      "locator": "METODOLOGIA 2.pdf, seção Evidência e argumento",
+      "excerpt": "A força de uma conclusão depende da relação entre a evidência observada, as premissas usadas e o alcance da generalização."
+    },
+    {
+      "id": "src-metodo-limites",
+      "title": "Metodologia 3 — limites da conclusão",
+      "kind": "pdf",
+      "locator": "METODOLOGIA 3.pdf, seção Limites e comunicação",
+      "excerpt": "Comunicar limites não enfraquece uma investigação; informa em que condições a conclusão é sustentada e onde ainda há incerteza."
+    }
+  ],
+  "modules": [
+    {
+      "id": "mod-pergunta-evidencia",
+      "title": "Perguntas, evidências e limites",
+      "description": "Como sair de um tema amplo e construir uma investigação que possa ser examinada.",
+      "order": 1,
+      "objectiveIds": [
+        "obj-pergunta-investigavel",
+        "obj-evidencia-limites"
+      ],
+      "lessons": [
+        {
+          "id": "lesson-pergunta-delimitada",
+          "title": "Da curiosidade à pergunta investigável",
+          "description": "Delimite o fenômeno, o contexto e o tipo de observação necessário antes de escolher uma resposta.",
+          "order": 1,
+          "objectiveIds": [
+            "obj-pergunta-investigavel"
+          ],
+          "sections": [
+            {
+              "id": "sec-curiosidade-e-problema",
+              "title": "Tema, problema e pergunta",
+              "order": 1,
+              "objectiveIds": [
+                "obj-pergunta-investigavel"
+              ],
+              "sourceIds": [
+                "src-metodo-pergunta"
+              ],
+              "blocks": [
+                {
+                  "id": "blk-pergunta-formal",
+                  "type": "text",
+                  "text": "Um tema como uso de celulares é amplo demais para orientar uma investigação. Uma pergunta investigável delimita quem ou o que será observado, em qual contexto e qual relação será examinada. A delimitação não antecipa a resposta; ela torna possível descobrir quais dados seriam pertinentes."
+                },
+                {
+                  "id": "blk-pergunta-analogia",
+                  "type": "analogy",
+                  "familiarSituation": "Imagine procurar um livro em uma biblioteca sem saber o assunto, o autor ou a estante. A curiosidade aponta uma direção, mas o catálogo precisa de pistas para tornar a busca executável.",
+                  "concept": "A pergunta investigável funciona como um catálogo: reduz a ambiguidade do tema e orienta a busca de evidências.",
+                  "mappings": [
+                    {
+                      "id": "map-tema-estante",
+                      "familiar": "O assunto geral da biblioteca.",
+                      "concept": "O tema amplo da investigação."
+                    },
+                    {
+                      "id": "map-filtro-pergunta",
+                      "familiar": "Autor, assunto e estante usados para localizar o livro.",
+                      "concept": "População, contexto e relação delimitados pela pergunta."
+                    }
+                  ],
+                  "limits": [
+                    "Uma biblioteca tem um catálogo mais estável do que fenômenos sociais reais.",
+                    "A analogia não garante que uma pergunta delimitada seja boa; ainda é preciso verificar se há evidência disponível."
+                  ],
+                  "returnToConcept": "Use a analogia apenas para lembrar que delimitar orienta a busca; a validade da pergunta depende do fenômeno e das fontes concretas.",
+                  "question": "Qual pista você acrescentaria para tornar um tema amplo observável?"
+                }
+              ]
+            },
+            {
+              "id": "sec-exemplo-pergunta",
+              "title": "Exemplo resolvido e erro comum",
+              "order": 2,
+              "objectiveIds": [
+                "obj-pergunta-investigavel"
+              ],
+              "sourceIds": [
+                "src-metodo-pergunta"
+              ],
+              "blocks": [
+                {
+                  "id": "blk-exemplo-pergunta",
+                  "type": "resolved-example",
+                  "title": "Transformando um tema em pergunta",
+                  "prompt": "Uma estudante quer investigar se uma rotina de revisão ajuda sua turma a lembrar conceitos uma semana depois. Como transformar a curiosidade em uma pergunta investigável?",
+                  "steps": [
+                    {
+                      "id": "step-identificar-fenomeno",
+                      "action": "Identifique o fenômeno e os participantes: revisão de conceitos por estudantes de uma turma.",
+                      "reasoning": "Sem dizer o que será observado e em quem, a pergunta permaneceria ampla demais para selecionar dados."
+                    },
+                    {
+                      "id": "step-definir-contexto",
+                      "action": "Delimite o período e o contexto: uma semana após a revisão, na disciplina escolhida.",
+                      "reasoning": "O intervalo e o contexto tornam comparáveis as observações e evitam uma conclusão sobre qualquer turma ou período."
+                    },
+                    {
+                      "id": "step-formular-relacao",
+                      "action": "Formule a relação observável: estudantes que usam a rotina de revisão apresentam maior retenção após uma semana do que estudantes que não a usam?",
+                      "reasoning": "A pergunta indica quais grupos ou condições precisam ser comparados sem afirmar antecipadamente que a rotina funciona."
+                    }
+                  ],
+                  "conclusion": "A pergunta é investigável porque define participantes, intervenção, intervalo e resultado observável. Ainda será necessário definir como retenção será medida e quais diferenças podem ter outra explicação."
+                },
+                {
+                  "id": "blk-contraexemplo-pergunta",
+                  "type": "counterexample",
+                  "title": "Erro comum: confundir opinião com pergunta",
+                  "situation": "A frase A revisão é a melhor forma de aprender? pede uma preferência geral, mas não define turma, comparação, medida ou período.",
+                  "commonMistake": "Tratar a palavra melhor como se ela já indicasse um resultado objetivo e aplicável a qualquer estudante.",
+                  "correction": "Pergunte em qual contexto, para qual grupo, comparada a qual alternativa e por qual indicador a aprendizagem será observada.",
+                  "whyItMatters": "Sem esses limites, respostas diferentes podem parecer contraditórias apenas porque estão respondendo a perguntas ocultamente diferentes."
+                }
+              ]
+            },
+            {
+              "id": "sec-sintese-pergunta",
+              "title": "Síntese da formulação",
+              "order": 3,
+              "objectiveIds": [
+                "obj-pergunta-investigavel"
+              ],
+              "sourceIds": [
+                "src-metodo-pergunta"
+              ],
+              "blocks": [
+                {
+                  "id": "blk-sintese-pergunta",
+                  "type": "synthesis",
+                  "keyPoints": [
+                    "Tema é uma direção; pergunta investigável define o que será observado.",
+                    "Delimitar população, contexto, relação e período reduz ambiguidades.",
+                    "Uma pergunta não deve carregar sua própria conclusão como premissa."
+                  ],
+                  "takeaway": "Antes de procurar uma resposta, verifique se outra pessoa conseguiria identificar quais observações poderiam apoiar ou contrariar a pergunta."
+                }
+              ]
+            }
+          ],
+          "activities": [
+            {
+              "id": "act-compreensao-pergunta",
+              "title": "Reconheça os elementos",
+              "type": "comprehension",
+              "objectiveIds": [
+                "obj-pergunta-investigavel"
+              ],
+              "sectionIds": [
+                "sec-curiosidade-e-problema",
+                "sec-sintese-pergunta"
+              ],
+              "prompt": "Explique por que a pergunta sobre celulares precisa informar contexto e população antes de ser investigada.",
+              "expectedAnswer": "Porque o mesmo tema pode produzir fenômenos diferentes em grupos e contextos diferentes; esses limites orientam quais evidências são pertinentes.",
+              "feedback": "Uma resposta completa menciona o que será observado e por que a delimitação evita generalizações indevidas."
+            },
+            {
+              "id": "act-aplicacao-pergunta",
+              "title": "Delimite um tema",
+              "type": "application",
+              "objectiveIds": [
+                "obj-pergunta-investigavel"
+              ],
+              "sectionIds": [
+                "sec-exemplo-pergunta"
+              ],
+              "scenario": "Seu grupo quer estudar se mapas mentais ajudam na revisão.",
+              "prompt": "Escreva uma pergunta que delimite grupo, contexto, comparação e resultado observável.",
+              "expectedAnswer": "Uma pergunta que especifique estudantes e disciplina, compare o uso de mapas mentais com outra rotina e indique quando e como a retenção será observada.",
+              "feedback": "Confira se sua pergunta permite apontar quais dados seriam coletados e não afirma que o mapa mental funciona antes da observação."
+            },
+            {
+              "id": "act-transfer-pergunta",
+              "title": "Transfira para outro contexto",
+              "type": "transfer",
+              "objectiveIds": [
+                "obj-pergunta-investigavel"
+              ],
+              "sectionIds": [
+                "sec-exemplo-pergunta",
+                "sec-sintese-pergunta"
+              ],
+              "scenario": "Uma equipe de atendimento afirma que uma nova escala melhora a satisfação de clientes.",
+              "constraints": [
+                "não presuma que a escala causou a melhora",
+                "indique uma comparação ou referência",
+                "declare um período observável"
+              ],
+              "prompt": "Reescreva a afirmação como uma pergunta investigável e diga qual evidência inicial você procuraria.",
+              "expectedAnswer": "A pergunta deve delimitar clientes e período, comparar a satisfação antes e depois ou com outra escala e indicar um instrumento de medida; a evidência inicial deve ser um registro comparável de satisfação.",
+              "feedback": "O ponto central é transportar a estrutura de delimitação para um cenário novo, sem copiar o exemplo da sala de aula."
+            }
+          ]
+        },
+        {
+          "id": "lesson-evidencia-limites",
+          "title": "Evidência, argumento e limite",
+          "description": "Relacione observações, premissas e conclusões sem ampliar o alcance da evidência além do que ela sustenta.",
+          "order": 2,
+          "objectiveIds": [
+            "obj-evidencia-limites"
+          ],
+          "sections": [
+            {
+              "id": "sec-evidencia-argumento",
+              "title": "O que a evidência sustenta",
+              "order": 1,
+              "objectiveIds": [
+                "obj-evidencia-limites"
+              ],
+              "sourceIds": [
+                "src-metodo-evidencia",
+                "src-metodo-limites"
+              ],
+              "blocks": [
+                {
+                  "id": "blk-evidencia-formal",
+                  "type": "text",
+                  "text": "Uma conclusão não é apenas a repetição de uma observação. Ela depende de uma ponte argumentativa: quais condições foram comparadas, quais premissas foram aceitas e até onde o resultado pode ser generalizado. A mesma observação pode apoiar uma conclusão local e não sustentar uma afirmação universal."
+                },
+                {
+                  "id": "blk-evidencia-lista",
+                  "type": "list",
+                  "ordered": true,
+                  "items": [
+                    "descreva a observação ou medida sem substituir dados por interpretação",
+                    "explicite a comparação ou referência usada",
+                    "identifique a premissa que liga a evidência à conclusão",
+                    "declare o contexto em que a conclusão é sustentada",
+                    "registre o que ainda não foi testado"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "sec-exemplo-limite",
+              "title": "Exemplo resolvido de limite",
+              "order": 2,
+              "objectiveIds": [
+                "obj-evidencia-limites"
+              ],
+              "sourceIds": [
+                "src-metodo-evidencia",
+                "src-metodo-limites"
+              ],
+              "blocks": [
+                {
+                  "id": "blk-exemplo-limite",
+                  "type": "resolved-example",
+                  "title": "Não ampliar uma observação local",
+                  "prompt": "Em uma turma, estudantes que fizeram uma revisão guiada tiveram maior média na avaliação final. Que conclusão é defensável?",
+                  "steps": [
+                    {
+                      "id": "step-separar-dado",
+                      "action": "Registre o dado como uma diferença de média entre os grupos daquela turma e avaliação.",
+                      "reasoning": "Isso preserva o que foi efetivamente observado sem transformar a medida em uma explicação causal automática."
+                    },
+                    {
+                      "id": "step-examinar-premissa",
+                      "action": "Pergunte se os grupos eram comparáveis e se outras condições, como conhecimento prévio ou tempo de estudo, também diferiam.",
+                      "reasoning": "Uma diferença pode ter mais de uma explicação; a interpretação depende das premissas e do desenho da comparação."
+                    },
+                    {
+                      "id": "step-declarar-limite",
+                      "action": "Conclua que a revisão esteve associada a uma média maior naquela turma e avaliação, sem afirmar que causará o mesmo resultado em qualquer turma.",
+                      "reasoning": "O limite acompanha a população, o contexto e a medida que originaram a evidência."
+                    }
+                  ],
+                  "conclusion": "A conclusão é informativa e limitada: descreve uma associação observada e aponta o que precisaria ser controlado ou replicado antes de uma generalização mais ampla."
+                },
+                {
+                  "id": "blk-contraexemplo-limite",
+                  "type": "counterexample",
+                  "title": "Erro comum: confundir associação com prova universal",
+                  "situation": "Depois de observar uma média maior em uma turma, alguém afirma que a revisão guiada sempre melhora a aprendizagem de qualquer estudante.",
+                  "commonMistake": "Apagar o contexto da observação e tratar uma associação local como uma regra sem exceções.",
+                  "correction": "Mantenha população, medida, período e comparação na conclusão; indique quais condições ainda não foram examinadas.",
+                  "whyItMatters": "Uma conclusão com alcance maior do que a evidência pode orientar decisões erradas mesmo quando o dado original foi medido corretamente."
+                },
+                {
+                  "id": "blk-sintese-limite",
+                  "type": "synthesis",
+                  "keyPoints": [
+                    "Evidência descreve observações; argumento explica a ponte até uma conclusão.",
+                    "Premissas e comparações precisam ser explicitadas para avaliar a força da interpretação.",
+                    "O limite da conclusão deve acompanhar a população, o contexto e a medida observados."
+                  ],
+                  "takeaway": "Uma conclusão responsável diz tanto o que a evidência apoia quanto o que ela ainda não permite afirmar."
+                }
+              ]
+            }
+          ],
+          "activities": [
+            {
+              "id": "act-compreensao-limite",
+              "title": "Identifique o alcance",
+              "type": "comprehension",
+              "objectiveIds": [
+                "obj-evidencia-limites"
+              ],
+              "sectionIds": [
+                "sec-evidencia-argumento",
+                "sec-exemplo-limite"
+              ],
+              "prompt": "Qual é a diferença entre registrar uma associação observada e afirmar uma causa universal?",
+              "expectedAnswer": "A associação descreve uma relação no contexto observado; a afirmação universal exige evidências e condições adicionais para sustentar que o resultado vale em qualquer contexto.",
+              "feedback": "Procure na resposta o contexto observado e a necessidade de justificar a generalização."
+            },
+            {
+              "id": "act-aplicacao-limite",
+              "title": "Escreva uma conclusão responsável",
+              "type": "application",
+              "objectiveIds": [
+                "obj-evidencia-limites"
+              ],
+              "sectionIds": [
+                "sec-exemplo-limite"
+              ],
+              "scenario": "Uma equipe mediu menos atrasos depois de alterar o horário de uma única semana.",
+              "prompt": "Escreva uma conclusão que use o dado sem afirmar mais do que ele sustenta.",
+              "expectedAnswer": "A alteração esteve associada a menos atrasos naquela equipe e semana; ainda é preciso verificar outras semanas, equipes e possíveis fatores concorrentes.",
+              "feedback": "Uma boa conclusão mantém o contexto e explicita o que ainda não foi testado."
+            },
+            {
+              "id": "act-transfer-limite",
+              "title": "Transfira a análise de evidência",
+              "type": "transfer",
+              "objectiveIds": [
+                "obj-evidencia-limites"
+              ],
+              "sectionIds": [
+                "sec-evidencia-argumento",
+                "sec-exemplo-limite"
+              ],
+              "scenario": "Uma loja testa uma vitrine nova em uma unidade e vende mais durante um fim de semana de evento.",
+              "constraints": [
+                "considere a existência de uma comparação",
+                "preserve o período e a unidade observados",
+                "aponte uma explicação alternativa"
+              ],
+              "prompt": "Avalie que conclusão seria permitida e qual informação adicional ajudaria a decidir se a vitrine contribuiu para o resultado.",
+              "expectedAnswer": "Pode-se dizer que houve mais vendas naquela unidade e fim de semana, mas não que a vitrine causou o aumento; comparação com outra unidade ou períodos equivalentes e controle do evento ajudariam.",
+              "feedback": "A transferência exige reconhecer o mesmo problema de alcance em um contexto comercial diferente do exemplo educacional."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "editorial": {
+    "status": "reviewed",
+    "reviewer": "equipe-editorial",
+    "reviewedAt": "2026-11-16",
+    "notes": [
+      "Fixture de contrato: requer conferência factual contra os PDFs antes de entrar no catálogo oficial."
+    ]
+  }
+}

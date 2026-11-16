@@ -1,4 +1,5 @@
 "use client";
+import { MathText } from "./math-text";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowLeft,
@@ -81,18 +82,18 @@ export function SessionPicker({
             )}
           </span>
           <h2>
-            {kind === "review"
+            <MathText>{kind === "review"
               ? "Seu conhecimento, cada vez mais forte"
               : kind === "quiz"
                 ? "Pronto para um novo desafio?"
-                : "Dê um impulso à sua memória"}
+                : "Dê um impulso à sua memória"}</MathText>
           </h2>
           <p>
-            {kind === "review"
+            <MathText>{kind === "review"
               ? `${pending} atividades aguardam revisão. A fila inclui cards e quizzes que você já praticou.`
               : kind === "quiz"
                 ? `${content.quizzes.length} questões, feedback por alternativa e aprendizado a cada resposta.`
-                : `${content.flashcards.length} cards para aprender, explicar e conectar conceitos.`}
+                : `${content.flashcards.length} cards para aprender, explicar e conectar conceitos.`}</MathText>
           </p>
           {kind !== "review" && (
             <label className="field-label">
@@ -115,7 +116,7 @@ export function SessionPicker({
             disabled={kind === "review" && !pending}
             onClick={() => start({ kind, topicId: topicId || undefined })}
           >
-            {kind === "review" ? "Começar revisão" : "Começar rodada"}
+            <MathText>{kind === "review" ? "Começar revisão" : "Começar rodada"}</MathText>
             <ArrowRight size={18} />
           </button>
           {kind === "quiz" && (
@@ -138,18 +139,18 @@ export function SessionPicker({
             </button>
           )}
           <span className="muted small-text">
-            <Clock size={14} />{" "}
-            {kind === "review"
+            <Clock size={14} /><MathText>{" "}</MathText>
+            <MathText>{kind === "review"
               ? "A próxima data é ajustada após cada resposta."
-              : "Sem cronômetro. Aprenda no seu tempo."}
+              : "Sem cronômetro. Aprenda no seu tempo."}</MathText>
           </span>
         </section>
         <section className="picker-tips">
           <span className="eyebrow">COMO FUNCIONA</span>
           <h2>
-            {kind === "card"
+            <MathText>{kind === "card"
               ? "Aprender vai além de reconhecer."
-              : "Um novo passo a cada tentativa."}
+              : "Um novo passo a cada tentativa."}</MathText>
           </h2>
           {(kind === "card"
             ? [
@@ -206,10 +207,10 @@ export function SessionPicker({
                 ]
           ).map(([n, t, d]) => (
             <div className="tip-step" key={n}>
-              <span>{n}</span>
+              <span><MathText>{n}</MathText></span>
               <div>
-                <h3>{t}</h3>
-                <p>{d}</p>
+                <h3><MathText>{t}</MathText></h3>
+                <p><MathText>{d}</MathText></p>
               </div>
             </div>
           ))}
@@ -308,11 +309,11 @@ export function StudySession({
           <Trophy size={45} />
         </span>
         <span className="eyebrow">MAIS UM PASSO NA SUA JORNADA</span>
-        <h1>{queue.length ? "Rodada concluída!" : "Tudo em dia por aqui."}</h1>
+        <h1><MathText>{queue.length ? "Rodada concluída!" : "Tudo em dia por aqui."}</MathText></h1>
         <p>
-          {queue.length
+          <MathText>{queue.length
             ? "Cada tentativa constrói conhecimento. Celebre o que aprendeu e volte ao que ainda precisa de atenção."
-            : "Continue praticando para criar sua fila personalizada de revisão."}
+            : "Continue praticando para criar sua fila personalizada de revisão."}</MathText>
         </p>
         {queue.length > 0 && (
           <div className="summary-stats">
@@ -343,14 +344,14 @@ export function StudySession({
               .map(({ entry }) => (
                 <article key={entry.item.id}>
                   <h3>
-                    {entry.kind === "card"
+                    <MathText>{entry.kind === "card"
                       ? entry.item.front
-                      : entry.item.question}
+                      : entry.item.question}</MathText>
                   </h3>
                   <p>
-                    {entry.kind === "card"
+                    <MathText>{entry.kind === "card"
                       ? entry.item.back
-                      : entry.item.explanation}
+                      : entry.item.explanation}</MathText>
                   </p>
                   <SourceButton
                     source={entry.item.source}
@@ -373,7 +374,7 @@ export function StudySession({
           <button className="text-button" onClick={onClose}>
             <ArrowLeft size={17} /> Sair da rodada
           </button>
-          <span>{title}</span>
+          <span><MathText>{title}</MathText></span>
           <span>
             {index + 1} de {queue.length}
           </span>
@@ -385,9 +386,9 @@ export function StudySession({
         <div className="session-context">
           <span className="tag">{topic?.name}</span>
           <span className="muted small-text">
-            {current.kind === "card"
+            <MathText>{current.kind === "card"
               ? "Pense antes de revelar"
-              : "Escolha uma alternativa"}
+              : "Escolha uma alternativa"}</MathText>
           </span>
         </div>
       </header>
@@ -405,28 +406,28 @@ export function StudySession({
               ) : (
                 <Target size={16} />
               )}
-              {current.kind === "card" ? current.item.type : "QUIZ"}
+              <MathText>{current.kind === "card" ? current.item.type : "QUIZ"}</MathText>
             </span>
             {current.kind === "card" && (
               <span>
-                {
+                <MathText>{
                   ["", "Essencial", "Intermediário", "Avançado"][
                     current.item.difficulty
                   ]
-                }
+                }</MathText>
               </span>
             )}
           </div>
           <h1>
-            {current.kind === "card"
+            <MathText>{current.kind === "card"
               ? current.item.front
-              : current.item.question}
+              : current.item.question}</MathText>
           </h1>
           {current.kind === "card" ? (
             revealed ? (
               <div className="card-answer">
                 <span className="eyebrow">CONECTE COM A SUA RESPOSTA</span>
-                <p>{current.item.back}</p>
+                <p><MathText>{current.item.back}</MathText></p>
               </div>
             ) : (
               <div className="recall-prompt">
@@ -455,9 +456,9 @@ export function StudySession({
                     }}
                   >
                     <span className="option-letter">
-                      {String.fromCharCode(65 + i)}
+                      <MathText>{String.fromCharCode(65 + i)}</MathText>
                     </span>
-                    <span>{option.text}</span>
+                    <span><MathText>{option.text}</MathText></span>
                     {answered && optionCorrect ? (
                       <CheckCircle2 size={19} />
                     ) : answered && selected ? (
@@ -487,13 +488,13 @@ export function StudySession({
                   )}
                 </span>
                 <h2>
-                  {correct
+                  <MathText>{correct
                     ? "Boa! Mais uma conexão feita."
-                    : "Aprender também é revisitar."}
+                    : "Aprender também é revisitar."}</MathText>
                 </h2>
                 <p className="review-date">
                   <Zap size={13} />
-                  {due === dateKey()
+                  <MathText>{due === dateKey()
                     ? "Revisão hoje"
                     : due
                       ? "Próxima revisão: " +
@@ -501,7 +502,7 @@ export function StudySession({
                           "pt-BR",
                           { timeZone: "UTC" },
                         )
-                      : "Progresso registrado"}
+                      : "Progresso registrado"}</MathText>
                 </p>
               </div>
               {current.kind === "quiz" && (
@@ -512,23 +513,23 @@ export function StudySession({
                   aria-label="Explicação da resposta"
                 >
                   <p>
-                    {answer !== null
+                    <MathText>{answer !== null
                       ? current.item.optionExplanations[answer]
-                      : ""}
+                      : ""}</MathText>
                   </p>
                   {!correct && (
                     <p>
                       <strong>Resposta correta: </strong>
-                      {current.item.options[current.item.correctOptionIndex]}
+                      <MathText>{current.item.options[current.item.correctOptionIndex]}</MathText>
                     </p>
                   )}
                   <details>
                     <summary>Entender todas as alternativas</summary>
                     {options.map((option) => (
                       <p key={option.index}>
-                        <strong>{option.text}</strong>
+                        <strong><MathText>{option.text}</MathText></strong>
                         <br />
-                        {current.item.optionExplanations[option.index]}
+                        <MathText>{current.item.optionExplanations[option.index]}</MathText>
                       </p>
                     ))}
                   </details>
@@ -536,9 +537,9 @@ export function StudySession({
               )}
               <div className="session-action-footer">
                 <button className="button button-primary full" onClick={next}>
-                  {index === queue.length - 1
+                  <MathText>{index === queue.length - 1
                     ? "Ver meu resultado"
-                    : "Próxima atividade"}
+                    : "Próxima atividade"}</MathText>
                   <ArrowRight size={17} />
                 </button>
               </div>
@@ -570,7 +571,7 @@ export function StudySession({
                         <Sparkles size={18} />
                       )}
                     </span>
-                    {label}
+                    <MathText>{label}</MathText>
                   </button>
                 ))}
               </div>
@@ -585,14 +586,14 @@ export function StudySession({
                 )}
               </span>
               <h2>
-                {current.kind === "card"
+                <MathText>{current.kind === "card"
                   ? "Primeiro, tente lembrar."
-                  : "Qual alternativa faz sentido?"}
+                  : "Qual alternativa faz sentido?"}</MathText>
               </h2>
               <p>
-                {current.kind === "card"
+                <MathText>{current.kind === "card"
                   ? "Explique o conceito com suas palavras antes de conferir a resposta."
-                  : "Leia com atenção e escolha uma opção. Você verá a explicação logo depois."}
+                  : "Leia com atenção e escolha uma opção. Você verá a explicação logo depois."}</MathText>
               </p>
               {current.kind === "card" && (
                 <button

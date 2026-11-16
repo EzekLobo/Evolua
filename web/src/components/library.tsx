@@ -1,4 +1,5 @@
 "use client";
+import { MathText } from "./math-text";
 import { useState } from "react";
 import {
   ArrowRight,
@@ -96,7 +97,7 @@ export function Library({
           <article className="panel library-course-card"><BookOpen size={24} aria-hidden="true"/><h3>Preparação: ciência e metodologia</h3><p>Fundamentos, autores e métodos, com guias de estudo e exercícios para preparação da prova.</p><p className="muted">{content.studyGuides.length} guias · Glossário e simulados</p><button className="button button-outline" onClick={()=>setShowOriginalCourse(true)}>Abrir curso <ArrowRight size={16}/></button></article>
           {courses.activeCourses.map(c => <article className="panel library-course-card" key={`${c.pack.id}:${c.pack.revision}`}>
             <BookOpen size={24} aria-hidden="true" />
-            <h3>{c.pack.title}</h3><p>{c.pack.description}</p>
+            <h3><MathText>{c.pack.title}</MathText></h3><p><MathText>{c.pack.description}</MathText></p>
             <p className="muted">{c.pack.modules.length} módulos · {c.pack.modules.reduce((total,m) => total + m.lessons.length, 0)} aulas</p>
             <button className="button button-outline" onClick={() => setSelectedCourse(`${c.pack.id}:${c.pack.revision}`)}>Abrir curso <ArrowRight size={16} /></button>
           </article>)}
@@ -119,7 +120,7 @@ export function Library({
               setTopicId("");
             }}
           >
-            {t.label}
+            <MathText>{t.label}</MathText>
           </button>
         ))}
       </div>
@@ -157,8 +158,8 @@ export function Library({
                   <BookOpen size={22} />
                 </span>
                 <div>
-                  <h2>{guide.title}</h2>
-                  <p>{guide.purpose}</p>
+                  <h2><MathText>{guide.title}</MathText></h2>
+                  <p><MathText>{guide.purpose}</MathText></p>
                 </div>
                 <ChevronDown size={19} />
               </summary>
@@ -202,8 +203,8 @@ export function Library({
                 <span className="tag">
                   {content.topics.find((t) => t.id === term.topicId)?.name}
                 </span>
-                <h2>{term.term}</h2>
-                <p>{term.definition}</p>
+                <h2><MathText>{term.term}</MathText></h2>
+                <p><MathText>{term.definition}</MathText></p>
                 <SourceButton source={term.source} onSource={onSource} />
               </article>
             ))}
@@ -218,11 +219,11 @@ export function Library({
                 <Network size={17} />
               </span>
               <div className="concept-connection">
-                <h3>{r.from}</h3>
+                <h3><MathText>{r.from}</MathText></h3>
                 <ArrowRight size={20} />
-                <h3>{r.to}</h3>
+                <h3><MathText>{r.to}</MathText></h3>
               </div>
-              <p>{r.description}</p>
+              <p><MathText>{r.description}</MathText></p>
               <SourceButton source={r.source} onSource={onSource} />
             </article>
           ))}
@@ -245,8 +246,8 @@ export function Library({
                   <FileText size={20} />
                 </span>
                 <div>
-                  <span className="eyebrow">{q.weight}</span>
-                  <h2>{q.prompt}</h2>
+                  <span className="eyebrow"><MathText>{q.weight}</MathText></span>
+                  <h2><MathText>{q.prompt}</MathText></h2>
                 </div>
                 <ChevronDown size={18} />
               </summary>
@@ -266,12 +267,12 @@ export function Library({
                 </p>
                 <details className="answer-guide">
                   <summary>Conferir roteiro e checklist</summary>
-                  <p>{q.approach}</p>
+                  <p><MathText>{q.approach}</MathText></p>
                   <ul className="checklist">
                     {q.checklist.map((text, i) => (
                       <li key={i}>
                         <Check size={16} />
-                        {text}
+                        <MathText>{text}</MathText>
                       </li>
                     ))}
                   </ul>
@@ -290,8 +291,8 @@ export function Library({
               ← Voltar aos simulados
             </button>
             <span className="eyebrow">TREINO AUTOAVALIATIVO</span>
-            <h2>{model.title}</h2>
-            <p>{model.duration}</p>
+            <h2><MathText>{model.title}</MathText></h2>
+            <p><MathText>{model.duration}</MathText></p>
             <p className="muted">
               Reserve um momento tranquilo. Ao terminar, compare suas respostas
               com a rubrica; não há correção automática.
@@ -299,7 +300,7 @@ export function Library({
             {model.questions.map((question, i) => (
               <label key={i} className="field-label exam-question">
                 <strong>
-                  {i + 1}. {question}
+                  {i + 1}. <MathText>{question}</MathText>
                 </strong>
                 <textarea
                   rows={6}
@@ -316,7 +317,7 @@ export function Library({
                 {model.rubric.map((text, i) => (
                   <li key={i}>
                     <Check size={17} />
-                    {text}
+                    <MathText>{text}</MathText>
                   </li>
                 ))}
               </ul>
@@ -328,14 +329,14 @@ export function Library({
             {models.map((m, i) => (
               <article key={m.id} className="panel exam-model">
                 <span className="model-number">
-                  {String(i + 1).padStart(2, "0")}
+                  <MathText>{String(i + 1).padStart(2, "0")}</MathText>
                 </span>
                 <span className="tag">
                   {m.questions.length} questões discursivas
                 </span>
-                <h2>{m.title}</h2>
-                <p>{m.focus}</p>
-                <p className="muted small-text">{m.duration}</p>
+                <h2><MathText>{m.title}</MathText></h2>
+                <p><MathText>{m.focus}</MathText></p>
+                <p className="muted small-text"><MathText>{m.duration}</MathText></p>
                 <button
                   className="button button-outline full"
                   onClick={() => setModelId(m.id)}
@@ -362,17 +363,17 @@ function GuideSection({
 }) {
   return (
     <section className="guide-section">
-      <h3>{title}</h3>
+      <h3><MathText>{title}</MathText></h3>
       {numbered ? (
         <ol>
           {items.map((s, i) => (
-            <li key={i}>{s}</li>
+            <li key={i}><MathText>{s}</MathText></li>
           ))}
         </ol>
       ) : (
         <ul>
           {items.map((s, i) => (
-            <li key={i}>{s}</li>
+            <li key={i}><MathText>{s}</MathText></li>
           ))}
         </ul>
       )}

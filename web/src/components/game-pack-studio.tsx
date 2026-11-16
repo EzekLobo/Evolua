@@ -1,4 +1,5 @@
 "use client";
+import { MathText } from "./math-text";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   PACK_LIMITS,
@@ -307,7 +308,7 @@ export function GamePackStudio({
               className="button button-primary"
               onClick={() => openAndCopy(prompt)}
             >
-              {provider.url ? "Copiar prompt e abrir IA" : "Copiar prompt"}
+              <MathText>{provider.url ? "Copiar prompt e abrir IA" : "Copiar prompt"}</MathText>
             </button>
             <button
               className="button button-outline"
@@ -351,7 +352,7 @@ export function GamePackStudio({
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Abrir {provider.name}
+                Abrir <MathText>{provider.name}</MathText>
               </a>
             </p>
           )}
@@ -408,7 +409,7 @@ export function GamePackStudio({
               <ul>
                 {issues.map((issue, index) => (
                   <li key={index}>
-                    <code>{issue.path}</code>: {issue.message}
+                    <code><MathText>{issue.path}</MathText></code>: <MathText>{issue.message}</MathText>
                   </li>
                 ))}
               </ul>
@@ -427,9 +428,9 @@ export function GamePackStudio({
                   className="button button-outline"
                   onClick={() => openAndCopy(correction)}
                 >
-                  {provider.url
+                  <MathText>{provider.url
                     ? "Copiar correção e abrir IA"
-                    : "Copiar correção"}
+                    : "Copiar correção"}</MathText>
                 </button>
                 <button
                   className="button button-outline"
@@ -448,7 +449,7 @@ export function GamePackStudio({
               {customPacks.map((pack) => (
                 <div key={pack.id}>
                   <span>
-                    <strong>{pack.title}</strong>
+                    <strong><MathText>{pack.title}</MathText></strong>
                     <small>
                       {pack.modules.length} módulo(s) · v{pack.version}
                     </small>
@@ -490,7 +491,7 @@ export function GamePackStudio({
       </div>
       {message && (
         <p className="inline-message studio-message" role="status">
-          {message}
+          <MathText>{message}</MathText>
         </p>
       )}
       {pending && (
@@ -500,55 +501,55 @@ export function GamePackStudio({
           className="panel pack-preview"
           aria-label="Prévia do pacote"
         >
-          <h3>Prévia: {pending.title}</h3>
-          <p>{pending.description}</p>
+          <h3>Prévia: <MathText>{pending.title}</MathText></h3>
+          <p><MathText>{pending.description}</MathText></p>
           <p>
-            Estrutura válida ·{" "}
-            {pending.version === 2
+            Estrutura válida ·<MathText>{" "}</MathText>
+            <MathText>{pending.version === 2
               ? "Referências declaradas"
-              : "Pacote legado sem evidências obrigatórias"}{" "}
+              : "Pacote legado sem evidências obrigatórias"}</MathText><MathText>{" "}</MathText>
             · revisão editorial {pending.revision ?? "não informada"}
           </p>
           {existing && (
             <p className="inline-message warning">
-              Este pacote substituirá “{existing.title}”. Confira alterações nas
+              Este pacote substituirá “<MathText>{existing.title}</MathText>”. Confira alterações nas
               atividades; IDs mantidos preservam o histórico, mesmo que a
               resposta tenha mudado.
             </p>
           )}
           {changedIds.length > 0 && (
             <p className="inline-message warning">
-              Atividades alteradas mantendo o histórico: {changedIds.join(", ")}
+              Atividades alteradas mantendo o histórico: <MathText>{changedIds.join(", ")}</MathText>
               . Revise especialmente as respostas e explicações desses itens.
             </p>
           )}
           <ul>
             {qualityWarnings(pending).map((warning, index) => (
-              <li key={index}>{warning}</li>
+              <li key={index}><MathText>{warning}</MathText></li>
             ))}
           </ul>
           {pending.sources?.map((source) => (
             <details key={source.id}>
-              <summary>Fonte: {source.title}</summary>
-              <p>{source.locator}</p>
-              <blockquote>{source.excerpt}</blockquote>
+              <summary>Fonte: <MathText>{source.title}</MathText></summary>
+              <p><MathText>{source.locator}</MathText></p>
+              <blockquote><MathText>{source.excerpt}</MathText></blockquote>
             </details>
           ))}
           {pending.modules.map((module) => (
             <details key={module.id}>
               <summary>
-                {module.title} ·{" "}
-                {module.difficulty ?? "Dificuldade não informada"} ·{" "}
+                <MathText>{module.title}</MathText> ·<MathText>{" "}</MathText>
+                <MathText>{module.difficulty ?? "Dificuldade não informada"}</MathText> ·<MathText>{" "}</MathText>
                 {module.pairs.length +
                   module.trueFalse.length +
-                  module.multipleChoice.length}{" "}
+                  module.multipleChoice.length}<MathText>{" "}</MathText>
                 atividades
               </summary>
-              <p>{module.description}</p>
+              <p><MathText>{module.description}</MathText></p>
               {module.objectives?.map((objective) => (
                 <p key={objective.id}>
-                  <strong>Objetivo {objective.id}:</strong>{" "}
-                  {objective.description}
+                  <strong>Objetivo <MathText>{objective.id}</MathText>:</strong><MathText>{" "}</MathText>
+                  <MathText>{objective.description}</MathText>
                 </p>
               ))}
               {[
@@ -558,30 +559,30 @@ export function GamePackStudio({
               ].map((item) => (
                 <article key={item.id} className="preview-item">
                   <h4>
-                    {"prompt" in item
+                    <MathText>{"prompt" in item
                       ? item.prompt
                       : "statement" in item
                         ? item.statement
-                        : item.question}
+                        : item.question}</MathText>
                   </h4>
                   <p>
                     <strong>Resposta: </strong>
-                    {"options" in item
+                    <MathText>{"options" in item
                       ? item.options[item.correctOptionIndex]
-                      : String(item.answer)}
+                      : String(item.answer)}</MathText>
                   </p>
-                  <p>{item.explanation}</p>
+                  <p><MathText>{item.explanation}</MathText></p>
                   {"options" in item &&
                     item.options.map((option, index) => (
                       <p key={index}>
-                        {option} —{" "}
-                        {item.optionExplanations?.[index] ??
-                          "Sem justificativa individual no formato legado."}
+                        <MathText>{option}</MathText> —<MathText>{" "}</MathText>
+                        <MathText>{item.optionExplanations?.[index] ??
+                          "Sem justificativa individual no formato legado."}</MathText>
                       </p>
                     ))}
                   <small>
-                    Objetivo: {item.objectiveId ?? "não informado"} · Fontes:{" "}
-                    {item.sourceIds?.join(", ") ?? "não informadas"}
+                    Objetivo: <MathText>{item.objectiveId ?? "não informado"}</MathText> · Fontes:<MathText>{" "}</MathText>
+                    <MathText>{item.sourceIds?.join(", ") ?? "não informadas"}</MathText>
                   </small>
                 </article>
               ))}
@@ -601,7 +602,7 @@ export function GamePackStudio({
               disabled={!reviewed}
               onClick={activate}
             >
-              {existing ? "Confirmar substituição do pacote" : "Ativar pacote"}
+              <MathText>{existing ? "Confirmar substituição do pacote" : "Ativar pacote"}</MathText>
             </button>
             <button
               className="button button-outline"

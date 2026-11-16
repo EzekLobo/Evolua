@@ -1,4 +1,5 @@
 "use client";
+import { MathText } from "./math-text";
 import {
   ArrowUpRight,
   BookOpen,
@@ -50,9 +51,9 @@ export function PageHeading({
   return (
     <div className="page-heading">
       <div>
-        {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-        <h1>{title}</h1>
-        <p>{description}</p>
+        {eyebrow && <p className="eyebrow"><MathText>{eyebrow}</MathText></p>}
+        <h1><MathText>{title}</MathText></h1>
+        <p><MathText>{description}</MathText></p>
       </div>
       {action}
     </div>
@@ -105,12 +106,12 @@ export function SourceModal({
       <div className="source-document">
         <BookOpen size={30} />
         <div>
-          <strong>{source.pdf}</strong>
+          <strong><MathText>{source.pdf}</MathText></strong>
           <p>Página {source.page}</p>
         </div>
       </div>
       <p className="eyebrow">TRECHO DE REFERÊNCIA</p>
-      <blockquote>{source.excerpt}</blockquote>
+      <blockquote><MathText>{source.excerpt}</MathText></blockquote>
       <p className="muted">
         A referência foi preservada do material de estudo original. O PDF
         completo não é distribuído pela plataforma.
@@ -160,7 +161,7 @@ export function Modal({
         }}
       >
         <header>
-          <h2>{title}</h2>
+          <h2><MathText>{title}</MathText></h2>
           <button aria-label="Fechar" className="icon-button" onClick={onClose}>
             <X size={20} />
           </button>

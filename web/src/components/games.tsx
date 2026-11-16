@@ -143,18 +143,18 @@ export function Games({
       />
       <div className="game-import-toolbar"><button className="button button-primary" onClick={()=>setImporting(true)}>Importar material</button></div></div>
       <section className="panel game-catalog">
-        <div className="game-selectors"><label className="field-label">Gerar questões de um curso<select value={courseId} disabled={generating} onChange={e=>setCourseId(e.target.value)}><option value="">Selecione um curso importado</option>{courses.map(c=><option key={c.id} value={c.id}>{c.title}</option>)}</select></label><button className="button button-primary" disabled={!courseId||generating} onClick={()=>void generateBank()}>{generating?"Gerando…":"Gerar banco de questões"}</button></div><p role="status">{generationMessage}</p>
+        <div className="game-selectors"><label className="field-label">Gerar questões de um curso<select value={courseId} disabled={generating} onChange={e=>setCourseId(e.target.value)}><option value="">Selecione um curso importado</option>{courses.map(c=><option key={c.id} value={c.id}>{c.title}</option>)}</select></label><button className="button button-primary" disabled={!courseId||generating} onClick={()=>void generateBank()}><MathText>{generating?"Gerando…":"Gerar banco de questões"}</MathText></button></div><p role="status"><MathText>{generationMessage}</MathText></p>
         <div className="game-catalog-heading">
           <span className="round-icon lime">
             <Gamepad2 />
           </span>
           <div>
             <span className="eyebrow">CONTEÚDO ATIVO</span>
-            <h2>{pack.title}</h2>
-            <p>{pack.description}</p>
+            <h2><MathText>{pack.title}</MathText></h2>
+            <p><MathText>{pack.description}</MathText></p>
           </div>
           <span className="tag">
-            {pack.id === "metodologia-cientifica" ? "Oficial" : "Importado"}
+            <MathText>{pack.id === "metodologia-cientifica" ? "Oficial" : "Importado"}</MathText>
           </span>
         </div>
         <div className="game-selectors">
@@ -187,7 +187,7 @@ export function Games({
             </select>
           </label>
         </div>
-        <p className="module-description">{module.description}</p>
+        <p className="module-description"><MathText>{module.description}</MathText></p>
         <div className="game-grid">
           <GameCard icon={<Link2/>} tone="lime" title="Flashcards" description="Revise conceitos do conteúdo original da Evolua." count={0} disabled={!onFlashcards || pack.id!=="metodologia-cientifica"} onPlay={()=>onFlashcards?.()}/>
           <GameCard icon={<ListChecks/>} tone="lavender" title="Quizzes" description="Teste seus conhecimentos do conteúdo original da Evolua." count={0} disabled={!onQuiz || pack.id!=="metodologia-cientifica"} onPlay={()=>onQuiz?.()}/>
@@ -249,14 +249,14 @@ function GameCard({
     <article className="game-card">
       <span className={`round-icon large ${tone}`}>{icon}</span>
       {count>0&&<span className="tag">{count} desafios</span>}
-      <h3>{title}</h3>
-      <p>{description}</p>
+      <h3><MathText>{title}</MathText></h3>
+      <p><MathText>{description}</MathText></p>
       <button
         className="button button-primary full"
         disabled={disabled}
         onClick={onPlay}
       >
-        {disabled ? "Sem conteúdo neste módulo" : `Jogar ${title}`}
+        <MathText>{disabled ? "Sem conteúdo neste módulo" : `Jogar ${title}`}</MathText>
         {!disabled && <ArrowRight size={17} />}
       </button>
     </article>
@@ -300,7 +300,7 @@ function GameHeader({
         <button className="text-button" onClick={onClose}>
           <ArrowLeft size={17} /> Sair do jogo
         </button>
-        <span>{title}</span>
+        <span><MathText>{title}</MathText></span>
         <span>
           {Math.min(position ?? current, total)} de {total}
         </span>
@@ -310,7 +310,7 @@ function GameHeader({
         label={`Progresso em ${title}`}
       />
       <div className="session-context">
-        <span className="tag">{module.title}</span>
+        <span className="tag"><MathText>{module.title}</MathText></span>
         <span className="muted small-text">
           Progresso salvo neste navegador
         </span>
@@ -338,7 +338,7 @@ function GameSummary({
         <Gamepad2 size={45} />
       </span>
       <span className="eyebrow">RODADA CONCLUÍDA</span>
-      <h1>{title}</h1>
+      <h1><MathText>{title}</MathText></h1>
       <p>
         Você praticou, recebeu feedback e deixou novas conexões mais fortes.
       </p>
@@ -477,7 +477,7 @@ function PairGame({
         </div>
         {feedback && (
           <p className="inline-message pair-feedback" role="status">
-            {feedback}
+            <MathText>{feedback}</MathText>
           </p>
         )}
       </section>
@@ -554,7 +554,7 @@ function TrueFalseGame({
                 );
               }}
             >
-              <Icon size={24} /> {label}
+              <Icon size={24} /> <MathText>{label}</MathText>
             </button>
           ))}
         </div>
@@ -564,7 +564,7 @@ function TrueFalseGame({
           className={`feedback ${correct ? "positive" : "needs-review"}`}
           role="status"
         >
-          <h2>{correct ? "Boa leitura!" : "Quase — vale rever a ideia."}</h2>
+          <h2><MathText>{correct ? "Boa leitura!" : "Quase — vale rever a ideia."}</MathText></h2>
           <p><MathText>{item.explanation}</MathText></p>
           <button
             className="button button-primary"
@@ -573,7 +573,7 @@ function TrueFalseGame({
               setAnswer(null);
             }}
           >
-            {index === items.length - 1 ? "Ver resultado" : "Próxima afirmação"}
+            <MathText>{index === items.length - 1 ? "Ver resultado" : "Próxima afirmação"}</MathText>
             <ArrowRight size={17} />
           </button>
         </section>
@@ -663,7 +663,7 @@ function ChoiceGame({
                 }}
               >
                 <span className="option-letter">
-                  {String.fromCharCode(65 + optionIndex)}
+                  <MathText>{String.fromCharCode(65 + optionIndex)}</MathText>
                 </span>
                 <span><MathText>{option.text}</MathText></span>
                 {answer !== null && isCorrect ? (
@@ -682,12 +682,12 @@ function ChoiceGame({
           role="status"
         >
           <h2>
-            {correct ? "Resposta certa!" : "Essa não era a melhor opção."}
+            <MathText>{correct ? "Resposta certa!" : "Essa não era a melhor opção."}</MathText>
           </h2>
           {!correct && (
             <p>
               <strong>Resposta correta: </strong>
-              {item.options[item.correctOptionIndex]}
+              <MathText>{item.options[item.correctOptionIndex]}</MathText>
             </p>
           )}
           <p><MathText>{item.explanation}</MathText></p>
@@ -696,9 +696,9 @@ function ChoiceGame({
               <summary>Entender todas as alternativas</summary>
               {item.options.map((option, i) => (
                 <p key={i}>
-                  <strong>{option}</strong>
+                  <strong><MathText>{option}</MathText></strong>
                   <br />
-                  {item.optionExplanations![i]}
+                  <MathText>{item.optionExplanations![i]}</MathText>
                 </p>
               ))}
             </details>
@@ -710,7 +710,7 @@ function ChoiceGame({
               setAnswer(null);
             }}
           >
-            {index === items.length - 1 ? "Ver resultado" : "Próxima questão"}
+            <MathText>{index === items.length - 1 ? "Ver resultado" : "Próxima questão"}</MathText>
             <ArrowRight size={17} />
           </button>
         </section>

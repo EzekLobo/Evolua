@@ -1,4 +1,5 @@
 "use client";
+import { MathText } from "./math-text";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -208,20 +209,20 @@ export function Dashboard({
               </div>
             </div>
             <h4>
-              {(daily?.reviews ?? 0) >= progress.goal
+              <MathText>{(daily?.reviews ?? 0) >= progress.goal
                 ? "Missão cumprida!"
-                : "Pequenos passos, grandes conquistas."}
+                : "Pequenos passos, grandes conquistas."}</MathText>
             </h4>
             <p className="muted">
-              {(daily?.reviews ?? 0) >= progress.goal
+              <MathText>{(daily?.reviews ?? 0) >= progress.goal
                 ? "Você investiu em seu próximo nível hoje."
-                : `Mais ${Math.max(0, progress.goal - (daily?.reviews ?? 0))} atividades para fechar sua meta.`}
+                : `Mais ${Math.max(0, progress.goal - (daily?.reviews ?? 0))} atividades para fechar sua meta.`}</MathText>
             </p>
             <button
               className="button button-primary full"
               onClick={() => start({ kind: due ? "review" : "card" })}
             >
-              {due ? "Revisar agora" : "Continuar jornada"}{" "}
+              <MathText>{due ? "Revisar agora" : "Continuar jornada"}</MathText><MathText>{" "}</MathText>
               <ArrowRight size={17} />
             </button>
           </section>
@@ -250,19 +251,19 @@ export function Dashboard({
                     )}
                   </span>
                   <small>
-                    {new Intl.DateTimeFormat("pt-BR", {
+                    <MathText>{new Intl.DateTimeFormat("pt-BR", {
                       weekday: "narrow",
                       timeZone: "UTC",
-                    }).format(new Date(`${day}T12:00:00Z`))}
+                    }).format(new Date(`${day}T12:00:00Z`))}</MathText>
                   </small>
                 </div>
               ))}
             </div>
             <div className="aside-note">
               <span className="status-dot" />
-              {totalAttempts(progress)
+              <MathText>{totalAttempts(progress)
                 ? "Cada dia conta. Continue assim!"
-                : "O melhor dia para começar é hoje."}
+                : "O melhor dia para começar é hoje."}</MathText>
             </div>
           </section>
           <section className="panel">
@@ -285,8 +286,8 @@ export function Dashboard({
                         <Icon size={20} />
                       </span>
                       <div>
-                        <strong>{r.name}</strong>
-                        <p>{r.description}</p>
+                        <strong><MathText>{r.name}</MathText></strong>
+                        <p><MathText>{r.description}</MathText></p>
                       </div>
                       {r.unlocked && <Check size={15} />}
                     </div>
@@ -327,9 +328,9 @@ function Stat({
     <section className="stat">
       <span className={`round-icon ${tone}`}>{icon}</span>
       <div>
-        <strong>{value}</strong>
-        <span>{label}</span>
-        <small>{sub}</small>
+        <strong><MathText>{value}</MathText></strong>
+        <span><MathText>{label}</MathText></span>
+        <small><MathText>{sub}</MathText></small>
       </div>
     </section>
   );
@@ -354,13 +355,13 @@ export function TopicCard({
     <article className="topic-card">
       <div className={`topic-art ${tone}`}>
         <span className="topic-number">
-          TRILHA {String(index + 1).padStart(2, "0")}
+          TRILHA <MathText>{String(index + 1).padStart(2, "0")}</MathText>
         </span>
         <div className="topic-orbit" />
         <Icon className="topic-art-icon" strokeWidth={1.2} />
         <span className="art-dot dot-one" />
         <span className="art-dot dot-two" />
-        <span className="topic-category">{course.area}</span>
+        <span className="topic-category"><MathText>{course.area}</MathText></span>
       </div>
       <div className="topic-body">
         <div className="topic-meta">
@@ -368,10 +369,10 @@ export function TopicCard({
           <span>·</span>
           <span>{quiz.length} questões</span>
         </div>
-        <h3>{topic.name}</h3>
-        <p>{topic.description}</p>
+        <h3><MathText>{topic.name}</MathText></h3>
+        <p><MathText>{topic.description}</MathText></p>
         <div className="topic-progress-label">
-          <span>{known ? "Seu progresso" : "Pronto para começar"}</span>
+          <span><MathText>{known ? "Seu progresso" : "Pronto para começar"}</MathText></span>
           <strong>{Math.round((known / (cards.length || 1)) * 100)}%</strong>
         </div>
         <ProgressBar
@@ -382,7 +383,7 @@ export function TopicCard({
           className="topic-link"
           onClick={() => start({ kind: "card", topicId: topic.id })}
         >
-          {known ? "Continuar trilha" : "Explorar trilha"}
+          <MathText>{known ? "Continuar trilha" : "Explorar trilha"}</MathText>
           <ArrowRight size={17} />
         </button>
       </div>
@@ -408,9 +409,9 @@ export function Trails({
           <BookOpen />
         </span>
         <div>
-          <h2>{course.title}</h2>
+          <h2><MathText>{course.title}</MathText></h2>
           <p>
-            4 trilhas · {content.flashcards.length} cards ·{" "}
+            4 trilhas · {content.flashcards.length} cards ·<MathText>{" "}</MathText>
             {content.quizzes.length} quizzes · No seu ritmo
           </p>
         </div>
@@ -458,10 +459,10 @@ export function Awards({ progress }: { progress: Progress }) {
                 <Icon size={35} strokeWidth={1.5} />
               </span>
               <span className="tag">
-                {r.unlocked ? "Conquistado" : "A conquistar"}
+                <MathText>{r.unlocked ? "Conquistado" : "A conquistar"}</MathText>
               </span>
-              <h2>{r.name}</h2>
-              <p>{r.description}</p>
+              <h2><MathText>{r.name}</MathText></h2>
+              <p><MathText>{r.description}</MathText></p>
               {r.unlocked && <Check size={18} />}
             </article>
           );
@@ -472,8 +473,8 @@ export function Awards({ progress }: { progress: Progress }) {
         <div>
           <h3>Você já acumulou {progress.xp} XP</h3>
           <p>
-            Nível {Math.floor(progress.xp / 200) + 1} ·{" "}
-            {200 - (progress.xp % 200)} XP até o próximo nível. Acerto geral:{" "}
+            Nível {Math.floor(progress.xp / 200) + 1} ·<MathText>{" "}</MathText>
+            {200 - (progress.xp % 200)} XP até o próximo nível. Acerto geral:<MathText>{" "}</MathText>
             {accuracy(progress)}%.
           </p>
         </div>

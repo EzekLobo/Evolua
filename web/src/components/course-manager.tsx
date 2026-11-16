@@ -1,5 +1,6 @@
 "use client";
 
+import { MathText } from "./math-text";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import {
   Check,
@@ -235,11 +236,11 @@ const CoursePromptBuilder = memo(function CoursePromptBuilder({ uid }: { uid: st
             target="_blank"
             rel="noopener noreferrer"
           >
-            Abrir {provider.name} <ExternalLink size={14} />
+            Abrir <MathText>{provider.name}</MathText> <ExternalLink size={14} />
           </a>
         )}
       </div>
-      {message && <p className="inline-message" role="status">{message}</p>}
+      {message && <p className="inline-message" role="status"><MathText>{message}</MathText></p>}
       <p className="muted small-text">
         O material não é enviado automaticamente pela Evolua. Depois, cole o
         JSON retornado no importador abaixo para revisar a compatibilidade.
@@ -265,8 +266,8 @@ function PreviewDetails({ preview }: { preview: CoursePreview }) {
       <div className="course-preview-heading">
         <div>
           <span className="eyebrow">PRÉVIA DO CURSO</span>
-          <h3>{preview.pack.title}</h3>
-          <p>{preview.pack.description}</p>
+          <h3><MathText>{preview.pack.title}</MathText></h3>
+          <p><MathText>{preview.pack.description}</MathText></p>
         </div>
         <span className="tag">Revisão {preview.pack.revision}</span>
       </div>
@@ -285,13 +286,13 @@ function PreviewDetails({ preview }: { preview: CoursePreview }) {
         </span>
       </div>
       <p className="muted small-text">
-        Nível {preview.pack.level} · {statusLabel(preview.pack.editorial.status)}
+        Nível <MathText>{preview.pack.level}</MathText> · <MathText>{statusLabel(preview.pack.editorial.status)}</MathText>
       </p>
       {replacement.kind !== "none" && (
         <div className="inline-message warning" role="status">
-          {replacement.kind === "active" ? "O curso ativo" : "O rascunho"} de
+          <MathText>{replacement.kind === "active" ? "O curso ativo" : "O rascunho"}</MathText> de
           revisão {replacement.previousRevision} será substituído por esta
-          revisão {revisionChanged ? "nova" : "atualizada"}.
+          revisão <MathText>{revisionChanged ? "nova" : "atualizada"}</MathText>.
         </div>
       )}
       {preview.warnings.length > 0 && (
@@ -299,7 +300,7 @@ function PreviewDetails({ preview }: { preview: CoursePreview }) {
           <strong>Antes de usar</strong>
           <ul>
             {preview.warnings.map((warning) => (
-              <li key={warning}>{warning}</li>
+              <li key={warning}><MathText>{warning}</MathText></li>
             ))}
           </ul>
         </div>
@@ -455,12 +456,12 @@ export function CourseManager({
           <p>Corrija os caminhos abaixo e tente novamente:</p>
           <ul>
             {errors.map((error) => (
-              <li key={error}>{error}</li>
+              <li key={error}><MathText>{error}</MathText></li>
             ))}
           </ul>
         </div>
       )}
-      {message && <p className="inline-message" role="status">{message}</p>}
+      {message && <p className="inline-message" role="status"><MathText>{message}</MathText></p>}
 
       {pending && (
         <div className="course-preview-shell">
@@ -535,13 +536,13 @@ function CourseRow({
     <article className="course-row">
       <span className="round-icon lime"><FileJson size={19} /></span>
       <div>
-        <h3>{course.pack.title}</h3>
+        <h3><MathText>{course.pack.title}</MathText></h3>
         <p>
-          Revisão {course.pack.revision} · {course.pack.modules.length} módulo(s) ·{" "}
-          {kind === "active" ? "ativo no catálogo" : "rascunho pessoal"}
+          Revisão {course.pack.revision} · {course.pack.modules.length} módulo(s) ·<MathText>{" "}</MathText>
+          <MathText>{kind === "active" ? "ativo no catálogo" : "rascunho pessoal"}</MathText>
         </p>
       </div>
-      <span className="tag">{kind === "active" ? "Ativo" : "Rascunho"}</span>
+      <span className="tag"><MathText>{kind === "active" ? "Ativo" : "Rascunho"}</MathText></span>
       <button className="icon-button" aria-label={`Remover ${course.pack.title}`} onClick={onRemove}>
         <Trash2 size={17} />
       </button>

@@ -5,7 +5,6 @@ import {
   Flame,
   Gamepad2,
   House,
-  LayoutGrid,
   Menu,
   RotateCcw,
   Settings2,
@@ -25,7 +24,6 @@ import { AuthAccount } from "./auth-account";
 import {
   Awards,
   Dashboard,
-  Trails,
   type SessionConfig,
   type View,
 } from "./dashboard";
@@ -36,10 +34,9 @@ import { SessionPicker, StudySession } from "./study-session";
 import { Logo, ProgressBar, SourceModal } from "./ui";
 const navigation = [
   { view: "inicio", label: "Visão geral", icon: House },
-  { view: "trilhas", label: "Minhas trilhas", icon: LayoutGrid },
   { view: "jogos", label: "Jogos", icon: Gamepad2 },
   { view: "revisao", label: "Revisão", icon: RotateCcw },
-  { view: "biblioteca", label: "Biblioteca", icon: BookOpen },
+  { view: "biblioteca", label: "Meus cursos", icon: BookOpen },
   { view: "conquistas", label: "Conquistas", icon: Trophy },
 ] as const;
 export function EvoluaApp() {
@@ -275,8 +272,6 @@ function LearningApp({ auth, uid }: { auth: AuthState; uid: string }) {
             />
           ) : view === "inicio" ? (
             <Dashboard progress={progress} navigate={navigate} start={start} />
-          ) : view === "trilhas" ? (
-            <Trails progress={progress} start={start} />
           ) : view === "cards" || view === "quiz" || view === "revisao" ? (
             <SessionPicker
               key={view}
@@ -286,7 +281,7 @@ function LearningApp({ auth, uid }: { auth: AuthState; uid: string }) {
               progress={progress}
               start={start}
             />
-          ) : view === "biblioteca" ? (
+          ) : view === "biblioteca" || view === "trilhas" ? (
             <Library
               progress={progress}
               update={update}

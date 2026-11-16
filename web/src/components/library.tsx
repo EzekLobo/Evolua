@@ -86,9 +86,9 @@ export function Library({
   return (
     <>
       <PageHeading
-        eyebrow="SUA BIBLIOTECA"
-        title="Entenda. Conecte. Aprofunde."
-        description="Um espaço para consultar conceitos, organizar ideias e praticar sua escrita."
+        eyebrow="SEU APRENDIZADO"
+        title="Meus cursos"
+        description="Encontre seus cursos, acompanhe as aulas e continue aprendendo."
       />
       {!showOriginalCourse && <section className="library-courses" aria-labelledby="library-courses-title">
         <div className="library-courses-heading"><h2 id="library-courses-title">Seus cursos</h2><button className="button button-primary" onClick={() => setCreatingCourse(true)}><span aria-hidden="true">＋</span> Novo curso</button></div>

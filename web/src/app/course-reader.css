@@ -101,3 +101,5 @@
 .games-page-heading > :first-child { flex:1; min-width:0; margin-bottom:0; }
 .games-page-heading .game-import-toolbar { margin:0; flex-shrink:0; }
 @media(max-width:650px) { .games-page-heading { align-items:flex-start; flex-direction:column; gap:14px; } }
+.lesson-help-response:not(:empty) { margin-top:12px; padding:12px; border:1px solid #dce4da; border-radius:10px; background:#f8faf6; font-size:14px; line-height:1.6; white-space:pre-wrap; overflow-wrap:anywhere; max-height:40dvh; overflow-y:auto; }
+.lesson-help-response:empty { display:none; }

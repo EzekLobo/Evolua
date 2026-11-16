@@ -5,13 +5,11 @@ import {
   Flame,
   Gamepad2,
   House,
-  Layers,
   LayoutGrid,
   Menu,
   RotateCcw,
   Settings2,
   Sprout,
-  Target,
   Trophy,
   UserRound,
   Zap,
@@ -39,8 +37,6 @@ import { Logo, ProgressBar, SourceModal } from "./ui";
 const navigation = [
   { view: "inicio", label: "Visão geral", icon: House },
   { view: "trilhas", label: "Minhas trilhas", icon: LayoutGrid },
-  { view: "cards", label: "Flashcards", icon: Layers },
-  { view: "quiz", label: "Quizzes", icon: Target },
   { view: "jogos", label: "Jogos", icon: Gamepad2 },
   { view: "revisao", label: "Revisão", icon: RotateCcw },
   { view: "biblioteca", label: "Biblioteca", icon: BookOpen },
@@ -300,6 +296,8 @@ function LearningApp({ auth, uid }: { auth: AuthState; uid: string }) {
             />
           ) : view === "jogos" ? (
             <Games
+              onFlashcards={() => navigate("cards")}
+              onQuiz={() => navigate("quiz")}
               uid={uid}
               canGenerate={auth.canGenerate}
               packs={gamePacks.packs}

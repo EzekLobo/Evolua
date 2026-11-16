@@ -32,9 +32,13 @@ export function Games({
   progress,
   update,
   canGenerate = false,
+  onFlashcards,
+  onQuiz,
 }: {
   uid: string;
   canGenerate?: boolean;
+  onFlashcards?: () => void;
+  onQuiz?: () => void;
   packs: GamePack[];
   customPacks: GamePack[];
   savePack: (pack: GamePack) => "created" | "updated";
@@ -107,9 +111,16 @@ export function Games({
       <div className="games-page-heading"><PageHeading
         eyebrow="LABORATÓRIO DE JOGOS"
         title="Aprenda jogando com qualquer assunto."
-        description="Escolha um pacote, pratique em três formatos e importe novos conteúdos gerados com o prompt da Evolua."
+        description="Pratique com flashcards, quizzes e desafios. Escolha uma modalidade para começar."
       />
       <div className="game-import-toolbar"><button className="button button-primary" onClick={()=>setImporting(true)}>Importar material</button></div></div>
+      <section className="panel game-catalog" aria-label="Flashcards e quizzes">
+        <h2>Flashcards e quizzes</h2><p>Pratique os conteúdos das trilhas com revisão e progresso salvos.</p>
+        <div className="game-grid">
+          <GameCard icon={<Link2/>} tone="lime" title="Flashcards" description="Recupere conceitos e revise os pontos que precisam de atenção." count={0} disabled={!onFlashcards} onPlay={()=>onFlashcards?.()}/>
+          <GameCard icon={<ListChecks/>} tone="lavender" title="Quizzes" description="Responda questões e confira o feedback das suas respostas." count={0} disabled={!onQuiz} onPlay={()=>onQuiz?.()}/>
+        </div>
+      </section>
       <section className="panel game-catalog">
         <div className="game-catalog-heading">
           <span className="round-icon lime">
@@ -213,7 +224,7 @@ function GameCard({
   return (
     <article className="game-card">
       <span className={`round-icon large ${tone}`}>{icon}</span>
-      <span className="tag">{count} desafios</span>
+      {count>0&&<span className="tag">{count} desafios</span>}
       <h3>{title}</h3>
       <p>{description}</p>
       <button

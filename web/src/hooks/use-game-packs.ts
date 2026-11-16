@@ -1,4 +1,5 @@
 "use client";
+import { pricingPilot } from "../lib/pricing-pilot";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -69,7 +70,7 @@ export function useGamePacks() {
     [persist],
   );
 
-  const packs = useMemo(() => [builtInGamePack, ...customPacks], [customPacks]);
+  const packs = useMemo(() => [builtInGamePack, pricingPilot, ...customPacks.filter(pack => pack.id !== pricingPilot.id)], [customPacks]);
 
   return {
     packs,

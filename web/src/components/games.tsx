@@ -12,44 +12,70 @@ import {
   XCircle,
 } from "lucide-react";
 import {
-  summarizePack,
   type GameModule,
   type GamePack,
   type GameType,
 } from "../lib/game-content";
 import { recordAttempt, shuffled, type Progress } from "../lib/learning-engine";
 import { PageHeading, ProgressBar } from "./ui";
-import { GamePackStudio } from "./game-pack-studio";
+import { pricingChallenges } from "../lib/pricing-pilot";
 
 type UpdateProgress = (change: (progress: Progress) => Progress) => void;
 
 export function Games({
   packs,
-  customPacks,
-  savePack,
-  removePack,
   progress,
   update,
 }: {
   packs: GamePack[];
-  customPacks: GamePack[];
-  savePack: (pack: GamePack) => "created" | "updated";
-  removePack: (id: string) => void;
   progress: Progress;
   update: UpdateProgress;
 }) {
-  const [packId, setPackId] = useState(packs[0].id);
+  const [packId, setPackId] = useState<string | null>(null);
   const pack = packs.find((item) => item.id === packId) ?? packs[0];
   const [moduleId, setModuleId] = useState(pack.modules[0].id);
   const module =
     pack.modules.find((item) => item.id === moduleId) ?? pack.modules[0];
   const [active, setActive] = useState<GameType | null>(null);
 
-  function choosePack(id: string) {
-    const next = packs.find((item) => item.id === id) ?? packs[0];
-    setPackId(next.id);
-    setModuleId(next.modules[0].id);
-    setActive(null);
+  function materialResults(material: GamePack) {
+    return Object.entries(progress.items).reduce((result, [id, item]) => {
+      if (id.startsWith(`game:${material.id}:`)) {
+        result.attempts += item.attempts;
+        result.correct += item.correct;
+      }
+      return result;
+    }, { attempts: 0, correct: 0 });
+  }
+
+  if (!packId || !packs.some(item => item.id === packId)) {
+    return (
+      <>
+        <PageHeading
+          title="Materiais"
+          description="Escolha o material que você quer estudar."
+          action={<a className="button button-outline" href="#conteudos">Criar conteúdo</a>}
+        />
+        <div className="game-grid">
+          {packs.map(material => {
+            const results = materialResults(material);
+            return (
+              <article className="game-card" key={material.id}>
+                <h3>{material.title}</h3>
+                <p>{material.description}</p>
+                <p>{material.modules.length} módulo(s) · {results.correct} acertos em {results.attempts} tentativas</p>
+                <button className="button button-primary" onClick={() => {
+                  setPackId(material.id);
+                  setModuleId(material.modules[0].id);
+                }}>
+                  Abrir material <ArrowRight size={17} />
+                </button>
+              </article>
+            );
+          })}
+        </div>
+      </>
+    );
   }
 
   if (active === "pairs") {
@@ -89,43 +115,17 @@ export function Games({
     );
   }
 
-  const totals = summarizePack(pack);
+  const results = materialResults(pack);
   return (
     <>
       <PageHeading
-        eyebrow="LABORATÓRIO DE JOGOS"
-        title="Aprenda jogando com qualquer assunto."
-        description="Escolha um pacote, pratique em três formatos e importe novos conteúdos gerados com o prompt da Evolua."
+        title={pack.title}
+        description={pack.description}
+        action={<button className="button button-outline" onClick={() => setPackId(null)}><ArrowLeft size={17} /> Materiais</button>}
       />
       <section className="panel game-catalog">
-        <div className="game-catalog-heading">
-          <span className="round-icon lime">
-            <Gamepad2 />
-          </span>
-          <div>
-            <span className="eyebrow">CONTEÚDO ATIVO</span>
-            <h2>{pack.title}</h2>
-            <p>{pack.description}</p>
-          </div>
-          <span className="tag">
-            {pack.id === "metodologia-cientifica" ? "Oficial" : "Importado"}
-          </span>
-        </div>
+        <p>{results.correct} acertos em {results.attempts} tentativas neste material</p>
         <div className="game-selectors">
-          <label className="field-label">
-            Pacote de conteúdo
-            <select
-              aria-label="Pacote de conteúdo"
-              value={pack.id}
-              onChange={(event) => choosePack(event.target.value)}
-            >
-              {packs.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.title}
-                </option>
-              ))}
-            </select>
-          </label>
           <label className="field-label">
             Módulo
             <select
@@ -141,7 +141,10 @@ export function Games({
             </select>
           </label>
         </div>
-        <p className="module-description">{module.description}</p>
+        <p className="module-description" style={{ whiteSpace: "pre-line" }}>
+          {module.description}
+        </p>
+        <NumericPractice key={`${pack.id}:${module.id}`} packId={pack.id} moduleId={module.id} update={update} />
         <div className="game-grid">
           <GameCard
             icon={<Link2 />}
@@ -171,25 +174,7 @@ export function Games({
             onPlay={() => setActive("multipleChoice")}
           />
         </div>
-        <p className="game-pack-total">
-          Este pacote contém {totals.pairs} pares, {totals.trueFalse} afirmações
-          e {totals.multipleChoice} questões em {pack.modules.length} módulo(s).
-        </p>
       </section>
-      <GamePackStudio
-        customPacks={customPacks}
-        savePack={(newPack) => {
-          const result = savePack(newPack);
-          setPackId(newPack.id);
-          setModuleId(newPack.modules[0].id);
-          setActive(null);
-          return result;
-        }}
-        removePack={(id) => {
-          removePack(id);
-          if (packId === id) choosePack("metodologia-cientifica");
-        }}
-      />
     </>
   );
 }
@@ -226,6 +211,65 @@ function GameCard({
         {!disabled && <ArrowRight size={17} />}
       </button>
     </article>
+  );
+}
+
+function NumericPractice({ packId, moduleId, update }: {
+  packId: string;
+  moduleId: string;
+  update: UpdateProgress;
+}) {
+  const challenges = pricingChallenges(packId, moduleId);
+  const [index, setIndex] = useState(0);
+  const [answer, setAnswer] = useState("");
+  const [reason, setReason] = useState("");
+  const [feedback, setFeedback] = useState<boolean | null>(null);
+  const challenge = challenges[index];
+  if (!challenge) return null;
+
+  function submit(event: React.FormEvent) {
+    event.preventDefault();
+    const cleaned = answer.trim();
+    if (feedback !== null || !/^\d{1,9}(?:[,.]\d{1,2})?$/.test(cleaned)) return;
+    const cents = Math.round(Number(cleaned.replace(",", ".")) * 100);
+    const correct = cents === Math.round(challenge.answer * 100);
+    gameAttempt(update, crypto.randomUUID(), `game:${packId}:numeric:${moduleId}-${index}`, correct);
+    setFeedback(correct);
+  }
+
+  return (
+    <details className="panel">
+      <summary>Desafio sem pistas · {index + 1} de {challenges.length}</summary>
+      <form onSubmit={submit}>
+        <p>{challenge.question}</p>
+        <label className="field-label">
+          Resposta em reais
+          <input inputMode="decimal" pattern="[0-9]{1,9}([,.][0-9]{1,2})?" required
+            disabled={feedback !== null} value={answer} onChange={event => setAnswer(event.target.value)} />
+        </label>
+        <label className="field-label">
+          Como chegou à resposta? (opcional)
+          <textarea rows={2} maxLength={1000} disabled={feedback !== null}
+            value={reason} onChange={event => setReason(event.target.value)} />
+        </label>
+        {feedback === null ? (
+          <button className="button button-primary" type="submit">Conferir resposta</button>
+        ) : (
+          <>
+            <p role="status">{feedback ? "Correto." : "Confira a solução."} {challenge.solution}</p>
+            {reason && <p>Compare sua justificativa com a solução: confira a base do cálculo, as operações e a unidade do resultado.</p>}
+            {index + 1 < challenges.length && (
+              <button className="button button-outline" type="button" onClick={() => {
+                setIndex(index + 1);
+                setAnswer("");
+                setReason("");
+                setFeedback(null);
+              }}>Próximo desafio</button>
+            )}
+          </>
+        )}
+      </form>
+    </details>
   );
 }
 

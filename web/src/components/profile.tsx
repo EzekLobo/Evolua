@@ -81,9 +81,8 @@ export function Profile({
   return (
     <>
       <PageHeading
-        eyebrow="DO SEU JEITO"
-        title="A sua jornada tem o seu ritmo."
-        description="Personalize sua experiência e cuide do seu progresso."
+        title="Meu perfil"
+        description="Edite seu perfil e gerencie seus dados de estudo."
       />
       <div className="profile-grid">
         <section className="panel profile-settings">
@@ -133,7 +132,7 @@ export function Profile({
           <span className="round-icon lavender">
             <HardDrive />
           </span>
-          <h2>Seu conhecimento vai com você</h2>
+          <h2>Backup e restauração</h2>
           <p className="muted">
             Esta versão salva seu progresso e seus rascunhos neste navegador.
             Para levar sua jornada a outro dispositivo, exporte um backup e

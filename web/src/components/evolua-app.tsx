@@ -4,10 +4,8 @@ import {
   BookOpen,
   BookPlus,
   Flame,
-  Gamepad2,
   House,
   Layers,
-  LayoutGrid,
   Menu,
   RotateCcw,
   Settings2,
@@ -37,13 +35,11 @@ import { SessionPicker, StudySession } from "./study-session";
 import { Logo, ProgressBar, SourceModal } from "./ui";
 const navigation = [
   { view: "inicio", label: "Visão geral", icon: House },
-  { view: "trilhas", label: "Minhas trilhas", icon: LayoutGrid },
   { view: "cards", label: "Flashcards", icon: Layers },
   { view: "quiz", label: "Quizzes", icon: Target },
-  { view: "jogos", label: "Jogos", icon: Gamepad2 },
+  { view: "jogos", label: "Materiais", icon: BookOpen },
   { view: "conteudos", label: "Criar conteúdo", icon: BookPlus },
   { view: "revisao", label: "Revisão", icon: RotateCcw },
-  { view: "biblioteca", label: "Biblioteca", icon: BookOpen },
   { view: "conquistas", label: "Conquistas", icon: Trophy },
 ] as const;
 export function EvoluaApp() {
@@ -58,7 +54,7 @@ export function EvoluaApp() {
   useEffect(() => {
     const sync = () => {
       const hash = location.hash.slice(1);
-      if ([...navigation.map((n) => n.view), "perfil"].includes(hash)) {
+      if ([...navigation.map((n) => n.view), "perfil", "biblioteca", "trilhas"].includes(hash)) {
         setView(hash as View);
       } else setView("inicio");
       setSession(null);
@@ -119,7 +115,9 @@ export function EvoluaApp() {
         : "Revisão"
     : view === "perfil"
       ? "Meu perfil"
-      : navigation.find((n) => n.view === view)?.label;
+      : view === "biblioteca" || view === "trilhas"
+        ? "Materiais"
+        : navigation.find((n) => n.view === view)?.label;
   return (
     <div className={`app-shell${session ? " app-shell--studying" : ""}`}>
       <a
@@ -148,8 +146,6 @@ export function EvoluaApp() {
         >
           <Logo />
         </a>
-        <p className="brand-subtitle">Aprendizado em movimento</p>
-        <span className="nav-caption">SEU ESPAÇO</span>
         <nav aria-label="Menu principal">
           {navigation.map(({ view: target, label, icon: Icon }) => (
             <a
@@ -196,9 +192,6 @@ export function EvoluaApp() {
             <Settings2 size={18} />
             <span>Meu perfil</span>
           </a>
-          <div className="sidebar-signature">
-            <span className="status-dot" /> Um passo melhor, todos os dias.
-          </div>
         </div>
       </aside>
       <div className="workspace">
@@ -272,7 +265,10 @@ export function EvoluaApp() {
           ) : view === "inicio" ? (
             <Dashboard progress={progress} navigate={navigate} start={start} />
           ) : view === "trilhas" ? (
-            <Trails progress={progress} start={start} />
+            <>
+              <a className="button button-outline" href="#jogos">Voltar aos materiais</a>
+              <Trails progress={progress} start={start} />
+            </>
           ) : view === "cards" || view === "quiz" || view === "revisao" ? (
             <SessionPicker
               key={view}
@@ -283,13 +279,14 @@ export function EvoluaApp() {
               start={start}
             />
           ) : view === "biblioteca" ? (
-            <Library progress={progress} update={update} onSource={setSource} />
+            <>
+              <a className="button button-outline" href="#jogos">Voltar aos materiais</a>
+              <Library progress={progress} update={update} onSource={setSource} />
+            </>
           ) : view === "jogos" ? (
             <Games
               packs={gamePacks.packs}
-              customPacks={gamePacks.customPacks}
-              savePack={gamePacks.savePack}
-              removePack={gamePacks.removePack}
+
               progress={progress}
               update={update}
             />
@@ -314,13 +311,6 @@ export function EvoluaApp() {
             />
           )}
         </main>
-        <footer className="app-footer">
-          <span>Feito para mentes curiosas.</span>
-          <span>
-            Evolua <span className="footer-dot">✦</span> Seu conhecimento, seu
-            ritmo.
-          </span>
-        </footer>
       </div>
       <SourceModal source={source} onClose={() => setSource(null)} />
     </div>

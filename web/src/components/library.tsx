@@ -65,9 +65,8 @@ export function Library({
   return (
     <>
       <PageHeading
-        eyebrow="SUA BIBLIOTECA"
-        title="Entenda. Conecte. Aprofunde."
-        description="Um espaço para consultar conceitos, organizar ideias e praticar sua escrita."
+        title="Recursos de Metodologia Científica"
+        description="Consulte conceitos, exemplos e modelos de escrita."
       />
       <div className="tabs" role="tablist" aria-label="Recursos de estudo">
         {tabs.map((t) => (

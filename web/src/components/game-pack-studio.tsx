@@ -2,6 +2,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   buildGamePackPrompt,
+  coursePlanSchema,
+  gamePackSchema,
+  type CoursePlan,
   PACK_LIMITS,
   qualityWarnings,
   type GamePack,
@@ -15,6 +18,15 @@ import {
   validatePackText,
   type PackIssue,
 } from "../lib/assisted-authoring";
+
+const courseDraftKey = "evolua.course-draft.v1";
+type CourseDraft = {
+  id: string;
+  plan: CoursePlan;
+  options: GamePromptOptions;
+  model: string;
+  modules: Record<number, GamePack["modules"][number]>;
+};
 
 export function GamePackStudio({
   customPacks,
@@ -36,8 +48,10 @@ export function GamePackStudio({
   const [pending, setPending] = useState<GamePack | null>(null);
   const [reviewed, setReviewed] = useState(false);
   const [message, setMessage] = useState("");
-  const [canShare, setCanShare] = useState(false);
   const [generating, setGenerating] = useState(false);
+  const [ownerToken, setOwnerToken] = useState("");
+  const [geminiModel, setGeminiModel] = useState("");
+  const [draft, setDraft] = useState<CourseDraft | null>(null);
   const generationInProgress = useRef(false);
   const fileInput = useRef<HTMLInputElement>(null);
   const preview = useRef<HTMLElement>(null);
@@ -51,8 +65,28 @@ export function GamePackStudio({
     if (pending) preview.current?.focus();
   }, [pending]);
   useEffect(() => {
-    setCanShare(typeof navigator.share === "function");
+    try {
+      const saved = localStorage.getItem(courseDraftKey);
+      if (saved) {
+        const draft = JSON.parse(saved) as CourseDraft;
+        const plan = coursePlanSchema.parse(draft.plan);
+        setDraft({ ...draft, id: draft.id ?? crypto.randomUUID(), plan });
+        setOptions(draft.options);
+        setGeminiModel(draft.model);
+      }
+    } catch {
+      setMessage("Não foi possível recuperar o rascunho salvo.");
+    }
   }, []);
+
+  function saveDraft(next: CourseDraft) {
+    setDraft(next);
+    try {
+      localStorage.setItem(courseDraftKey, JSON.stringify(next));
+    } catch {
+      setMessage("O rascunho está disponível nesta tela, mas o navegador não conseguiu salvá-lo.");
+    }
+  }
 
   function download(name: string, body: string, type = "application/json") {
     const url = URL.createObjectURL(new Blob([body], { type }));
@@ -105,20 +139,36 @@ export function GamePackStudio({
       if (fileInput.current) fileInput.current.value = "";
     }
   }
-  async function generateWithGemini() {
-    if (generationInProgress.current || !options.subject.trim()) return;
-    if (options.subject.length > 4000 || options.audience.length > 240 || options.objective.length > 500) {
+  async function generateWithGemini(lessonIndex?: number) {
+    const lessonDraft = lessonIndex === undefined ? null : draft;
+    const input = lessonDraft?.options ?? options;
+    if (generationInProgress.current || !input.subject.trim() || !ownerToken.trim()) return;
+    if (lessonIndex !== undefined && !lessonDraft) return;
+    if (lessonDraft && !coursePlanSchema.safeParse(lessonDraft.plan).success) {
+      setMessage("Preencha todos os campos da ementa e use títulos diferentes.");
+      return;
+    }
+    if (input.subject.length > 4000 || input.audience.length > 240 || input.objective.length > 500) {
       setMessage("Para gerar com Gemini, use até 4.000 caracteres no assunto, 240 no público e 500 no objetivo.");
       return;
     }
     generationInProgress.current = true;
     setGenerating(true);
-    setMessage("Gerando atividades com Gemini…");
+    setMessage(lessonDraft ? "Gerando aula…" : "Gerando ementa…");
     try {
       const response = await fetch("/api/content-ai/generate", {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(options),
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${ownerToken.trim()}`,
+        },
+        body: JSON.stringify({
+          ...input,
+          model: (lessonDraft?.model ?? geminiModel).trim() || undefined,
+          stage: lessonDraft ? "lesson" : "plan",
+          plan: lessonDraft?.plan,
+          lessonIndex,
+        }),
       });
       if (response.status === 404) {
         setMessage("A geração requer o servidor local com CONTENT_AI_ENABLED=true.");
@@ -129,15 +179,42 @@ export function GamePackStudio({
         setMessage(result.error || "Não foi possível gerar as atividades.");
         return;
       }
-      const generated = JSON.stringify(result, null, 2);
-      changeText(generated);
-      validate(generated);
+      setMessage(lessonDraft ? "Aula gerada." : "Revise a ementa antes de gerar as aulas.");
+      if (lessonDraft && lessonIndex !== undefined) {
+        const pack = gamePackSchema.parse(result);
+        if (pending?.id === lessonDraft.id) changeText("");
+        saveDraft({ ...lessonDraft, modules: { ...lessonDraft.modules, [lessonIndex]: pack.modules[0] } });
+      } else {
+        saveDraft({ id: crypto.randomUUID(), plan: coursePlanSchema.parse(result.plan), options: input, model: geminiModel.trim(), modules: {} });
+      }
     } catch {
       setMessage("Não foi possível concluir a geração. Tente novamente.");
     } finally {
       generationInProgress.current = false;
       setGenerating(false);
     }
+  }
+
+  function previewCourse() {
+    if (!draft) return;
+    const modules = draft.plan.skills.map((_, index) => draft.modules[index]);
+    if (modules.some(module => !module)) return;
+    const generated = JSON.stringify({
+      schema: "evolua-game-pack", version: 1, id: draft.id,
+      title: draft.plan.title, description: draft.plan.description, modules,
+    }, null, 2);
+    changeText(generated);
+    validate(generated);
+  }
+  function editSkill(index: number, field: keyof CoursePlan["skills"][number], value: string) {
+    if (!draft || generating) return;
+    const skills = draft.plan.skills.map((skill, position) =>
+      position === index ? { ...skill, [field]: value } : skill,
+    );
+    const modules = { ...draft.modules };
+    delete modules[index];
+    if (pending?.id === draft.id) changeText("");
+    saveDraft({ ...draft, plan: { ...draft.plan, skills }, modules });
   }
   function activate() {
     if (!pending || !reviewed) return;
@@ -159,21 +236,11 @@ export function GamePackStudio({
     }
   }
   return (
-    <section className="game-studio" aria-label="Entrada modular">
-      <div className="section-heading">
-        <div>
-          <span className="eyebrow">ENTRADA MODULAR</span>
-          <h2>Transforme um tema em novos jogos</h2>
-        </div>
-      </div>
+    <section className="game-studio" aria-labelledby="create-content-title">
+      <h1 id="create-content-title">Criar conteúdo</h1>
       <div className="studio-columns">
         <section className="panel prompt-builder">
-          <span className="step-number">1</span>
-          <h3>Prepare o conteúdo</h3>
-          <p>
-            Defina o que estudar. A IA organiza os tópicos e adapta a quantidade de atividades. O prompt manual orienta geração, revisão pedagógica e
-            correção do arquivo.
-          </p>
+          <h2>Preparar assunto</h2>
           <label className="field-label">
             Assunto ou material-base
             <textarea
@@ -221,6 +288,8 @@ export function GamePackStudio({
               </select>
             </label>
           </div>
+          <details>
+            <summary>Ver prompt</summary>
           <label className="field-label">
             Prompt gerado
             <textarea
@@ -232,14 +301,66 @@ export function GamePackStudio({
               onFocus={(event) => event.currentTarget.select()}
             />
           </label>
-          <div className="studio-actions">
+          </details>
+          <details open>
+            <summary>Gerar com Gemini</summary>
+            <p className="muted small-text">
+              Preencha o assunto e informe seu código de proprietário para gerar o curso.
+            </p>
+            <label className="field-label">
+              Código de acesso
+              <input type="password" value={ownerToken} onChange={event => setOwnerToken(event.target.value)} />
+            </label>
+            <label className="field-label">
+              Modelo Gemini (opcional)
+              <input value={geminiModel} onChange={event => setGeminiModel(event.target.value)} placeholder="Usar modelo do servidor" />
+            </label>
             <button
               className="button button-primary"
-              disabled={generating || !options.subject.trim()}
+              disabled={generating || !options.subject.trim() || !ownerToken.trim()}
               onClick={() => void generateWithGemini()}
             >
-              {generating ? "Gerando com Gemini…" : "Gerar aqui com Gemini"}
+              {generating ? "Aguarde…" : draft ? "Gerar nova ementa" : "Gerar ementa"}
             </button>
+            {draft && (
+              <section aria-label="Ementa do rascunho">
+                <h3>{draft.plan.title}</h3>
+                <p>{Object.keys(draft.modules).length} de {draft.plan.skills.length} aulas geradas.</p>
+                <ol>
+                  {draft.plan.skills.map((skill, index) => (
+                    <li key={index}>
+                      <strong>{skill.title}</strong>
+                      <details>
+                        <summary>Revisar habilidade</summary>
+                        <label className="field-label">Título<input value={skill.title} disabled={generating} maxLength={240} onChange={event => editSkill(index, "title", event.target.value)} /></label>
+                        <label className="field-label">Objetivo<textarea value={skill.objective} disabled={generating} maxLength={450} onChange={event => editSkill(index, "objective", event.target.value)} /></label>
+                        <label className="field-label">Pré-requisitos<textarea value={skill.prerequisites} disabled={generating} maxLength={250} onChange={event => editSkill(index, "prerequisites", event.target.value)} /></label>
+                      </details>
+                      <button className="button button-outline" disabled={generating || !ownerToken.trim()}
+                        onClick={() => void generateWithGemini(index)}>
+                        {draft.modules[index] ? "Gerar novamente" : "Gerar aula"}
+                      </button>
+                    </li>
+                  ))}
+                </ol>
+                <button className="button button-outline" disabled={generating || draft.plan.skills.length >= PACK_LIMITS.modules}
+                  onClick={() => {
+                    if (pending?.id === draft.id) changeText("");
+                    saveDraft({ ...draft, plan: { ...draft.plan, skills: [
+                      ...draft.plan.skills,
+                      { title: `Nova aula ${draft.plan.skills.length + 1}`, objective: "Defina a habilidade a desenvolver.", prerequisites: "Nenhum." },
+                    ] } });
+                  }}>
+                  Adicionar habilidade
+                </button>
+                <button className="button button-primary" onClick={previewCourse}
+                  disabled={generating || draft.plan.skills.some((_, index) => !draft.modules[index])}>
+                  Revisar curso completo
+                </button>
+              </section>
+            )}
+          </details>
+          <div className="studio-actions">
             <button
               className="button button-outline"
               onClick={() => void copyPrompt(prompt).then(setMessage)}
@@ -254,48 +375,19 @@ export function GamePackStudio({
             >
               Baixar prompt
             </button>
-            {canShare && (
-              <button
-                className="button button-outline"
-                onClick={async () => {
-                  try {
-                    await navigator.share({
-                      title: "Prompt Evolua",
-                      text: prompt,
-                    });
-                  } catch (error) {
-                    if (
-                      !(
-                        error instanceof DOMException &&
-                        error.name === "AbortError"
-                      )
-                    )
-                      setMessage(
-                        "Compartilhamento indisponível. Use copiar ou baixar.",
-                      );
-                  }
-                }}
-              >
-                Compartilhar prompt
-              </button>
-            )}
           </div>
           <p className="muted small-text">
             Ao gerar aqui, o assunto ou texto informado é enviado ao Gemini.
-            Para usar outra IA, copie o prompt e importe a resposta em JSON.
+            Para gerar em outra IA, copie o prompt e importe o resultado.
           </p>
         </section>
         <section className="panel pack-importer">
-          <span className="step-number">2</span>
-          <h3>Cole a resposta ou importe o arquivo</h3>
-          <p>
-            JSON puro ou envolto em um bloco Markdown. Limite de 1 MB. Seus
-            dados atuais são mantidos até a ativação.
-          </p>
+          <h2>Importar pacote</h2>
+          <p>Cole a resposta da IA ou selecione um arquivo JSON de até 1 MB.</p>
           <label className="field-label">
             Resposta da IA
             <textarea
-              rows={12}
+              rows={6}
               disabled={generating}
               value={text}
               onChange={(event) => changeText(event.target.value)}
@@ -469,7 +561,7 @@ export function GamePackStudio({
                   module.multipleChoice.length}{" "}
                 atividades
               </summary>
-              <p>{module.description}</p>
+              <p style={{ whiteSpace: "pre-line" }}>{module.description}</p>
               {module.objectives?.map((objective) => (
                 <p key={objective.id}>
                   <strong>Objetivo {objective.id}:</strong>{" "}

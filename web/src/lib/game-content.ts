@@ -321,11 +321,27 @@ export type GamePromptOptions = {
   itemCount?: number;
 };
 
+export const coursePlanSchema = z.object({
+  title: shortText,
+  description: longText,
+  skills: z.array(z.object({
+    title: shortText,
+    objective: z.string().trim().min(1).max(450),
+    prerequisites: z.string().trim().min(1).max(250),
+  }).strict()).min(1).max(PACK_LIMITS.modules),
+}).strict().refine(plan =>
+  new Set(plan.skills.map(skill => normalizedText(skill.title))).size === plan.skills.length,
+  { path: ["skills"], message: "A ementa contém habilidades repetidas." },
+);
+export type CoursePlan = z.infer<typeof coursePlanSchema>;
+
 export const gamePackCoverageInstructions = [
-  "Antes de escrever atividades, defina o escopo considerando assunto, público, objetivo e dificuldade. Para temas amplos, cubra os conceitos centrais de cada ramo em nível introdutório. Para temas específicos, aprofunde os pontos relevantes.",
-  "Mapeie pré-requisitos, conceitos essenciais, relações entre conceitos, aplicações e erros comuns. Organize os módulos em ordem de aprendizagem, dos fundamentos à aplicação. Inclua somente pontos pertinentes ao assunto.",
-  "Associe cada conceito central a pelo menos uma atividade. Use pares para relacionar ideias, verdadeiro ou falso para distinguir afirmações corretas de equívocos e múltipla escolha para aplicar ou comparar conceitos. Varie os exemplos e ajuste a quantidade à cobertura.",
-  "Antes de finalizar, confira se todos os conceitos centrais mapeados foram praticados, se há lacunas ou repetições e se respostas e explicações são coerentes. Ao usar material fornecido, mantenha a cobertura dentro do que ele sustenta. Devolva apenas o pacote no formato solicitado.",
+  "Planeje uma ementa antes de escrever as atividades. Identifique todos os eixos explicitamente pedidos, os pré-requisitos e as habilidades que o aluno deve conseguir demonstrar. Distribua os eixos em módulos com títulos específicos e distintos. Organize-os em ordem de aprendizagem e ajuste a profundidade ao público e à dificuldade.",
+  "Em cada módulo, declare uma habilidade observável e explique quando a técnica se aplica. Inclua um exemplo original resolvido com situação, dados concretos, pelo menos duas etapas justificadas e uma conferência do resultado. Use o campo próprio de exemplo quando o formato o oferecer; caso contrário, inclua o exemplo na descrição.",
+  "Ensine o conceito antes de cobrar sua aplicação: explique o que significa, por que o método funciona e em quais condições ele se aplica. Use o exemplo resolvido para ligar o conceito às decisões tomadas em cada etapa.",
+  "Planeje a prática em progressão: reconhecimento, aplicação guiada e aplicação autônoma. Em cada módulo, use as duas primeiras questões de múltipla escolha para essa prática: a primeira dá uma pista de método; a segunda apresenta um cenário novo e dados diferentes, sem revelar qual método usar. Ambas devem exigir que o aluno calcule, interprete, diagnostique ou tome uma decisão com base no conceito. Inclua todos os dados necessários e explique a solução e como conferir o resultado. No nível avançado, peça comparação de estratégias ou análise de hipóteses.",
+  "Use pares para conectar situações, representações ou resultados; verdadeiro ou falso para investigar erros comuns; múltipla escolha para resolver problemas com alternativas plausíveis que representem erros distintos. Na explicação, mostre como chegar à resposta. Em matemática, refaça as contas e indique as condições de validade, como matriz quadrada ao usar determinante para testar inversibilidade.",
+  "Antes de entregar, confira a ementa contra os módulos e as atividades. Corrija tópicos omitidos, títulos duplicados, respostas ambíguas e explicações que apenas repetem o gabarito. Quando houver material fornecido, respeite seus limites e indique na descrição quais partes do pedido ele não cobre. Devolva somente o pacote no formato solicitado.",
 ].join("\n");
 
 export function buildGamePackPrompt(options: GamePromptOptions): string {

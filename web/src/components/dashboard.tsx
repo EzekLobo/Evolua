@@ -1,13 +1,11 @@
 "use client";
 import {
   ArrowRight,
-  ArrowUpRight,
   BookOpen,
   Check,
   ChevronRight,
   Clock,
   Flame,
-  Gamepad2,
   Sparkles,
   Target,
   Trophy,
@@ -71,12 +69,6 @@ export function Dashboard({
     content.flashcards.map((c) => c.id),
   );
   const week = Array.from({ length: 7 }, (_, i) => addDays(today, i - 6));
-  const next =
-    content.topics.find((t) =>
-      content.flashcards.some(
-        (c) => c.topicId === t.id && !mastered(progress, c.id),
-      ),
-    ) ?? content.topics[0];
   return (
     <>
       <PageHeading
@@ -111,7 +103,7 @@ export function Dashboard({
               </p>
               <button
                 className="button button-lime"
-                onClick={() => start({ kind: "card", topicId: next.id })}
+                onClick={() => navigate("jogos")}
               >
                 Começar a aprender <ArrowRight size={18} />
               </button>
@@ -144,41 +136,6 @@ export function Dashboard({
               sub={`${Math.round((known / content.flashcards.length) * 100)}% da sua jornada`}
             />
           </div>
-          <div className="section-heading">
-            <div>
-              <span className="eyebrow">CONHECIMENTO EM MOVIMENTO</span>
-              <h2>Suas trilhas de aprendizado</h2>
-            </div>
-            <button className="text-button" onClick={() => navigate("trilhas")}>
-              Ver todas <ArrowUpRight size={16} />
-            </button>
-          </div>
-          <div className="course-grid">
-            {content.topics.slice(0, 2).map((topic, i) => (
-              <TopicCard
-                key={topic.id}
-                topic={topic}
-                index={i}
-                progress={progress}
-                start={start}
-              />
-            ))}
-          </div>
-          <section className="practice-banner">
-            <span className="round-icon lavender">
-              <Gamepad2 size={23} />
-            </span>
-            <div>
-              <h3>Aprender também pode ser um jogo.</h3>
-              <p>Conecte pares, avalie afirmações e vença novos desafios.</p>
-            </div>
-            <button
-              className="button button-outline"
-              onClick={() => navigate("jogos")}
-            >
-              Explorar jogos <ArrowRight size={16} />
-            </button>
-          </section>
         </div>
         <aside className="dashboard-aside">
           <section className="panel daily-goal">
@@ -396,9 +353,8 @@ export function Trails({
   return (
     <>
       <PageHeading
-        eyebrow="SUA JORNADA"
-        title="Um mundo para descobrir."
-        description="Escolha uma trilha e transforme um assunto em uma nova habilidade."
+        title="Minhas trilhas"
+        description="Escolha um tópico para estudar."
       />
       <div className="course-intro">
         <span className="round-icon lime">
@@ -439,9 +395,8 @@ export function Awards({ progress }: { progress: Progress }) {
   return (
     <>
       <PageHeading
-        eyebrow="CADA PASSO TEM VALOR"
-        title="Sua evolução merece ser celebrada."
-        description={`${rewards.filter((r) => r.unlocked).length} de ${rewards.length} conquistas desbloqueadas. Continue aprendendo no seu ritmo.`}
+        title="Conquistas"
+        description={`${rewards.filter((r) => r.unlocked).length} de ${rewards.length} conquistas desbloqueadas.`}
       />
       <div className="award-grid">
         {rewards.map((r) => {

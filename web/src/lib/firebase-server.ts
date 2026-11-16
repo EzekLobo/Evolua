@@ -27,7 +27,12 @@ export function isOwner(identity: { uid: string; email_verified?: boolean }) {
 }
 
 export function canAccess(identity: { uid: string; firebase?: { sign_in_provider?: string } }) {
+  // The owner is identified by the server-side UID allowlist. The account is
+  // created as email/password in Firebase; accepting the owner match first
+  // also keeps access stable when Firebase omits the provider claim during a
+  // token refresh.
+  if (isOwner(identity)) return true;
   if (identity.firebase?.sign_in_provider !== "password") return false;
   const allowed = (process.env.FIREBASE_ALLOWED_UIDS ?? "").split(",").map((uid) => uid.trim()).filter(Boolean);
-  return isOwner(identity) || allowed.includes(identity.uid);
+  return allowed.includes(identity.uid);
 }

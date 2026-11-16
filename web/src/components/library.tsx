@@ -81,7 +81,6 @@ export function Library({
   </>;
   const openedCourse = courses.activeCourses.find(c => `${c.pack.id}:${c.pack.revision}` === selectedCourse);
   if (openedCourse) return <>
-    <button className="button button-outline" onClick={() => setSelectedCourse("")}>← Voltar à biblioteca</button>
     <CourseReader key={selectedCourse} pack={openedCourse.pack} uid={uid} />
   </>;
   return (

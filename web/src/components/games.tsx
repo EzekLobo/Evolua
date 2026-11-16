@@ -65,8 +65,10 @@ export function Games({
     const course=courses.find(c=>c.id===courseId);if(!course||generating)return;
     setGenerating(true);setGenerationMessage("");
     try {
-      const modules:GameModule[]=[];
+      const existing=customPacks.find(p=>p.id===`cg-${course.id}`.slice(0,64));
+      const modules:GameModule[]=[...(existing?.modules??[])];
       for(const [i,module] of course.modules.entries()) {
+        if(modules.some(m=>m.id===`mod-${i+1}`))continue;
         setGenerationMessage(`Gerando módulo ${i+1} de ${course.modules.length}…`);
         const token=await firebaseAuth().currentUser?.getIdToken();
         const response=await fetch("/api/game-bank",{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`},body:JSON.stringify({material:JSON.stringify(module)})});

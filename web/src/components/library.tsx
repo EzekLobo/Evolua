@@ -43,6 +43,7 @@ export function Library({
   const [modelId, setModelId] = useState("");
   const [creatingCourse, setCreatingCourse] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState("");
+  const [showOriginalCourse, setShowOriginalCourse] = useState(false);
   const model = content.examModels.find((m) => m.id === modelId);
   function matches(text: string, topic?: string) {
     return (
@@ -90,9 +91,10 @@ export function Library({
         title="Entenda. Conecte. Aprofunde."
         description="Um espaço para consultar conceitos, organizar ideias e praticar sua escrita."
       />
-      <section className="library-courses" aria-labelledby="library-courses-title">
+      {!showOriginalCourse && <section className="library-courses" aria-labelledby="library-courses-title">
         <div className="library-courses-heading"><h2 id="library-courses-title">Seus cursos</h2><button className="button" onClick={() => setCreatingCourse(true)}>Novo curso</button></div>
         <div className="resource-grid">
+          <article className="panel library-course-card"><BookOpen size={24} aria-hidden="true"/><h3>Preparação: ciência e metodologia</h3><p>Fundamentos, autores e métodos, com guias de estudo e exercícios para preparação da prova.</p><p className="muted">{content.studyGuides.length} guias · Glossário e simulados</p><button className="button button-outline" onClick={()=>setShowOriginalCourse(true)}>Abrir curso <ArrowRight size={16}/></button></article>
           {courses.activeCourses.map(c => <article className="panel library-course-card" key={`${c.pack.id}:${c.pack.revision}`}>
             <BookOpen size={24} aria-hidden="true" />
             <h3>{c.pack.title}</h3><p>{c.pack.description}</p>
@@ -101,7 +103,10 @@ export function Library({
           </article>)}
         </div>
         {!courses.activeCourses.length && <p>Seus cursos aparecerão aqui após a importação. Clique em Novo curso para começar.</p>}
-      </section>
+      </section>}
+      {showOriginalCourse && <>
+      <button className="button button-outline" onClick={()=>setShowOriginalCourse(false)}>← Voltar aos cursos</button>
+      <h2>Preparação: ciência e metodologia</h2>
       <div className="tabs" role="tablist" aria-label="Recursos de estudo">
         {tabs.map((t) => (
           <button
@@ -343,6 +348,7 @@ export function Library({
             {!models.length && <Empty />}
           </div>
         ))}
+      </>}
     </>
   );
 }

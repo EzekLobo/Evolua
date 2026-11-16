@@ -1,4 +1,4 @@
-.course-reader { max-width: 1000px; margin-inline: auto; padding: clamp(20px,4vw,48px); font-size: 16px; line-height: 1.8; }
+.course-reader { width:100%; max-width:none; margin:24px 0; padding:clamp(20px,3vw,36px); font-size:16px; line-height:1.7; }
 .course-reader h2 { font-size: clamp(25px,3vw,36px); line-height: 1.25; margin-bottom: 16px; }
 .course-reader h3 { font-size: 23px; line-height: 1.4; margin: 32px 0 16px; }
 .course-reader h4 { font-size: 18px; margin: 20px 0 12px; }
@@ -28,3 +28,10 @@
 .library-course-card h3 { font-size:21px; line-height:1.4; }
 .library-course-card > p { line-height:1.6; }
 .library-course-card > .button { margin-top:auto; }
+.course-reader { width:100%; max-width:none; margin:24px 0; padding:clamp(20px,3vw,36px); }
+.course-reader > p,.course-reader article { max-width:85ch; }
+.course-plan > p { max-width:80ch; }
+.module-count { float:right; font-size:13px; font-weight:400; color:#65766d; margin-left:12px; }
+.course-lesson-list { list-style:none; padding:0 !important; }
+.course-reader .course-lesson-list button { display:block; width:100%; text-align:left; background:white; color:#174e40; border-color:#dce4da; margin:0; }
+.library-course-card > p:first-of-type { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }

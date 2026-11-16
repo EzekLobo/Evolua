@@ -21,6 +21,7 @@ export function CourseReader({ pack, uid }: { pack: CoursePack; uid: string }) {
   const [busy,setBusy]=useState(false);
   const [learning,setLearning]=useState<CourseLearning>({});
   const [game,setGame]=useState(0), [flipped,setFlipped]=useState(false);
+  const [studying,setStudying]=useState(false);
   useEffect(()=>{
     function load(){try {const data=readCourseLearning(uid);setLearning(data);const saved=data[learningId(pack)];if(saved)setIndex(Math.min(saved.lesson,lessons.length-1));}catch{setMessage("Não foi possível recuperar o acompanhamento.");}}
     load(); const listener=(e:StorageEvent)=>{if(e.key===privateStorageKey(uid,"course-progress"))load();};
@@ -45,9 +46,16 @@ export function CourseReader({ pack, uid }: { pack: CoursePack; uid: string }) {
       const result=await response.json();setMessage(result.message);
     } catch {setMessage("Suporte indisponível. Consulte as explicações e fontes da aula.");} finally {setBusy(false);}
   }
-  return <section className="panel course-reader"><h2>{pack.title}</h2><p>{pack.editorial.status === "draft" ? "Demonstração / rascunho sem revisão editorial" : "Declaração editorial informada pelo autor do arquivo"}</p>
+  if (!studying) return <section className="panel course-reader course-plan">
+    <span className="eyebrow">PLANO DO CURSO</span><h2>{pack.title}</h2><p>{pack.description}</p>
+    <p className="muted">{pack.modules.length} módulos · {lessons.length} aulas · {pack.level}</p>
+    <button onClick={()=>setStudying(true)}>{learning[learningId(pack)] ? "Continuar curso" : "Iniciar curso"}</button>
+    <h3>Módulos e aulas</h3>
+    {pack.modules.map((module,i)=><details key={module.id} open={module.lessons.some(l=>l.id===lesson.id)}><summary>{i+1}. {module.title}<span className="module-count">{module.lessons.length} aulas</span></summary><p>{module.description}</p><ol className="course-lesson-list">{module.lessons.map(l=><li key={l.id}><button onClick={()=>{navigate(lessons.findIndex(item=>item.id===l.id));setStudying(true);}}>{l.title}{l.id===lesson.id && learning[learningId(pack)] ? " · Em andamento" : ""}</button></li>)}</ol></details>)}
+  </section>;
+  return <section className="panel course-reader"><button onClick={()=>setStudying(false)}>← Plano do curso</button><h2>{lesson.title}</h2><p className="muted">{pack.title} · Aula {index+1} de {lessons.length}</p><p>{pack.editorial.status === "draft" ? "Rascunho sem revisão editorial" : "Declaração editorial informada pelo autor do arquivo"}</p>
     <label>Aula <select value={index} onChange={e=>navigate(Number(e.target.value))}>{lessons.map((l,i)=><option key={l.id} value={i}>{l.title}</option>)}</select></label>
-    <h3>{lesson.title}</h3><p><MathText>{lesson.description}</MathText></p><h4>Objetivos</h4><ul>{pack.objectives.filter(o=>lesson.objectiveIds.includes(o.id)).map(o=><li key={o.id}><MathText>{o.description}</MathText></li>)}</ul>
+    <p><MathText>{lesson.description}</MathText></p><details><summary>Objetivos da aula</summary><ul>{pack.objectives.filter(o=>lesson.objectiveIds.includes(o.id)).map(o=><li key={o.id}><MathText>{o.description}</MathText></li>)}</ul></details>
     {lesson.sections.map(s=><article key={s.id}><h3>{s.title}</h3>{s.blocks.map(b=><Block key={b.id} block={b}/>)}<details><summary>Fontes desta seção</summary>{pack.sources.filter(f=>s.sourceIds.includes(f.id)).map(f=><p key={f.id}>{f.title} — {f.locator}<br/>{f.excerpt}</p>)}</details></article>)}
     <h3>Prática e reflexão</h3><p>Compare sua resposta com a referência. A autoavaliação não atribui XP nem certifica domínio.</p>
     <h4>Jogo de recuperação: cartas da aula</h4><p><MathText>{lesson.activities[game].prompt}</MathText></p>

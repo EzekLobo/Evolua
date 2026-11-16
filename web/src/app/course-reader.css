@@ -1,0 +1,24 @@
+.course-reader { max-width: 1000px; margin-inline: auto; padding: clamp(20px,4vw,48px); font-size: 16px; line-height: 1.8; }
+.course-reader h2 { font-size: clamp(25px,3vw,36px); line-height: 1.25; margin-bottom: 16px; }
+.course-reader h3 { font-size: 23px; line-height: 1.4; margin: 32px 0 16px; }
+.course-reader h4 { font-size: 18px; margin: 20px 0 12px; }
+.course-reader p { margin: 12px 0; white-space: pre-wrap; }
+.course-reader ul,.course-reader ol { padding-left: 26px; margin: 16px 0; }
+.course-reader li { margin: 10px 0; }
+.course-reader label { display: block; margin: 24px 0; font-weight: 600; }
+.course-reader select,.course-reader textarea { display:block; width:100%; margin-top:10px; padding:14px; border:1px solid #cad8ce; border-radius:12px; font:inherit; background:white; color:inherit; }
+.course-reader textarea { min-height:130px; }
+.course-reader article { margin: 28px 0; padding: clamp(18px,3vw,32px); border:1px solid #dce4da; border-radius:18px; background:#fff; }
+.course-reader article > h3 { margin-top:0; }
+.course-reader aside { margin:24px 0; padding:20px 24px; border-left:4px solid #8cbf65; border-radius:0 12px 12px 0; background:#f3f7ed; }
+.course-reader aside h4 { margin-top:0; }
+.course-reader details { margin:16px 0; padding:16px 20px; background:#f8faf6; border:1px solid #dce4da; border-radius:12px; }
+.course-reader summary { cursor:pointer; font-weight:600; padding:4px 0; }
+.course-reader button { display:inline-flex; align-items:center; padding:11px 18px; margin:8px 10px 8px 0; border:1px solid #174e40; border-radius:10px; background:#174e40; color:white; font:inherit; font-size:14px; cursor:pointer; }
+.course-reader button:disabled { opacity:.5; cursor:wait; }
+.course-reader button:focus-visible,.course-reader summary:focus-visible { outline:3px solid #8cbf65; outline-offset:3px; }
+.math-display { display:block; max-width:100%; overflow-x:auto; padding:12px 0; }
+.math-inline { white-space:normal; }
+.course-reader .katex { font-size:1.1em; }
+.math-fallback { font-family:monospace; }
+@media(max-width:600px) { .course-reader { font-size:15px; padding:18px; } .course-reader article { padding:16px; } .course-reader button { max-width:100%; } }

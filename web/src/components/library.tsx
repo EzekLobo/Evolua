@@ -91,7 +91,7 @@ export function Library({
         description="Um espaço para consultar conceitos, organizar ideias e praticar sua escrita."
       />
       {!showOriginalCourse && <section className="library-courses" aria-labelledby="library-courses-title">
-        <div className="library-courses-heading"><h2 id="library-courses-title">Seus cursos</h2><button className="button" onClick={() => setCreatingCourse(true)}>Novo curso</button></div>
+        <div className="library-courses-heading"><h2 id="library-courses-title">Seus cursos</h2><button className="button button-primary" onClick={() => setCreatingCourse(true)}><span aria-hidden="true">＋</span> Novo curso</button></div>
         <div className="resource-grid">
           <article className="panel library-course-card"><BookOpen size={24} aria-hidden="true"/><h3>Preparação: ciência e metodologia</h3><p>Fundamentos, autores e métodos, com guias de estudo e exercícios para preparação da prova.</p><p className="muted">{content.studyGuides.length} guias · Glossário e simulados</p><button className="button button-outline" onClick={()=>setShowOriginalCourse(true)}>Abrir curso <ArrowRight size={16}/></button></article>
           {courses.activeCourses.map(c => <article className="panel library-course-card" key={`${c.pack.id}:${c.pack.revision}`}>

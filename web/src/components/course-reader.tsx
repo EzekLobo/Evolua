@@ -54,21 +54,12 @@ export function CourseReader({ pack, uid }: { pack: CoursePack; uid: string }) {
       const result=await response.json();setMessage(result.message);
     } catch {setMessage("Suporte indisponível. Consulte as explicações e fontes da aula.");} finally {setBusy(false);}
   }
-  if (!studying && previewLesson!==null) { const preview=lessons[previewLesson];return <section className="panel course-reader course-plan">
-    <button onClick={()=>setPreviewLesson(null)}>← Plano do curso</button>
-    <span className="eyebrow">APRESENTAÇÃO DA AULA</span><h2>{preview.title}</h2>
-    <p><MathText>{preview.description}</MathText></p>
-    <h3>O que você vai aprender</h3><ul>{pack.objectives.filter(o=>preview.objectiveIds.includes(o.id)).map(o=><li key={o.id}><MathText>{o.description}</MathText></li>)}</ul>
-    <p className="muted">{preview.sections.length} seções · {preview.activities.length} desafios</p>
-    <button disabled={!isUnlocked(previewLesson)} onClick={()=>{navigate(previewLesson);setPreviewLesson(null);setStudying(true);}}>{learning[learningId(pack)]?.lesson===previewLesson?"Continuar aula":"Iniciar aula"}</button>
-    {!isUnlocked(previewLesson)&&<p>Conclua os desafios das aulas anteriores para iniciar.</p>}
-  </section>; }
   if (!studying) return <section className="panel course-reader course-plan">
     <span className="eyebrow">PLANO DO CURSO</span><h2>{pack.title}</h2><p>{pack.description}</p>
     <p className="muted">{pack.modules.length} módulos · {lessons.length} aulas · {pack.level}</p>
     <button onClick={()=>setStudying(true)}>{learning[learningId(pack)] ? "Continuar curso" : "Iniciar curso"}</button>
     <h3>Módulos e aulas</h3>
-    {pack.modules.map((module,i)=><details key={module.id} open={module.lessons.some(l=>l.id===lesson.id)}><summary>{i+1}. {module.title}<span className="module-count">{module.lessons.length} aulas</span></summary><p>{module.description}</p><ol className="course-lesson-list">{module.lessons.map(l=><li key={l.id}><button onClick={()=>setPreviewLesson(lessons.findIndex(item=>item.id===l.id))}>{l.title}{l.id===lesson.id && learning[learningId(pack)] ? " · Em andamento" : ""}</button></li>)}</ol></details>)}
+    {pack.modules.map((module,i)=><details key={module.id} open={module.lessons.some(l=>l.id===lesson.id)}><summary>{i+1}. {module.title}<span className="module-count">{module.lessons.length} aulas</span></summary><p>{module.description}</p><ol className="course-lesson-list">{module.lessons.map(l=>{const position=lessons.findIndex(item=>item.id===l.id),unlocked=isUnlocked(position),complete=isComplete(position),current=unlocked&&!complete&&lessons.slice(0,position).every((_,j)=>isComplete(j));return <li key={l.id} className={current?"lesson-current":unlocked?"lesson-available":"lesson-locked"}><button aria-expanded={previewLesson===position} aria-current={current?"step":undefined} onClick={()=>setPreviewLesson(previewLesson===position?null:position)}><span>{l.title}</span><span className="lesson-state">{complete?"✓ Concluída":current?"● Aula atual":unlocked?"Disponível":"🔒 Bloqueada"}</span></button>{previewLesson===position&&<div className="lesson-inline-preview"><p><MathText>{l.description}</MathText></p><p className="muted">{l.sections.length} seções · {l.activities.length} desafios</p>{unlocked?<button onClick={()=>{navigate(position);setPreviewLesson(null);setStudying(true);}}>{complete?"Revisar aula":"Iniciar aula"}</button>:<p className="muted">Conclua as aulas anteriores para desbloquear.</p>}</div>}</li>;})}</ol></details>)}
   </section>;
   return <section className="panel course-reader lesson-horizontal"><button className="lesson-plan-icon" aria-label="Abrir plano do curso" title="Plano do curso" onClick={()=>setStudying(false)}><Map size={19}/></button><h2>{lesson.title}</h2><p className="muted">{pack.title} · Aula {index+1} de {lessons.length}</p><p>{pack.editorial.status === "draft" ? "Rascunho sem revisão editorial" : "Declaração editorial informada pelo autor do arquivo"}</p>
     <p><MathText>{lesson.description}</MathText></p><details><summary>Objetivos da aula</summary><ul>{pack.objectives.filter(o=>lesson.objectiveIds.includes(o.id)).map(o=><li key={o.id}><MathText>{o.description}</MathText></li>)}</ul></details>

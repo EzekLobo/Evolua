@@ -19,17 +19,20 @@ import { Modal, PageHeading } from "./ui";
 import { backupSchema, restoreBackup, type Backup } from "../lib/backup";
 import type { GamePack } from "../lib/game-content";
 import { storageError } from "../lib/assisted-authoring";
+import type { CourseStoreSnapshot } from "../lib/course-store";
 export function Profile({
   uid,
   progress,
   update,
   packs,
+  courseStore,
   onRestore,
 }: {
   uid: string;
   progress: Progress;
   update: (value: Progress | ((p: Progress) => Progress)) => void;
   packs: GamePack[];
+  courseStore: CourseStoreSnapshot;
   onRestore: (backup: Backup) => void;
 }) {
   const [name, setName] = useState(progress.name),
@@ -47,6 +50,8 @@ export function Profile({
             exportedAt: new Date().toISOString(),
             progress,
             packs,
+            courses: courseStore.active,
+            courseDrafts: courseStore.drafts,
           },
           null,
           2,
@@ -240,7 +245,10 @@ export function Profile({
             progresso e os rascunhos deste navegador.{" "}
             {pending.packs === undefined
               ? "Backup antigo: os pacotes atuais serão mantidos."
-              : `Os ${pending.packs.length} pacotes do backup substituirão os pacotes importados atuais.`}
+              : `Os ${pending.packs.length} pacotes do backup substituirão os pacotes importados atuais.`}{" "}
+            {pending.courses !== undefined || pending.courseDrafts !== undefined
+              ? `O backup inclui ${pending.courses?.items.length ?? 0} curso(s) ativo(s) e ${pending.courseDrafts?.items.length ?? 0} rascunho(s).`
+              : "Os cursos pessoais atuais serão mantidos por ser um backup antigo."}
           </p>
           <div className="modal-actions">
             <button

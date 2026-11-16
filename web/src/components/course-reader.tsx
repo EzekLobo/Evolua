@@ -4,7 +4,7 @@ import { MathText } from "./math-text";
 import type { CourseBlock, CoursePack } from "../lib/course-schema";
 import { privateStorageKey } from "../lib/private-storage";
 import { firebaseAuth } from "../lib/firebase-client";
-import { learningId, readCourseLearning, writeCourseLearning, recommendation, type CourseLearning } from "../lib/course-learning";
+import { learningId, readCourseLearning, writeCourseLearning, type CourseLearning } from "../lib/course-learning";
 
 function Block({ block }: { block: CourseBlock }) {
   if (block.type === "text") return <p><MathText>{block.text}</MathText></p>;
@@ -17,11 +17,15 @@ function Block({ block }: { block: CourseBlock }) {
 
 export function CourseReader({ pack, uid }: { pack: CoursePack; uid: string }) {
   const lessons = pack.modules.flatMap(m=>m.lessons);
-  const [index,setIndex]=useState(0), [answer,setAnswer]=useState(""), [revealed,setRevealed]=useState(false), [message,setMessage]=useState("");
+  const [index,setIndex]=useState(0), [answer,setAnswer]=useState(""), [message,setMessage]=useState("");
   const [busy,setBusy]=useState(false);
   const [learning,setLearning]=useState<CourseLearning>({});
   const [game,setGame]=useState(0), [flipped,setFlipped]=useState(false);
   const [studying,setStudying]=useState(false);
+  const [step,setStep]=useState(0);
+  const [response,setResponse]=useState("");
+  const [checked,setChecked]=useState<boolean|null>(null);
+  function changeStep(next:number) { setStep(next);setResponse("");setFlipped(false);setChecked(null);setMessage("");setAnswer(""); }
   useEffect(()=>{
     function load(){try {const data=readCourseLearning(uid);setLearning(data);const saved=data[learningId(pack)];if(saved)setIndex(Math.min(saved.lesson,lessons.length-1));}catch{setMessage("Não foi possível recuperar o acompanhamento.");}}
     load(); const listener=(e:StorageEvent)=>{if(e.key===privateStorageKey(uid,"course-progress"))load();};
@@ -37,7 +41,7 @@ export function CourseReader({ pack, uid }: { pack: CoursePack; uid: string }) {
     } catch {setMessage("Não foi possível salvar. Seu estado anterior foi preservado.");}
   }
   const lesson=lessons[index] ?? lessons[0];
-  function navigate(n:number) { persist(n);setRevealed(false); }
+  function navigate(n:number) { persist(n);changeStep(0); }
   async function help(action:string) {
     setBusy(true);setMessage("");
     try {
@@ -56,16 +60,14 @@ export function CourseReader({ pack, uid }: { pack: CoursePack; uid: string }) {
   return <section className="panel course-reader"><button onClick={()=>setStudying(false)}>← Plano do curso</button><h2>{lesson.title}</h2><p className="muted">{pack.title} · Aula {index+1} de {lessons.length}</p><p>{pack.editorial.status === "draft" ? "Rascunho sem revisão editorial" : "Declaração editorial informada pelo autor do arquivo"}</p>
     <label>Aula <select value={index} onChange={e=>navigate(Number(e.target.value))}>{lessons.map((l,i)=><option key={l.id} value={i}>{l.title}</option>)}</select></label>
     <p><MathText>{lesson.description}</MathText></p><details><summary>Objetivos da aula</summary><ul>{pack.objectives.filter(o=>lesson.objectiveIds.includes(o.id)).map(o=><li key={o.id}><MathText>{o.description}</MathText></li>)}</ul></details>
-    {lesson.sections.map(s=><article key={s.id}><h3>{s.title}</h3>{s.blocks.map(b=><Block key={b.id} block={b}/>)}<details><summary>Fontes desta seção</summary>{pack.sources.filter(f=>s.sourceIds.includes(f.id)).map(f=><p key={f.id}>{f.title} — {f.locator}<br/>{f.excerpt}</p>)}</details></article>)}
-    <h3>Prática e reflexão</h3><p>Compare sua resposta com a referência. A autoavaliação não atribui XP nem certifica domínio.</p>
-    <h4>Jogo de recuperação: cartas da aula</h4><p><MathText>{lesson.activities[game].prompt}</MathText></p>
-    <button onClick={()=>setFlipped(true)}>Virar carta</button>
-    {flipped&&<div><p><MathText>{lesson.activities[game].expectedAnswer}</MathText></p><p><MathText>{lesson.activities[game].feedback}</MathText></p><button onClick={()=>persist(index,true)}>Lembrei — autoavaliação</button><button onClick={()=>persist(index,false)}>Preciso revisar — autoavaliação</button></div>}
-    <button onClick={()=>{setGame((game+1)%lesson.activities.length);setFlipped(false);}}>Outra carta</button>
-    <p>Objetivos: {lesson.activities[game].objectiveIds.map(id=>pack.objectives.find(o=>o.id===id)?.title).join(", ")}</p>
-    <button onClick={()=>{const title=lesson.sections.find(s=>s.id===lesson.activities[game].sectionIds[0])?.title;Array.from(document.querySelectorAll("h3")).find(el=>el.textContent===title)?.scrollIntoView();}}>Voltar à explicação da carta</button>
-    {lesson.activities.map(a=><details key={a.id}><summary>{a.title}</summary><p><MathText>{a.prompt}</MathText></p>{"scenario" in a&&<p><MathText>{a.scenario}</MathText></p>}{"constraints" in a&&<ul>{a.constraints.map((c,i)=><li key={i}><MathText>{c}</MathText></li>)}</ul>}<p>Retome: {a.sectionIds.map(id=>lesson.sections.find(s=>s.id===id)?.title??id).join(", ")}</p><details><summary>Comparar com resposta de referência</summary><p><MathText>{a.expectedAnswer}</MathText></p><p><MathText>{a.feedback}</MathText></p></details></details>)}
-    <h3>Dúvidas e analogias</h3><textarea aria-label="Sua dúvida ou resposta" maxLength={1000} value={answer} onChange={e=>setAnswer(e.target.value)}/><button disabled={busy} onClick={()=>void help("explain")}>Tirar dúvida</button><button disabled={busy} onClick={()=>void help("analogy")}>Pedir analogia</button><p role="status"><MathText>{message}</MathText></p>
-    <h3>Próximo passo sugerido</h3><p>{recommendation(pack,learning).reason}: {lessons[recommendation(pack,learning).index].title}</p><button onClick={()=>navigate(recommendation(pack,learning).index)}>Seguir sugestão</button><p>{revealed?"Retome as seções vinculadas às atividades antes de avançar.":"Você pode escolher outra aula a qualquer momento."}</p><button onClick={()=>setRevealed(true)}>Quero revisar esta aula</button>{index+1<lessons.length&&<button onClick={()=>navigate(index+1)}>Próxima aula</button>}
+    <div className="lesson-step-header"><span>Etapa {step+1} de {lesson.sections.length+lesson.activities.length+1}</span><span>{step<lesson.sections.length ? "Aprender" : step<lesson.sections.length+lesson.activities.length ? "Praticar" : "Conclusão"}</span></div>
+    <progress aria-label="Progresso da aula" max={lesson.sections.length+lesson.activities.length+1} value={step+1}/>
+    {step<lesson.sections.length ? (()=>{const section=lesson.sections[step];return <article key={section.id}><h3>{section.title}</h3>{section.blocks.map(b=><Block key={b.id} block={b}/>)}<details><summary>Fontes desta etapa</summary>{pack.sources.filter(f=>section.sourceIds.includes(f.id)).map(f=><p key={f.id}>{f.title} — {f.locator}<br/>{f.excerpt}</p>)}</details></article>;})() : step<lesson.sections.length+lesson.activities.length ? (()=>{const activity=lesson.activities[step-lesson.sections.length];return <article key={activity.id}><span className="eyebrow">DESAFIO {step-lesson.sections.length+1}</span><h3>{activity.title}</h3>{"scenario" in activity&&<p><MathText>{activity.scenario}</MathText></p>}<p><MathText>{activity.prompt}</MathText></p>{"constraints" in activity&&<ul>{activity.constraints.map((c,i)=><li key={i}><MathText>{c}</MathText></li>)}</ul>}
+      <label>Sua resposta<textarea value={response} maxLength={12000} disabled={flipped} onChange={e=>setResponse(e.target.value)} placeholder="Tente resolver antes de conferir a explicação."/></label>
+      {!flipped ? <button disabled={!response.trim()} onClick={()=>setFlipped(true)}>Conferir resposta</button> : <><aside><h4>Resposta de referência</h4><p><MathText>{activity.expectedAnswer}</MathText></p><p><MathText>{activity.feedback}</MathText></p></aside><p>Compare sua resposta com os critérios. Este desafio tem avaliação pessoal, sem correção automática.</p><div className="lesson-actions">{[true,false].map(correct=><button key={String(correct)} aria-pressed={checked===correct} onClick={()=>{try{const data=readCourseLearning(uid),id=learningId(pack),previous=data[id]??{lesson:index,results:{}};setLearning(writeCourseLearning(uid,{...data,[id]:{...previous,results:{...previous.results,[activity.id]:{correct,attempts:(previous.results[activity.id]?.attempts??0)+1,due:Date.now()+(correct?86400000:0),signature:activity.expectedAnswer}}}}));setChecked(correct);}catch{setMessage("Não foi possível salvar sua avaliação.");}}}>{correct?"Atendi aos critérios":"Preciso revisar"}</button>)}</div>{checked===false&&<button onClick={()=>changeStep(Math.max(0,lesson.sections.findIndex(s=>activity.sectionIds.includes(s.id))))}>Revisar explicação relacionada</button>}</>}
+    </article>;})() : <article><h3>Etapas da aula concluídas</h3><p>Você chegou ao fim das explicações e desafios. As respostas abertas foram comparadas por você; isso não certifica domínio.</p><p>{lesson.activities.filter(a=>{const r=learning[learningId(pack)]?.results[a.id];return r?.signature===a.expectedAnswer&&r.correct;}).length} de {lesson.activities.length} desafios com critérios atendidos na sua avaliação.</p><button onClick={()=>changeStep(0)}>Revisar aula</button>{index+1<lessons.length?<button onClick={()=>navigate(index+1)}>Iniciar próxima aula</button>:<button onClick={()=>setStudying(false)}>Voltar ao plano do curso</button>}</article>}
+    {step<lesson.sections.length+lesson.activities.length&&<details className="lesson-help" key={step}><summary>Precisa de ajuda nesta etapa?</summary><label>Sua dúvida<textarea maxLength={1000} value={answer} onChange={e=>setAnswer(e.target.value)} placeholder="O que você gostaria de entender melhor?"/></label><div className="lesson-actions"><button disabled={busy||!answer.trim()} onClick={()=>void help("explain")}>Tirar dúvida</button><button disabled={busy} onClick={()=>void help("analogy")}>Pedir analogia</button></div></details>}
+    <p role="status"><MathText>{message}</MathText></p>
+    <nav className="lesson-navigation" aria-label="Etapas da aula"><button disabled={step===0} onClick={()=>changeStep(step-1)}>← Voltar</button>{step<lesson.sections.length+lesson.activities.length&&<button disabled={step>=lesson.sections.length&&checked===null} onClick={()=>changeStep(step+1)}>{step<lesson.sections.length?"Continuar →":"Próxima etapa →"}</button>}</nav>
   </section>;
 }

@@ -35,3 +35,8 @@
 .course-lesson-list { list-style:none; padding:0 !important; }
 .course-reader .course-lesson-list button { display:block; width:100%; text-align:left; background:white; color:#174e40; border-color:#dce4da; margin:0; }
 .library-course-card > p:first-of-type { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+.lesson-step-header,.lesson-navigation { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-top:24px; }
+.course-reader progress { width:100%; height:8px; accent-color:#174e40; }
+.lesson-navigation { border-top:1px solid #dce4da; padding-top:16px; }
+.lesson-actions { display:flex; flex-wrap:wrap; gap:8px; }
+.course-reader button[aria-pressed="true"] { outline:3px solid #8cbf65; outline-offset:2px; }

@@ -21,6 +21,8 @@ import { content } from "../lib/content";
 import type { Source } from "../lib/content-schema";
 import { useProgress } from "../hooks/use-progress";
 import { useGamePacks } from "../hooks/use-game-packs";
+import { useAuth, type AuthState } from "../hooks/use-auth";
+import { AuthAccount } from "./auth-account";
 import {
   Awards,
   Dashboard,
@@ -44,6 +46,12 @@ const navigation = [
   { view: "conquistas", label: "Conquistas", icon: Trophy },
 ] as const;
 export function EvoluaApp() {
+  const auth = useAuth();
+  if (!auth.allowed) return <main className="auth-gate"><Logo /><AuthAccount auth={auth} /></main>;
+  return <LearningApp key={auth.user?.uid ?? "authorized"} auth={auth} />;
+}
+
+function LearningApp({ auth }: { auth: AuthState }) {
   const { progress, update, ready, warning, loadRestoredProgress } =
     useProgress();
   const gamePacks = useGamePacks();
@@ -283,6 +291,7 @@ export function EvoluaApp() {
             <Library progress={progress} update={update} onSource={setSource} />
           ) : view === "jogos" ? (
             <Games
+              canGenerate={auth.canGenerate}
               packs={gamePacks.packs}
               customPacks={gamePacks.customPacks}
               savePack={gamePacks.savePack}
@@ -293,7 +302,7 @@ export function EvoluaApp() {
           ) : view === "conquistas" ? (
             <Awards progress={progress} />
           ) : (
-            <Profile
+            <><AuthAccount auth={auth} /><Profile
               progress={progress}
               update={update}
               packs={gamePacks.customPacks}
@@ -302,7 +311,7 @@ export function EvoluaApp() {
                 if (backup.packs !== undefined)
                   gamePacks.loadRestoredPacks(backup.packs);
               }}
-            />
+            /></>
           )}
         </main>
         <footer className="app-footer">

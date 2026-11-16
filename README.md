@@ -1,5 +1,7 @@
 # Evolua
 
+Atualização de autenticação (16/11/2026): a versão em desenvolvimento exige login com e-mail/senha e autorização por UID definida pelo administrador. Não há cadastro público na interface nem login Google. A ativação depende das credenciais Firebase do servidor e da configuração do provedor; veja [configuração de acesso](docs/firebase-auth.md). As descrições de uso como visitante abaixo registram o comportamento anterior. Progresso continua local ao navegador; não é sincronizado nem isolado por conta.
+
 **Aprendizado em movimento.** Plataforma web gamificada para transformar estudo em hábito: trilhas, flashcards, quizzes, revisão espaçada e prática discursiva.
 
 O projeto nasceu como **Metodologia Cards**, um app Android offline. A Evolua preserva o conteúdo e o aplicativo Android e acrescenta uma experiência web responsiva em Next.js e TypeScript.

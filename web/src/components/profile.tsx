@@ -175,7 +175,7 @@ export function Profile({
           <div className="privacy-note">
             <ShieldCheck size={20} />
             <p>
-              Sem cadastro nesta versão. Seus dados de estudo ficam no seu
+              Seus dados de estudo ficam no seu
               navegador. Limpar os dados do site remove o progresso local.
             </p>
           </div>

@@ -12,6 +12,10 @@ import { EvoluaApp } from "../src/components/evolua-app";
 import { emptyProgress, STORAGE_KEY } from "../src/lib/learning-engine";
 import { GAME_PACKS_STORAGE_KEY } from "../src/hooks/use-game-packs";
 import { testGamePack } from "./game-fixture";
+vi.mock("../src/hooks/use-auth", () => ({ useAuth: () => ({
+  user: null, ready: true, busy: false, allowed: true, canGenerate: false,
+  message: "", configured: true, login: vi.fn(), logout: vi.fn(),
+}) }));
 beforeEach(() => {
   localStorage.clear();
   history.replaceState(null, "", "/");

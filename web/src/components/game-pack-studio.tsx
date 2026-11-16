@@ -22,7 +22,9 @@ export function GamePackStudio({
   customPacks,
   savePack,
   removePack,
+  canGenerate = false,
 }: {
+  canGenerate?: boolean;
   customPacks: GamePack[];
   savePack: (pack: GamePack) => "created" | "updated";
   removePack: (id: string) => void;
@@ -55,6 +57,7 @@ export function GamePackStudio({
     if (pending) preview.current?.focus();
   }, [pending]);
   useEffect(() => {
+    if (!canGenerate) return;
     try {
       const saved = localStorage.getItem(AI_PREFERENCE_KEY);
       if (AI_PROVIDERS.some((item) => item.id === saved)) setProviderId(saved!);
@@ -64,7 +67,7 @@ export function GamePackStudio({
       );
     }
     setCanShare(typeof navigator.share === "function");
-  }, []);
+  }, [canGenerate]);
 
   function download(name: string, body: string, type = "application/json") {
     const url = URL.createObjectURL(new Blob([body], { type }));
@@ -118,6 +121,7 @@ export function GamePackStudio({
     }
   }
   function openAndCopy(value: string) {
+    if (!canGenerate) return;
     // A abertura ocorre no gesto do usuário, antes da operação assíncrona.
     if (provider.url) {
       try {
@@ -155,7 +159,8 @@ export function GamePackStudio({
           <h2>Transforme um tema em novos jogos</h2>
         </div>
       </div>
-      <div className="studio-columns">
+      <div className={canGenerate ? "studio-columns" : "studio-import-only"}>
+        {canGenerate && (
         <section className="panel prompt-builder">
           <span className="step-number">1</span>
           <h3>Prepare e abra sua IA</h3>
@@ -316,9 +321,9 @@ export function GamePackStudio({
             Cole e envie o prompt na IA. O material não é enviado pela Evolua ao
             abrir o site.
           </p>
-        </section>
+        </section>)}
         <section className="panel pack-importer">
-          <span className="step-number">2</span>
+          <span className="step-number">{canGenerate ? "2" : "1"}</span>
           <h3>Cole a resposta ou importe o arquivo</h3>
           <p>
             JSON puro ou envolto em um bloco Markdown. Limite de 1 MB. Seus
@@ -369,7 +374,7 @@ export function GamePackStudio({
                   </li>
                 ))}
               </ul>
-              <label className="field-label">
+              {canGenerate && <><label className="field-label">
                 Prompt de correção
                 <textarea
                   aria-label="Prompt de correção"
@@ -396,7 +401,7 @@ export function GamePackStudio({
                 >
                   Baixar correção
                 </button>
-              </div>
+              </div></>}
             </div>
           )}
           {customPacks.length > 0 && (

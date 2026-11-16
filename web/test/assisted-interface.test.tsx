@@ -15,8 +15,15 @@ import { AI_PREFERENCE_KEY } from "../src/lib/assisted-authoring";
 import { restoreBackup, PACKS_STORAGE_KEY } from "../src/lib/backup";
 import { emptyProgress, STORAGE_KEY } from "../src/lib/learning-engine";
 import { testGamePack } from "./game-fixture";
+import { useAuth } from "../src/hooks/use-auth";
+
+vi.mock("../src/hooks/use-auth", () => ({ useAuth: vi.fn() }));
 
 beforeEach(() => {
+  vi.mocked(useAuth).mockReturnValue({
+    user: null, ready: true, busy: false, allowed: true, canGenerate: true,
+    message: "", configured: false, login: vi.fn(), logout: vi.fn(),
+  });
   localStorage.clear();
   history.replaceState(null, "", "/#jogos");
   window.scrollTo = vi.fn();
@@ -42,6 +49,21 @@ async function load(withPack = true) {
 }
 
 describe("assisted authoring and full games", () => {
+  it("keeps import available but hides generation for authorized regular users", async () => {
+    vi.mocked(useAuth).mockReturnValue({
+      user: null, ready: true, busy: false, allowed: true, canGenerate: false,
+      message: "", configured: true, login: vi.fn(), logout: vi.fn(),
+    });
+    await load(false);
+    expect(screen.queryByLabelText("Prompt gerado")).toBeNull();
+    expect(screen.queryByRole("button", { name: "Copiar prompt e abrir IA" })).toBeNull();
+    expect(screen.getByRole("button", { name: "Importar arquivo JSON" })).toBeTruthy();
+    fireEvent.change(screen.getByLabelText("Resposta da IA"), { target: { value: JSON.stringify(testGamePack) } });
+    fireEvent.click(screen.getByRole("button", { name: "Validar e visualizar" }));
+    fireEvent.click(screen.getByRole("checkbox"));
+    fireEvent.click(screen.getByRole("button", { name: "Ativar pacote" }));
+    expect(JSON.parse(localStorage.getItem(PACKS_STORAGE_KEY)!)[0].id).toBe(testGamePack.id);
+  });
   it("opens the chosen provider without sending prompt in its URL and persists preference", async () => {
     const user = await load(false);
     const open = vi.spyOn(window, "open").mockReturnValue(null);

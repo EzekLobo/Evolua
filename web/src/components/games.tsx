@@ -30,7 +30,9 @@ export function Games({
   removePack,
   progress,
   update,
+  canGenerate = false,
 }: {
+  canGenerate?: boolean;
   packs: GamePack[];
   customPacks: GamePack[];
   savePack: (pack: GamePack) => "created" | "updated";
@@ -177,6 +179,7 @@ export function Games({
         </p>
       </section>
       <GamePackStudio
+        canGenerate={canGenerate}
         customPacks={customPacks}
         savePack={(newPack) => {
           const result = savePack(newPack);

@@ -2,6 +2,9 @@
   "name": "evolua",
   "version": "1.0.0",
   "private": true,
+  "overrides": {
+    "@grpc/grpc-js": "1.14.7"
+  },
   "workspaces": [
     "web"
   ],

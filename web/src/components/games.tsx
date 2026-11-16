@@ -114,13 +114,6 @@ export function Games({
         description="Pratique com flashcards, quizzes e desafios. Escolha uma modalidade para começar."
       />
       <div className="game-import-toolbar"><button className="button button-primary" onClick={()=>setImporting(true)}>Importar material</button></div></div>
-      <section className="panel game-catalog" aria-label="Flashcards e quizzes">
-        <h2>Flashcards e quizzes</h2><p>Pratique os conteúdos das trilhas com revisão e progresso salvos.</p>
-        <div className="game-grid">
-          <GameCard icon={<Link2/>} tone="lime" title="Flashcards" description="Recupere conceitos e revise os pontos que precisam de atenção." count={0} disabled={!onFlashcards} onPlay={()=>onFlashcards?.()}/>
-          <GameCard icon={<ListChecks/>} tone="lavender" title="Quizzes" description="Responda questões e confira o feedback das suas respostas." count={0} disabled={!onQuiz} onPlay={()=>onQuiz?.()}/>
-        </div>
-      </section>
       <section className="panel game-catalog">
         <div className="game-catalog-heading">
           <span className="round-icon lime">
@@ -167,6 +160,8 @@ export function Games({
         </div>
         <p className="module-description">{module.description}</p>
         <div className="game-grid">
+          <GameCard icon={<Link2/>} tone="lime" title="Flashcards" description="Revise conceitos do conteúdo original da Evolua." count={0} disabled={!onFlashcards || pack.id!=="metodologia-cientifica"} onPlay={()=>onFlashcards?.()}/>
+          <GameCard icon={<ListChecks/>} tone="lavender" title="Quizzes" description="Teste seus conhecimentos do conteúdo original da Evolua." count={0} disabled={!onQuiz || pack.id!=="metodologia-cientifica"} onPlay={()=>onQuiz?.()}/>
           <GameCard
             icon={<Link2 />}
             tone="lime"

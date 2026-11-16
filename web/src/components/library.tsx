@@ -41,6 +41,8 @@ export function Library({
     [search, setSearch] = useState(""),
     [topicId, setTopicId] = useState("");
   const [modelId, setModelId] = useState("");
+  const [creatingCourse, setCreatingCourse] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState("");
   const model = content.examModels.find((m) => m.id === modelId);
   function matches(text: string, topic?: string) {
     return (
@@ -68,15 +70,38 @@ export function Library({
   function note(id: string, value: string) {
     update((p) => ({ ...p, notes: { ...p.notes, [id]: value } }));
   }
+  if (creatingCourse) return <>
+    <button className="button button-outline" onClick={() => setCreatingCourse(false)}>← Voltar à biblioteca</button>
+    <CourseManager {...courses} uid={uid} activate={(pack) => {
+      const result = courses.activate(pack);
+      setCreatingCourse(false);
+      return result;
+    }} />
+  </>;
+  const openedCourse = courses.activeCourses.find(c => `${c.pack.id}:${c.pack.revision}` === selectedCourse);
+  if (openedCourse) return <>
+    <button className="button button-outline" onClick={() => setSelectedCourse("")}>← Voltar à biblioteca</button>
+    <CourseReader key={selectedCourse} pack={openedCourse.pack} uid={uid} />
+  </>;
   return (
     <>
-      <CourseManager {...courses} uid={uid} />
-      {courses.activeCourses.map(c=><CourseReader key={`${c.pack.id}:${c.pack.revision}`} pack={c.pack} uid={uid}/>)}
       <PageHeading
         eyebrow="SUA BIBLIOTECA"
         title="Entenda. Conecte. Aprofunde."
         description="Um espaço para consultar conceitos, organizar ideias e praticar sua escrita."
       />
+      <section className="library-courses" aria-labelledby="library-courses-title">
+        <div className="library-courses-heading"><h2 id="library-courses-title">Seus cursos</h2><button className="button" onClick={() => setCreatingCourse(true)}>Novo curso</button></div>
+        <div className="resource-grid">
+          {courses.activeCourses.map(c => <article className="panel library-course-card" key={`${c.pack.id}:${c.pack.revision}`}>
+            <BookOpen size={24} aria-hidden="true" />
+            <h3>{c.pack.title}</h3><p>{c.pack.description}</p>
+            <p className="muted">{c.pack.modules.length} módulos · {c.pack.modules.reduce((total,m) => total + m.lessons.length, 0)} aulas</p>
+            <button className="button button-outline" onClick={() => setSelectedCourse(`${c.pack.id}:${c.pack.revision}`)}>Abrir curso <ArrowRight size={16} /></button>
+          </article>)}
+        </div>
+        {!courses.activeCourses.length && <p>Seus cursos aparecerão aqui após a importação. Clique em Novo curso para começar.</p>}
+      </section>
       <div className="tabs" role="tablist" aria-label="Recursos de estudo">
         {tabs.map((t) => (
           <button

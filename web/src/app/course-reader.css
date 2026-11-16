@@ -22,3 +22,9 @@
 .course-reader .katex { font-size:1.1em; }
 .math-fallback { font-family:monospace; }
 @media(max-width:600px) { .course-reader { font-size:15px; padding:18px; } .course-reader article { padding:16px; } .course-reader button { max-width:100%; } }
+.library-courses { margin:24px 0 36px; }
+.library-courses-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+.library-course-card { padding:24px; display:flex; flex-direction:column; align-items:flex-start; gap:14px; }
+.library-course-card h3 { font-size:21px; line-height:1.4; }
+.library-course-card > p { line-height:1.6; }
+.library-course-card > .button { margin-top:auto; }

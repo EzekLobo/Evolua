@@ -114,3 +114,7 @@
 .library-courses .library-course-card:hover { transform:translateY(-3px); box-shadow:0 10px 28px #324a2d10; }
 .library-courses .library-course-card > .button { width:100%; justify-content:space-between; }
 @media(max-width:650px) { .library-courses > .resource-grid { grid-template-columns:1fr; } }
+.game-catalog > .game-selectors:has(> button) { display:flex; align-items:flex-end; gap:16px; }
+.game-catalog > .game-selectors:has(> button) > label { flex:1; min-width:0; margin:0; }
+.game-catalog > .game-selectors > button { flex:0 0 auto; width:auto; align-self:flex-end; min-height:44px; padding:12px 20px; margin:0; }
+@media(max-width:650px) { .game-catalog > .game-selectors:has(> button) { flex-direction:column; align-items:stretch; } .game-catalog > .game-selectors > button { align-self:stretch; } }

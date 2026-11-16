@@ -20,6 +20,7 @@ import { backupSchema, restoreBackup, type Backup } from "../lib/backup";
 import type { GamePack } from "../lib/game-content";
 import { storageError } from "../lib/assisted-authoring";
 import type { CourseStoreSnapshot } from "../lib/course-store";
+import { readCourseLearning } from "../lib/course-learning";
 export function Profile({
   uid,
   progress,
@@ -52,6 +53,7 @@ export function Profile({
             packs,
             courses: courseStore.active,
             courseDrafts: courseStore.drafts,
+            courseLearning: readCourseLearning(uid),
           },
           null,
           2,

@@ -6,9 +6,11 @@ blocos tipados, objetivos e fontes declaradas, com posição por UID/curso/revis
 Atividades discursivas permitem comparar a resposta com a referência e retornar
 às seções. Não há correção automática nem XP para essas atividades.
 
-O acompanhamento atual sugere a próxima aula ou revisão solicitada. A ordenação
-por erros e revisões vencidas e a ligação aos jogos pontuados permanecem pendentes;
-não se deve considerar EP105/EP111 completos.
+O leitor integra cartas de recuperação baseadas nas atividades, com retorno à
+explicação e autoavaliação explícita. Registra tentativas e último resultado;
+revisões vencidas têm prioridade, seguidas por dificuldades e retomada da aula.
+Empates seguem a ordem do curso. Alterações de resposta invalidam o resultado
+para recomendações. As cartas não atribuem XP nem certificam domínio.
 
 O painel chama /api/tutor com token Firebase. O servidor verifica revogação e
 allowlist em cada chamada. Somente NODE_ENV=development e TUTOR_DEV_MOCK=true
@@ -20,7 +22,8 @@ Fixture course-example é demonstração de autoria própria em draft, sem fonte
 PDF verificadas ou revisão humana. Não constitui o piloto editorial EP106.
 As fontes são declarações do arquivo importado, não certificação da aplicação.
 
-Limites atuais: posição do leitor usa chave privada própria e ainda não integra
-backup do Perfil; acompanhamento detalhado/exportação e migração legada pendem.
+Posição e resultados integram o backup do Perfil, com validação e restauração
+compensada no UID da sessão atual; backups antigos preservam esses dados.
+Histórico é local e não sincroniza dispositivos. Migração legada permanece manual.
 Pendências externas: configuração Firebase Admin/usuários, provedor e orçamento,
 quotas compartilhadas e revisão humana de material para publicação.

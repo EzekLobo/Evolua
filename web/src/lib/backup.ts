@@ -3,6 +3,7 @@ import { gamePackCollectionSchema } from "./game-content";
 import { progressSchema } from "./learning-engine";
 import { privateStorageKeys } from "./private-storage";
 import { courseCollectionSchema } from "./course-store";
+import { courseLearningSchema } from "./course-learning";
 
 /** Legacy key kept for compatibility with pre-EP-110 integrations. */
 export const PACKS_STORAGE_KEY = "evolua.game-packs.v1";
@@ -12,6 +13,7 @@ export const backupSchema = z.object({
   packs: gamePackCollectionSchema.optional(),
   courses: courseCollectionSchema.optional(),
   courseDrafts: courseCollectionSchema.optional(),
+  courseLearning: courseLearningSchema.optional(),
 });
 export type Backup = z.infer<typeof backupSchema>;
 
@@ -21,12 +23,14 @@ export function restoreBackup(value: Backup, uid: string) {
   const keys =
     [
       scopedKeys.progress,
+      ...(backup.courseLearning === undefined ? [] : [scopedKeys.courseProgress]),
       ...(backup.packs === undefined ? [] : [scopedKeys.gamePacks]),
       ...(backup.courses === undefined ? [] : [scopedKeys.coursePacks]),
       ...(backup.courseDrafts === undefined ? [] : [scopedKeys.courseDrafts]),
     ];
   const previous = keys.map((key) => [key, localStorage.getItem(key)] as const);
   try {
+    if (backup.courseLearning !== undefined) localStorage.setItem(scopedKeys.courseProgress, JSON.stringify(backup.courseLearning));
     if (backup.packs !== undefined)
       localStorage.setItem(scopedKeys.gamePacks, JSON.stringify(backup.packs));
     if (backup.courses !== undefined)

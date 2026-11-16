@@ -1,5 +1,165 @@
 # Plano de autoria assistida e qualidade de conteúdo
 
+## Baseline 2.0 — Cursos completos e aprendizado guiado
+
+Atualização de direção em 16/11/2026: por solicitação do responsável, a aplicação passa a exigir conta de e-mail/senha previamente cadastrada e UID autorizado no servidor. Substitui as referências a estudo/importação por visitante e login Google das propostas anteriores. O proprietário controla acesso geral; geração permanece exclusiva do proprietário. Configuração operacional e limites documentados em `docs/firebase-auth.md`. Demais épicos pedagógicos permanecem propostos.
+
+Data: 16/11/2026. Estado: proposto para implementação; nenhuma etapa desta baseline foi executada. Esta seção orienta a próxima evolução. As seções anteriores à baseline 2.0, mantidas abaixo como histórico, descrevem a autoria assistida já entregue; em caso de divergência de direção futura, prevalece esta baseline.
+
+### Objetivo e decisões de produto
+
+**Confirmado pelo pedido:** preservar a implementação de autoria, desativar temporariamente sua oferta ao usuário, priorizar importação de material, apresentar o assunto com profundidade antes da prática e oferecer suporte por API para dúvidas e analogias. O conteúdo precisa cobrir o assunto dentro de um escopo declarado, com fundamentação e progressão pedagógica.
+
+**Confirmado no repositório:** a web usa Next.js, React, TypeScript e Zod; possui curso incorporado, jogos, biblioteca, revisão e progresso local. A autoria atual gera prompts para IA externa e importa pacotes de jogos v1/v2; não há geração de cursos por API, autenticação ou backend de tutoria. O plano abaixo propõe uma nova capacidade de curso, preservando os pacotes existentes. Não foi encontrado PRD nem checklist de segurança específico no projeto; os pedidos desta conversa são a origem funcional desta baseline.
+
+**Proposto:** execução em duas entregas publicáveis: A, cursos explicativos importáveis e prática conectada; B, tutor contextual por API. Android, geração automática de cursos, correção automática de discursivas, pagamentos e sincronização de contas ficam fora deste plano. Contas podem tornar-se dependência da publicação do tutor conforme a decisão de controle de acesso.
+
+### Jornada e regras compartilhadas
+
+1. Importar arquivo JSON de curso ou pacote legado; validar, examinar prévia e confirmar ativação. Erros mantêm o conteúdo anterior e o texto informado disponíveis.
+2. Escolher curso e módulo; consultar objetivos, pré-requisitos e escopo. Ler aulas em sequência sugerida, podendo navegar livremente.
+3. Estudar explicações, exemplos resolvidos, aplicações e contrapontos; consultar fontes e síntese.
+4. Praticar atividades vinculadas aos objetivos e às seções da aula. Após responder, receber justificativas e acesso direto a “Rever este conceito”.
+5. Solicitar pista, outra explicação, exemplo, analogia ou dúvida livre. Antes da resposta, pistas e analogias respeitam o modo de tentativa; após responder, o tutor pode discutir a solução completa.
+6. Retomar leituras e revisar erros. Leitura, conclusão declarada e desempenho permanecem indicadores distintos.
+
+Não exigir leitura completa para liberar jogos. Ler, abrir o tutor ou pedir analogia não gera XP nem domínio. Preservar as regras atuais de atividades: primeiro evento do item/dia rende 12 XP no acerto ou 4 no erro; segunda e terceira tentativas rendem 2 cada; seguintes rendem zero. Evento repetido não pontua novamente. Dois acertos consecutivos indicam domínio inicial; erro reinicia a sequência e agenda hoje; acertos usam 1, 3, 7, 14 e 30 dias. Calendário America/Sao_Paulo. Não interpretar esses indicadores como certificação.
+
+Atividades de cursos usam chaves compostas por curso, tipo e item, sem colisão com IDs legados. IDs estáveis preservam histórico; mudança material da resposta deve exigir nova revisão e explicitar o efeito sobre o progresso antes da ativação. Proposta: invalidar domínio apenas dos itens alterados, mantendo XP e histórico anteriores; definir a representação na etapa EP-103 antes de implementá-la.
+
+### Critérios de profundidade e revisão editorial
+
+O curso declara público, nível, pré-requisitos, objetivos observáveis, assuntos incluídos e assuntos excluídos. “Completo” significa cobrir esse escopo; não prometer esgotar uma área inteira.
+
+Cada objetivo precisa de explicação fundamentada e atividade vinculada. Cada módulo deve conter, distribuídos em suas aulas:
+
+- Introdução com propósito, pré-requisitos e relação com o conhecimento anterior.
+- Definições precisas e desenvolvimento do porquê e do como; etapas, relações, pressupostos e limites pertinentes ao assunto.
+- Exemplo resolvido, com passos e justificativas, e aplicação em situação diferente da apresentação inicial.
+- Erros comuns, distinções entre conceitos próximos e contraponto ou contraexemplo quando aplicável.
+- Síntese, perguntas de recuperação e referências verificáveis associadas às afirmações centrais.
+- Atividades que exijam compreensão, aplicação e transferência para cenário novo; questões de reconhecimento podem complementar essa cobertura.
+
+Analogias complementam a explicação formal. Toda analogia apresenta situação familiar, correspondências explícitas, limites da comparação, retorno ao conceito e uma pergunta curta de compreensão. O aluno pode escolher contexto, como cozinha, esporte ou cotidiano, sem fornecer dados pessoais.
+
+Exceções pedagógicas devem ter justificativa editorial; não criar exemplos artificiais apenas para preencher campos. Texto extenso, referências presentes e validação estrutural não comprovam qualidade factual. A validação automática verifica existência e vínculos; revisão humana verifica correção, profundidade, clareza, dificuldade e fidelidade às fontes.
+
+Gate editorial proposto: todos os objetivos cobertos por explicação e prática; nenhum erro factual crítico, fonte inventada, resposta ambígua ou lacuna essencial conhecida; exemplos e aplicações suficientes para demonstrar o raciocínio. Revisor registra responsável, data, revisão e pendências. Curso sem revisão pode ser importado como rascunho, mas precisa de reconhecimento explícito do usuário para uso pessoal; não recebe selo de qualidade. A inclusão no catálogo incorporado exige revisão editorial aprovada. Não inventar avaliação numérica automática de qualidade.
+
+### Arquitetura e contrato propostos
+
+Separar contrato de curso do contrato `evolua-game-pack`: novo formato `evolua-course-pack` v1, com adaptador de atividades para reutilizar jogos. Pacotes de jogos continuam aceitos e aparecem como prática avulsa, sem aulas fabricadas. Centralizar limites e geração de diagnósticos no contrato, como já ocorre com jogos.
+
+Campos obrigatórios: schema/version, ID e revisão do curso, título, descrição, público, nível, pré-requisitos (lista pode ser vazia), escopo e exclusões, objetivos, fontes, módulos ordenados, aulas e atividades. Objetivos, fontes, módulos, aulas, seções e atividades têm IDs únicos no curso. Atividades vinculam objetivos e seções; seções vinculam fontes quando sustentam afirmações. Fontes contêm título, localizador disponível e trecho pertinente; nunca fabricar página ou URL. Revisão editorial declarada é metadado, não autenticação do revisor.
+
+Aulas usam blocos estruturados de texto, listas, exemplos, sínteses e analogias; renderização por componentes controlados, sem HTML arbitrário ou execução de código. Imagens remotas, PDFs anexados e extração automática ficam fora da primeira versão. Não baixar URLs fornecidas nos pacotes pelo servidor.
+
+**Pendentes antes de estabilizar EP-102:** limites de bytes, módulos, aulas, blocos, atividades e texto, definidos com amostras extensas reais; armazenamento local adequado e versionamento de backup. Os limites atuais de jogos (1 MB/pacote, 20 pacotes, 20 módulos, 50 itens por tipo/módulo, textos de 240/2.000 caracteres) continuam valendo apenas para jogos legados. Não impor o teto de 2.000 caracteres a uma aula inteira. Proposta de armazenamento: IndexedDB para cursos e estado de leitura, mantendo progresso legado compatível; confirmar em EP-102 com medição e estratégia de recuperação.
+
+Tutoria usa endpoint de servidor e adaptador de provedor. Chaves ficam no servidor. Solicitação contém ação, pergunta, curso/revisão, aula/seção, atividade, estado da tentativa e contexto mínimo pertinente. Conteúdo importado localmente precisa acompanhar a solicitação de forma limitada; o servidor valida tudo e trata referências como declarações do pacote, sem presumir acesso a um catálogo remoto confiável.
+
+Contexto inclui explicação formal, exemplos e fontes relevantes; não enviar apenas enunciado e gabarito. Se o contexto exceder a capacidade configurada, selecionar seções pelos vínculos e informar insuficiência em vez de truncar silenciosamente evidências essenciais. No modo anterior à resposta, servidor não envia gabarito/justificativas ao provedor, reduzindo vazamento pelo tutor; isso não transforma a aplicação local em ambiente de prova segura.
+
+Resposta estruturada inclui explicação, referências por IDs existentes, limitação de contexto e, em analogias, correspondências/limites/pergunta. Rejeitar referências desconhecidas. Verificação de IDs não garante que a afirmação esteja sustentada; avaliar isso no corpus editorial. O tutor não altera respostas, notas, XP ou regras de correção.
+
+### Sequência de entregas
+
+| Ordem | Épico / PR | Resultado | Dependência | Estado |
+|---|---|---|---|---|
+| 1 | EP-101 | Autoria oculta e importação preservada | Nenhuma | Planejado |
+| 2 | EP-102 | Contrato de curso e referência editorial | Nenhuma | Planejado |
+| 3 | EP-103 | Importar, atualizar e recuperar cursos | EP-102 | Planejado |
+| 4 | EP-104 | Estudar aulas e retomar leitura | EP-103 | Planejado |
+| 5 | EP-105 | Jogos e revisão conectados às aulas | EP-104 | Planejado |
+| 6 | EP-106 | Curso piloto completo e entrega A validada | EP-105 | Planejado |
+| 7 | EP-107 | Serviço de tutor com limites e provedor simulado | EP-102 e decisões de API | Planejado |
+| 8 | EP-108 | Tutor na interface, com analogias | EP-105 e EP-107 | Planejado |
+| 9 | EP-109 | Avaliação pedagógica e publicação da entrega B | EP-106 e EP-108 | Planejado |
+
+Cada épico corresponde a um PR coeso. Se o detalhamento exceder esse tamanho, acrescentar IDs sem renumerar os existentes. Desenvolvimento simulado de EP-107 pode avançar sem contratação; publicação com API real depende das decisões abaixo.
+
+### EP-101 — Importação como entrada principal
+
+Extrair a importação do bloco de geração em `game-pack-studio.tsx`; manter validação, correção por diagnóstico, prévia, confirmação, download e exclusão. Ocultar seleção de IA, geração de prompts e links externos por configuração desativada por padrão. Preservar implementação e testes de autoria para reativação controlada. Se existir geração via API em alterações posteriores à inspeção, também bloquear a operação no servidor.
+
+Aceite: usuário importa v1/v2 sem passar por IA; configuração desligada não expõe atalhos de geração; reativação recupera o fluxo anterior; falhas de gravação preservam pacote existente. Evidência: testes de interface dos dois estados e regressão de importação.
+
+### EP-102 — Contrato e modelo pedagógico
+
+Definir schema, limites medidos, vínculos, revisão editorial, compatibilidade e armazenamento; criar arquivo de exemplo completo com um módulo que cumpra os critérios de profundidade. Mapear objetivo → explicação → fonte → atividade e validar referências, duplicações e ordem. Distinguir erro estrutural bloqueante de alerta editorial. Não aceitar versão desconhecida.
+
+Aceite: exemplo válido e legível cobre compreensão/aplicação/transferência; arquivos com vínculos inexistentes ou campos essenciais ausentes são rejeitados com caminho preciso. Limites e decisões de armazenamento ficam incorporados nesta baseline antes de EP-103. Evidência: fixtures válidas, inválidas e nos limites; revisão editorial do exemplo.
+
+### EP-103 — Ciclo de vida dos cursos
+
+Implementar parsing, validação, prévia, rascunho, ativação, atualização e exclusão; incluir cursos e leitura no backup versionado, preservando leitura de backups antigos. Prévia informa substituição e itens alterados. Persistir atualização de curso e efeito sobre domínio como uma operação atômica no armazenamento escolhido. Não apagar histórico/XP ao excluir curso; oferecer recuperação por reimportação dos mesmos IDs. Definir sincronização entre abas conforme o armazenamento, notificando revisão alterada durante sessão e evitando mistura silenciosa de versões.
+
+Aceite: falha de armazenamento não produz ativação parcial; backup exportado restaura curso, leitura e progresso; backup antigo mantém comportamento documentado; duas abas refletem ativação/exclusão. Conteúdo inválido não executa scripts. Evidência: testes de ida/volta, falha transacional, atualização de resposta e concorrência entre abas.
+
+### EP-104 — Leitor e percurso explicativo
+
+Criar catálogo de cursos, visão do módulo e leitor acessível de aulas. Mostrar objetivos, seções, exemplos, fontes, síntese e próxima aula. Salvar posição e conclusão declarada por revisão da aula; alteração de conteúdo sinaliza leitura a retomar. Preservar fontes e hierarquia em celular, teclado e modo offline após carregamento.
+
+Aceite: estudante abre material extenso, navega por seções, retoma posição após recarga e consulta fonte sem perder leitura. Conclusão declarada não gera domínio/XP. Evidência: fluxo completo em navegador móvel/desktop e teste de persistência. Falha no armazenamento apresenta aviso e permite continuar a leitura.
+
+### EP-105 — Prática conectada
+
+Reutilizar jogos e sessões com seleção de curso/módulo, IDs compostos e vínculos de retorno. Feedback leva à seção pertinente; voltar da aula mantém a tentativa atual. Incluir atividades do curso na revisão e calcular métricas no escopo correto. Preservar prática avulsa e curso incorporado existentes.
+
+Aceite: erro retorna ao conceito correto e entra na revisão; dois cursos com IDs locais iguais não compartilham domínio; repetição de evento não duplica XP; leitura e tutor não pontuam. Evidência: cenários de sessão, revisão, navegação e regressão das regras de XP.
+
+### EP-106 — Curso piloto e entrega A
+
+Selecionar com o responsável de conteúdo um assunto e público; produzir um curso piloto cobrindo integralmente seu escopo, com mais de um módulo e progressão entre conceitos. Revisar o material incorporado antes de apresentá-lo como curso completo; não converter automaticamente flashcards em aulas. Registrar autoria/licença, fontes e revisão. A extensão do piloto é decidida pelo escopo e cobertura, não por número de páginas.
+
+Aceite: matriz de cobertura sem objetivo essencial descoberto; exemplos resolvidos e aplicações novas; avaliação humana sem falha crítica pendente; usuário importa, estuda, pratica, revisa e restaura backup com tutor desativado. Evidência: parecer editorial, arquivo do curso, roteiro manual e testes/build/typecheck. Entrega A pode ser publicada independentemente da API.
+
+### EP-107 — Serviço de tutoria
+
+Implementar validação do pedido/resposta, montagem de contexto, adaptador de provedor, timeout, cancelamento e limitação de uso. Provedor simulado funciona localmente sem chave e é explicitamente isolado da produção. Publicação exige controle de acesso e orçamento definidos. Rate limit e teto financeiro são aplicados no servidor; não confiar no contador do navegador. API não pode funcionar como proxy genérico de prompts.
+
+Tratar pergunta e material como dados não confiáveis; instruções dentro de fontes não mudam o papel do tutor. Resposta não executa HTML ou ferramentas. Não buscar URLs do pacote. Evitar logs integrais de perguntas, respostas e material; registrar somente identificador de requisição, resultado, latência e consumo necessário. Respostas de tutoria não entram no cache do service worker.
+
+Aceite: chave ausente no bundle; pedidos inválidos/excedidos negados; timeout retorna estado recuperável; resposta com fonte desconhecida rejeitada; cancelamento não dispara repetição automática. Cada envio tem identificador de requisição; evitar reenvio automático após falha ambígua, pois o provedor pode ter consumido a chamada. Política e duração de deduplicação pendentes antes de habilitar chamadas reais. Evidência: testes de contrato, abuso, contexto malicioso, simulação e verificação do bundle/cache.
+
+### EP-108 — Dúvidas e analogias na interface
+
+Adicionar painel contextual no leitor e nas questões com “Dê uma pista”, “Explique de outra forma”, “Dê um exemplo”, “Explique com uma analogia” e dúvida livre. Analogia permite contexto opcional e usa a estrutura definida nos critérios pedagógicos. Continuação conserva contexto limitado da mesma aula/questão; trocar atividade inicia conversa separada. Proposta: conversa efêmera em memória, sem histórico persistente nesta entrega.
+
+Mostrar carregamento, cancelar, falha, limite de uso, ausência de contexto e indisponibilidade offline; conservar texto da pergunta para nova tentativa explícita. Curso e jogos continuam disponíveis quando tutor falhar. Antes de enviar, informar de forma breve que a dúvida e trechos pertinentes serão processados por serviço externo; não enviar nome, perfil, histórico global ou rascunhos automaticamente.
+
+Aceite: analogia contém correspondências, limite e verificação de compreensão; pista não revela deliberadamente solução antes da tentativa; resposta completa após tentativa explica o erro específico. Painel acessível por teclado e sem ocultar a questão no celular. Evidência: testes com provedor simulado e sessões manuais com o curso piloto.
+
+### EP-109 — Avaliação e entrega B
+
+Construir corpus revisado de perguntas sobre o piloto: conceitos, dúvidas sobre distratores, analogias de diferentes contextos, premissas falsas, contexto insuficiente e instruções maliciosas. Avaliar correção, fidelidade às fontes, profundidade adequada, utilidade da analogia, exposição dos limites e ausência de resposta antecipada no modo pista. Bloquear liberação diante de erro factual crítico ou falha de proteção de chave/limites.
+
+Aceite: corpus e resultados registrados por configuração de modelo/prompt; todos os casos críticos aprovados; casos restantes com decisão editorial explícita; custo/latência medidos e compatíveis com limites aprovados. Verificar testes, typecheck, build, navegador móvel, offline e acessibilidade. Habilitar gradualmente por configuração; rollback desliga tutor e mantém cursos/prática. Não prometer eliminação de alucinações.
+
+### Decisões pendentes e responsáveis sugeridos
+
+| Decisão | Responsável sugerido | Momento e impacto |
+|---|---|---|
+| Assunto, público e responsável pela revisão do piloto | Produto/conteúdo | Antes de EP-106; define o que significa cobertura completa |
+| Limites do pacote, armazenamento e semântica da atualização | Engenharia/produto | Em EP-102, antes de EP-103 |
+| Provedor/modelo, orçamento, limites por usuário e acesso ao tutor | Produto/engenharia | Antes de chamadas reais em EP-107; pode exigir contas ou acesso restrito |
+| Retenção do provedor, dados permitidos e política de conversa | Produto/engenharia | Antes da publicação de EP-108; proposta de conversa efêmera depende desta decisão |
+| Timeout, contexto máximo, deduplicação e metas de custo/latência | Engenharia/produto | Antes da ativação real de EP-107 e avaliação EP-109 |
+
+Escolha de provedor e integração concreta exigem consultar documentação oficial vigente durante a implementação. Este plano não fixa fornecedor, modelo, preço ou endpoints. Desenvolvimento local usa mocks e amostras sem dados pessoais; publicação do tutor depende das decisões, mas não bloqueia a entrega A.
+
+### Acompanhamento, validação e histórico
+
+Cada PR identifica épico e baseline 2.0, resultado, aceite, evidências, pendências e rollback. A task de execução detalha arquivos e comandos depois de inspecionar o estado atual; não substitui regras deste documento. Atualizar estados manualmente após validação. Alteração de escopo incrementa a versão, preservando IDs e entregas anteriores.
+
+Revisão documental desta baseline: conferidos jornada, profundidade, compatibilidade, dependências, falhas, limites pendentes e controles de API/importação. Não foram executados testes de código para esta alteração documental. A rodada anterior de investigação registrou 47 testes passando, typecheck e build aprovados; isso valida o código daquela rodada, não as capacidades propostas aqui.
+
+Histórico: 2.0, 16/11/2026 — evolução proposta para importação de cursos completos, autoria temporariamente oculta e tutor contextual com analogias. Sem alteração do código ou do estado das entregas históricas.
+
+---
+
+## Histórico — autoria assistida entregue antes da baseline 2.0
+
 ## Resultado esperado
 
 O usuário escolhe sua IA preferida, define o objetivo de estudo, abre a IA com o prompt copiado e retorna à Evolua para colar ou importar a resposta. A Evolua apresenta erros corrigíveis e uma prévia antes de ativar o pacote. A qualidade combina regras automáticas, referências ao material-base e revisão pedagógica; a autovalidação declarada pela IA não comprova veracidade.

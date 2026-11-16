@@ -50,7 +50,8 @@ export function CourseReader({ pack, uid }: { pack: CoursePack; uid: string }) {
     setBusy(true);setMessage("");
     try {
       const token=await firebaseAuth().currentUser?.getIdToken();
-      const response=await fetch("/api/tutor",{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`},body:JSON.stringify({action,question:answer.slice(0,1000),lesson:lesson.title})});
+      const context=step<lesson.sections.length?lesson.sections[step]:lesson.sections.filter(s=>lesson.activities[step-lesson.sections.length]?.sectionIds.includes(s.id));
+      const response=await fetch("/api/tutor",{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`},body:JSON.stringify({action,question:answer.slice(0,1000),lesson:lesson.title,context:JSON.stringify(context).slice(0,24000)})});
       const result=await response.json();setMessage(result.message);
     } catch {setMessage("Suporte indisponível. Consulte as explicações e fontes da aula.");} finally {setBusy(false);}
   }

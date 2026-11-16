@@ -103,3 +103,14 @@
 @media(max-width:650px) { .games-page-heading { align-items:flex-start; flex-direction:column; gap:14px; } }
 .lesson-help-response:not(:empty) { margin-top:12px; padding:12px; border:1px solid #dce4da; border-radius:10px; background:#f8faf6; font-size:14px; line-height:1.6; white-space:pre-wrap; overflow-wrap:anywhere; max-height:40dvh; overflow-y:auto; }
 .lesson-help-response:empty { display:none; }
+.library-courses > .resource-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+.library-courses .library-course-card { position:relative; padding:154px 24px 24px; overflow:hidden; border-radius:16px; transition:transform .2s,box-shadow .2s; }
+.library-courses .library-course-card::before { content:""; position:absolute; inset:0 0 auto; height:130px; background:#e8efd9; }
+.library-courses .library-course-card:nth-child(3n+2)::before { background:#eee8f8; }
+.library-courses .library-course-card:nth-child(3n)::before { background:#f8eadd; }
+.library-courses .library-course-card::after { content:""; position:absolute; right:24px; top:-18px; width:155px; height:155px; border:1px solid #174e4020; border-radius:50%; box-shadow:0 0 0 22px #ffffff25,0 0 0 44px #ffffff20; }
+.library-courses .library-course-card > svg { position:absolute; right:66px; top:35px; width:54px; height:54px; stroke-width:1.3; color:#174e40; z-index:1; }
+.library-courses .library-course-card h3 { font-size:22px; margin:0; }
+.library-courses .library-course-card:hover { transform:translateY(-3px); box-shadow:0 10px 28px #324a2d10; }
+.library-courses .library-course-card > .button { width:100%; justify-content:space-between; }
+@media(max-width:650px) { .library-courses > .resource-grid { grid-template-columns:1fr; } }

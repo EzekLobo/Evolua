@@ -103,9 +103,26 @@ ${JSON.stringify(original)}`;
 
 export async function copyPrompt(text: string): Promise<string> {
   try {
+    if (!navigator.clipboard?.writeText) throw new Error("Clipboard indisponível");
     await navigator.clipboard.writeText(text);
     return "Prompt copiado. Cole e envie na IA escolhida. Se a aba não abriu, use o link para abrir a IA.";
   } catch {
+    try {
+      const helper = document.createElement("textarea");
+      helper.value = text;
+      helper.setAttribute("readonly", "");
+      helper.style.position = "fixed";
+      helper.style.opacity = "0";
+      document.body.appendChild(helper);
+      helper.select();
+      helper.setSelectionRange(0, helper.value.length);
+      const copied = document.execCommand("copy");
+      helper.remove();
+      if (copied)
+        return "Prompt copiado. Cole e envie na IA escolhida. Se a aba não abriu, use o link para abrir a IA.";
+    } catch {
+      // Mostra a orientação manual abaixo.
+    }
     return "Cópia automática indisponível. Selecione o prompt para copiar manualmente ou baixe o texto. Se a aba não abriu, use o link para abrir a IA.";
   }
 }

@@ -78,7 +78,28 @@ Cada aula deve ter pelo menos uma seção e uma atividade. Cada seção deve ter
 Cada atividade tem id, title, objectiveIds, sectionIds, prompt, expectedAnswer e feedback. As variantes permitidas são:
 - type "comprehension": somente os campos-base da atividade.
 - type "application": campos-base mais scenario.
-- type "transfer": campos-base mais scenario e constraints.
+- type "transfer": campos-base mais scenario (string) e constraints (array obrigatório de 1 a 8 strings, cada uma com 1 a ${COURSE_PACK_LIMITS.shortText} caracteres). Mesmo uma única restrição deve usar colchetes: "constraints": ["Considere apenas os dados do cenário."]. Nunca use uma string diretamente.
+
+TIPOS E LIMITES DE TODOS OS CAMPOS
+Todos os campos declarados são obrigatórios, exceto reviewer e reviewedAt quando status for draft. Não use null, campos desconhecidos, placeholders, reticências, comentários ou coerção de tipos. Números são números JSON; ordered é true ou false, nunca texto. Todo texto deve ser não vazio após trim.
+- Todo id usa a regra de ID acima; todo title é string de até ${COURSE_PACK_LIMITS.title} caracteres. Toda description é string de até ${COURSE_PACK_LIMITS.description}, exceto prerequisite.description, que tem até ${COURSE_PACK_LIMITS.shortText}.
+- audience.description é string de até ${COURSE_PACK_LIMITS.description}; priorKnowledge é array de 0 a 10 strings de até ${COURSE_PACK_LIMITS.shortText}. prerequisites é array de 0 a ${COURSE_PACK_LIMITS.prerequisites} objetos. scope e exclusions são arrays de 0 a ${COURSE_PACK_LIMITS.scopeItems} strings de até ${COURSE_PACK_LIMITS.bodyText} cada.
+- evidenceOfLearning é array de 1 a ${COURSE_PACK_LIMITS.objectiveEvidence} strings de até ${COURSE_PACK_LIMITS.shortText}. source.locator é string de até ${COURSE_PACK_LIMITS.shortText}; source.excerpt é string de até ${COURSE_PACK_LIMITS.sourceExcerpt}.
+- Todo order é inteiro positivo. objectiveIds, sourceIds e sectionIds são arrays de 1 a ${COURSE_PACK_LIMITS.idsPerLink} strings de IDs existentes, inclusive quando houver só um ID. Nunca use texto separado por vírgulas.
+- module.lessons é array de 1 a ${COURSE_PACK_LIMITS.lessonsPerModule} objetos; lesson.sections, de 1 a ${COURSE_PACK_LIMITS.sectionsPerLesson}; lesson.activities, de 1 a ${COURSE_PACK_LIMITS.activitiesPerLesson}; section.blocks, de 1 a ${COURSE_PACK_LIMITS.blocksPerSection}.
+- text.text é string de até ${COURSE_PACK_LIMITS.bodyText}. list.ordered é boolean; list.items é array de 1 a ${COURSE_PACK_LIMITS.blocksPerSection} strings de até ${COURSE_PACK_LIMITS.listItem}, nunca um texto com marcadores.
+- resolved-example.prompt e conclusion são strings de até ${COURSE_PACK_LIMITS.bodyText}; steps é array de 2 a 12 objetos { id, action, reasoning }, com action e reasoning strings de até ${COURSE_PACK_LIMITS.bodyText}.
+- counterexample.situation, commonMistake, correction e whyItMatters são strings de até ${COURSE_PACK_LIMITS.bodyText}.
+- synthesis.keyPoints é array de 2 a 10 strings de até ${COURSE_PACK_LIMITS.bodyText}; takeaway é string com esse mesmo limite.
+- analogy.familiarSituation, concept e returnToConcept são strings de até ${COURSE_PACK_LIMITS.bodyText}; question é string de até ${COURSE_PACK_LIMITS.shortText}. mappings é array de 2 a 8 objetos { id, familiar, concept }, com familiar e concept strings de até ${COURSE_PACK_LIMITS.bodyText}. limits é array de 1 a 5 strings de até ${COURSE_PACK_LIMITS.bodyText}.
+- activity.prompt, expectedAnswer, feedback e scenario são strings de até ${COURSE_PACK_LIMITS.bodyText}. expectedAnswer não é array nem objeto. comprehension não aceita scenario ou constraints; application exige scenario e não aceita constraints; transfer exige ambos.
+- editorial.notes é array de 0 a 10 strings de até ${COURSE_PACK_LIMITS.shortText}. reviewer, quando presente, é string de até ${COURSE_PACK_LIMITS.shortText}; reviewedAt é string AAAA-MM-DD. Omita opcionais não disponíveis em vez de usar null ou string vazia.
+
+EXEMPLO ESTRUTURAL DE ATIVIDADE TRANSFER (substitua conteúdo e referências por dados reais do curso)
+{"id":"mod01-atv03","type":"transfer","title":"Aplicação em novo contexto","objectiveIds":["obj01"],"sectionIds":["mod01-sec01"],"prompt":"Explique a solução e justifique a escolha.","expectedAnswer":"Uma resposta textual com os critérios esperados.","feedback":"Uma explicação textual sobre os critérios e os erros comuns.","scenario":"Um cenário novo relacionado ao conteúdo ensinado.","constraints":["Utilize apenas os dados apresentados."]}
+
+AUDITORIA DE TIPOS OBRIGATÓRIA
+Revise cada ocorrência dos campos, não apenas o primeiro exemplo. Confira especialmente constraints, limits, items, keyPoints, evidenceOfLearning e listas de IDs: todos devem permanecer arrays mesmo com um único item. Distinga limite de quantidade de itens do limite de caracteres de cada string. Confira os campos permitidos de cada variante pelo type. Ao juntar módulos, preserve esses tipos e refaça a auditoria no pacote inteiro.
 
 Não invente uma variante, campo ou envelope para combinar curso e jogos. Esta tarefa gera somente um objeto evolua-course-pack v1; atividades de curso não devem conter objetos de evolua-game-pack.
 `;

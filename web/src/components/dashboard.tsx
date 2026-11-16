@@ -7,6 +7,7 @@ import {
   ChevronRight,
   Clock,
   Flame,
+  FilePlus2,
   Gamepad2,
   Sparkles,
   Target,
@@ -86,9 +87,12 @@ export function Dashboard({
         }
         description="Cada pequeno passo abre um mundo de possibilidades."
         action={
-          <span className="date-pill">
-            <span className="status-dot" /> Seu espaço de aprendizado
-          </span>
+          <button
+            className="button button-outline"
+            onClick={() => navigate("biblioteca")}
+          >
+            <FilePlus2 size={16} /> Novo curso
+          </button>
         }
       />
       <div className="dashboard-columns">

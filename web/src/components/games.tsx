@@ -104,12 +104,12 @@ export function Games({
   </>;
   return (
     <>
-      <PageHeading
+      <div className="games-page-heading"><PageHeading
         eyebrow="LABORATÓRIO DE JOGOS"
         title="Aprenda jogando com qualquer assunto."
         description="Escolha um pacote, pratique em três formatos e importe novos conteúdos gerados com o prompt da Evolua."
       />
-      <div className="game-import-toolbar"><button className="button button-primary" onClick={()=>setImporting(true)}>Importar material</button></div>
+      <div className="game-import-toolbar"><button className="button button-primary" onClick={()=>setImporting(true)}>Importar material</button></div></div>
       <section className="panel game-catalog">
         <div className="game-catalog-heading">
           <span className="round-icon lime">

@@ -97,3 +97,7 @@
 .course-reader article > aside > ol > li { counter-increment:solution; position:relative; padding:14px 16px 14px 48px; margin:0; background:white; border:1px solid #dce4da; border-radius:10px; }
 .course-reader article > aside > ol > li::before { content:counter(solution); position:absolute; left:12px; top:14px; width:25px; height:25px; border-radius:50%; background:#174e40; color:white; text-align:center; font-size:13px; }
 .course-reader article > aside > ol > li > p { color:#62746a; font-size:14px; border-top:1px solid #e5ebe1; padding-top:8px; }
+.games-page-heading { display:flex; justify-content:space-between; align-items:center; gap:24px; margin-bottom:24px; }
+.games-page-heading > :first-child { flex:1; min-width:0; margin-bottom:0; }
+.games-page-heading .game-import-toolbar { margin:0; flex-shrink:0; }
+@media(max-width:650px) { .games-page-heading { align-items:flex-start; flex-direction:column; gap:14px; } }

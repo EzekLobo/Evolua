@@ -1,6 +1,7 @@
 "use client";
 import { useState, type FormEvent } from "react";
 import type { AuthState } from "../hooks/use-auth";
+import { ArrowRight, BookOpen, ShieldCheck, Sparkles } from "lucide-react";
 
 export function AuthAccount({ auth }: { auth: AuthState }) {
   const [email, setEmail] = useState("");
@@ -12,6 +13,8 @@ export function AuthAccount({ auth }: { auth: AuthState }) {
     await auth.login(email, enteredPassword);
   }
   return <section className="panel auth-account" aria-label="Sua conta">
+    {!auth.allowed && <div className="auth-welcome"><span className="auth-symbol"><BookOpen size={26} /></span><span className="eyebrow">SEU PRÓXIMO PASSO COMEÇA AQUI</span><h1>Conhecimento que<br />cresce com você.</h1><p>Estude com profundidade, pratique no seu ritmo e transforme cada descoberta em aprendizado.</p><div className="auth-benefits"><span><BookOpen size={17} /> Conteúdo para aprofundar</span><span><Sparkles size={17} /> Prática para evoluir</span></div><span className="auth-access-note"><ShieldCheck size={16} /> Um espaço exclusivo para alunos autorizados</span></div>}
+    <div className="auth-form-content">
     <h2>{auth.allowed ? "Sua conta" : "Acesso restrito"}</h2>
     {!auth.configured ? <p>O acesso está aguardando configuração pelo administrador.</p>
       : !auth.ready ? <p role="status">Verificando sua autorização…</p>
@@ -30,10 +33,11 @@ export function AuthAccount({ auth }: { auth: AuthState }) {
         <label className="field-label">Senha
           <input type="password" autoComplete="current-password" required value={password} onChange={(event) => setPassword(event.target.value)} disabled={auth.busy} />
         </label>
-        <button className="button button-primary" disabled={auth.busy} type="submit">{auth.busy ? "Entrando…" : "Entrar"}</button>
+        <button className="button button-primary auth-submit" disabled={auth.busy} type="submit">{auth.busy ? "Entrando…" : "Entrar"}<ArrowRight size={18} aria-hidden="true" /></button>
         <p className="muted">Para obter ou recuperar seu acesso, fale com o administrador.</p>
       </form>}
     {auth.allowed && <p className="muted">O progresso desta conta fica separado no navegador. Entrar com outra conta não exibe estes estudos; use backup para transferir dados conscientemente.</p>}
     {auth.message && <p role="alert" className="inline-message warning">{auth.message}</p>}
+    </div>
   </section>;
 }

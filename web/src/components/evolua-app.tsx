@@ -291,6 +291,7 @@ function LearningApp({ auth, uid }: { auth: AuthState; uid: string }) {
             />
           ) : view === "jogos" ? (
             <Games
+              courses={courses.activeCourses.map(c=>c.pack)}
               onFlashcards={() => navigate("cards")}
               onQuiz={() => navigate("quiz")}
               uid={uid}

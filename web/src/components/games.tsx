@@ -20,6 +20,9 @@ import {
 import { recordAttempt, shuffled, type Progress } from "../lib/learning-engine";
 import { PageHeading, ProgressBar } from "./ui";
 import { GamePackStudio } from "./game-pack-studio";
+import type { CoursePack } from "../lib/course-schema";
+import { gamePackSchema } from "../lib/game-content";
+import { firebaseAuth } from "../lib/firebase-client";
 
 type UpdateProgress = (change: (progress: Progress) => Progress) => void;
 
@@ -34,11 +37,13 @@ export function Games({
   canGenerate = false,
   onFlashcards,
   onQuiz,
+  courses = [],
 }: {
   uid: string;
   canGenerate?: boolean;
   onFlashcards?: () => void;
   onQuiz?: () => void;
+  courses?: CoursePack[];
   packs: GamePack[];
   customPacks: GamePack[];
   savePack: (pack: GamePack) => "created" | "updated";
@@ -53,6 +58,26 @@ export function Games({
     pack.modules.find((item) => item.id === moduleId) ?? pack.modules[0];
   const [active, setActive] = useState<GameType | null>(null);
   const [importing, setImporting] = useState(false);
+  const [courseId,setCourseId]=useState("");
+  const [generating,setGenerating]=useState(false);
+  const [generationMessage,setGenerationMessage]=useState("");
+  async function generateBank() {
+    const course=courses.find(c=>c.id===courseId);if(!course||generating)return;
+    setGenerating(true);setGenerationMessage("");
+    try {
+      const modules:GameModule[]=[];
+      for(const [i,module] of course.modules.entries()) {
+        setGenerationMessage(`Gerando módulo ${i+1} de ${course.modules.length}…`);
+        const token=await firebaseAuth().currentUser?.getIdToken();
+        const response=await fetch("/api/game-bank",{method:"POST",headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`},body:JSON.stringify({material:JSON.stringify(module)})});
+        const result=await response.json();if(!response.ok)throw new Error(result.message);
+        modules.push({id:`mod-${i+1}`,title:module.title.slice(0,240),description:module.description.slice(0,2000),pairs:[],trueFalse:[],multipleChoice:result.items.map((item:Record<string,unknown>,j:number)=>({...item,id:`mod-${i+1}-q-${j+1}`}))});
+        const generated=gamePackSchema.parse({schema:"evolua-game-pack",version:1,id:`cg-${course.id}`.slice(0,64),title:course.title.slice(0,240),description:`Questões geradas por IA para o curso. Revise os gabaritos antes de uso avaliativo.`,modules});
+        savePack(generated);setPackId(generated.id);setModuleId(modules[0].id);
+      }
+      setGenerationMessage("Banco salvo neste navegador. Selecione um jogo para praticar.");
+    }catch(error){setGenerationMessage(error instanceof Error?error.message:"Falha na geração.");}finally{setGenerating(false);}
+  }
 
   function choosePack(id: string) {
     const next = packs.find((item) => item.id === id) ?? packs[0];
@@ -115,6 +140,7 @@ export function Games({
       />
       <div className="game-import-toolbar"><button className="button button-primary" onClick={()=>setImporting(true)}>Importar material</button></div></div>
       <section className="panel game-catalog">
+        <div className="game-selectors"><label className="field-label">Gerar questões de um curso<select value={courseId} disabled={generating} onChange={e=>setCourseId(e.target.value)}><option value="">Selecione um curso importado</option>{courses.map(c=><option key={c.id} value={c.id}>{c.title}</option>)}</select></label><button className="button button-primary" disabled={!courseId||generating} onClick={()=>void generateBank()}>{generating?"Gerando…":"Gerar banco de questões"}</button></div><p role="status">{generationMessage}</p>
         <div className="game-catalog-heading">
           <span className="round-icon lime">
             <Gamepad2 />

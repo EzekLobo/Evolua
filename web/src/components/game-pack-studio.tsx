@@ -1,12 +1,14 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
-  buildGamePackPrompt,
   PACK_LIMITS,
   qualityWarnings,
   type GamePack,
-  type GamePromptOptions,
 } from "../lib/game-content";
+import {
+  buildGamePackAuthoringPrompt,
+  type GamePackAuthoringOptions,
+} from "../lib/game-authoring";
 import {
   AI_PROVIDERS,
   aiPreferenceStorageKey,
@@ -23,7 +25,6 @@ export function GamePackStudio({
   customPacks,
   savePack,
   removePack,
-  canGenerate = false,
 }: {
   uid: string;
   canGenerate?: boolean;
@@ -31,11 +32,14 @@ export function GamePackStudio({
   savePack: (pack: GamePack) => "created" | "updated";
   removePack: (id: string) => void;
 }) {
-  const [options, setOptions] = useState<GamePromptOptions>({
+  const [options, setOptions] = useState<GamePackAuthoringOptions>({
     subject: "",
+    materialBase: "",
     audience: "Estudantes em geral",
     objective: "",
     difficulty: "intermediário",
+    moduleCount: 3,
+    itemsPerGame: 6,
     itemCount: 6,
   });
   const [providerId, setProviderId] = useState<string>("chatgpt");
@@ -47,7 +51,10 @@ export function GamePackStudio({
   const [canShare, setCanShare] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
   const preview = useRef<HTMLElement>(null);
-  const prompt = useMemo(() => buildGamePackPrompt(options), [options]);
+  const prompt = useMemo(
+    () => buildGamePackAuthoringPrompt(options),
+    [options],
+  );
   const provider =
     AI_PROVIDERS.find((item) => item.id === providerId) ?? AI_PROVIDERS[0];
   const correction = issues.length ? correctionPrompt(text, issues) : "";
@@ -59,7 +66,6 @@ export function GamePackStudio({
     if (pending) preview.current?.focus();
   }, [pending]);
   useEffect(() => {
-    if (!canGenerate) return;
     try {
       const saved = localStorage.getItem(aiPreferenceStorageKey(uid));
       if (AI_PROVIDERS.some((item) => item.id === saved)) setProviderId(saved!);
@@ -69,7 +75,7 @@ export function GamePackStudio({
       );
     }
     setCanShare(typeof navigator.share === "function");
-  }, [canGenerate, uid]);
+  }, [uid]);
 
   function download(name: string, body: string, type = "application/json") {
     const url = URL.createObjectURL(new Blob([body], { type }));
@@ -123,7 +129,6 @@ export function GamePackStudio({
     }
   }
   function openAndCopy(value: string) {
-    if (!canGenerate) return;
     // A abertura ocorre no gesto do usuário, antes da operação assíncrona.
     if (provider.url) {
       try {
@@ -158,16 +163,15 @@ export function GamePackStudio({
       <div className="section-heading">
         <div>
           <span className="eyebrow">ENTRADA MODULAR</span>
-          <h2>{canGenerate ? "Transforme um tema em novos jogos" : "Importe novos jogos"}</h2>
+          <h2>Monte e importe novos jogos</h2>
           <p className="muted">
-            {canGenerate
-              ? "Gere um pacote com apoio de uma IA e revise tudo antes de ativar."
-              : "Importe seus pacotes JSON para praticar. A geracao automatica por IA/API esta disponivel apenas para o administrador."}
+            Monte o prompt localmente, use uma IA externa para gerar o JSON e
+            revise tudo antes de ativar. A Evolua não envia seu material por API;
+            dúvidas e analogias ficam para o tutor futuro.
           </p>
         </div>
       </div>
-      <div className={canGenerate ? "studio-columns" : "studio-import-only"}>
-        {canGenerate && (
+      <div className="studio-columns">
         <section className="panel prompt-builder">
           <span className="step-number">1</span>
           <h3>Prepare e abra sua IA</h3>
@@ -183,6 +187,17 @@ export function GamePackStudio({
               onChange={(event) =>
                 setOptions({ ...options, subject: event.target.value })
               }
+            />
+          </label>
+          <label className="field-label">
+            Material-base
+            <textarea
+              rows={5}
+              value={options.materialBase ?? ""}
+              onChange={(event) =>
+                setOptions({ ...options, materialBase: event.target.value })
+              }
+              placeholder="Cole aqui o material que a IA externa deve analisar."
             />
           </label>
           <label className="field-label">
@@ -212,7 +227,7 @@ export function GamePackStudio({
                   setOptions({
                     ...options,
                     difficulty: event.target
-                      .value as GamePromptOptions["difficulty"],
+                      .value as GamePackAuthoringOptions["difficulty"],
                   })
                 }
               >
@@ -224,11 +239,11 @@ export function GamePackStudio({
             <label className="field-label">
               Itens por jogo
               <select
-                value={options.itemCount}
+                value={options.itemsPerGame ?? options.itemCount ?? 6}
                 onChange={(event) =>
                   setOptions({
                     ...options,
-                    itemCount: Number(event.target.value),
+                    itemsPerGame: Number(event.target.value),
                   })
                 }
               >
@@ -238,6 +253,19 @@ export function GamePackStudio({
               </select>
             </label>
           </div>
+          <label className="field-label">
+            Módulos desejados
+            <select
+              value={options.moduleCount ?? 3}
+              onChange={(event) =>
+                setOptions({ ...options, moduleCount: Number(event.target.value) })
+              }
+            >
+              {[1, 2, 3, 4, 5].map((value) => (
+                <option key={value}>{value}</option>
+              ))}
+            </select>
+          </label>
           <label className="field-label">
             Minha IA preferida
             <select
@@ -328,13 +356,13 @@ export function GamePackStudio({
             </p>
           )}
           <p className="muted small-text">
-            Cole e envie o prompt na IA. O material não é enviado pela Evolua ao
-            abrir o site.
+            Este é um prompt para IA externa. Cole e envie o texto manualmente;
+            o material não é enviado pela Evolua ao abrir o site.
           </p>
-        </section>)}
+        </section>
         <section className="panel pack-importer">
-          <span className="step-number">{canGenerate ? "2" : "1"}</span>
-          <h3>{canGenerate ? "Cole a resposta ou importe o arquivo" : "Importe seu arquivo de jogos"}</h3>
+          <span className="step-number">2</span>
+          <h3>Cole a resposta ou importe o arquivo</h3>
           <p>
             JSON puro ou envolto em um bloco Markdown. Limite de 1 MB. Seus
             dados atuais são mantidos até a ativação.
@@ -384,7 +412,7 @@ export function GamePackStudio({
                   </li>
                 ))}
               </ul>
-              {canGenerate && <><label className="field-label">
+              <><label className="field-label">
                 Prompt de correção
                 <textarea
                   aria-label="Prompt de correção"
@@ -411,7 +439,7 @@ export function GamePackStudio({
                 >
                   Baixar correção
                 </button>
-              </div></>}
+               </div></>
             </div>
           )}
           {customPacks.length > 0 && (

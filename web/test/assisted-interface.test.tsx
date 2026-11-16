@@ -55,14 +55,14 @@ async function load(withPack = true) {
 }
 
 describe("assisted authoring and full games", () => {
-  it("keeps import available but hides generation for authorized regular users", async () => {
+  it("keeps external prompt authoring and import available for authorized regular users", async () => {
     vi.mocked(useAuth).mockReturnValue({
       user: { uid: USER_ID } as never, ready: true, busy: false, allowed: true, canGenerate: false,
       message: "", configured: true, login: vi.fn(), logout: vi.fn(),
     });
     await load(false);
-    expect(screen.queryByLabelText("Prompt gerado")).toBeNull();
-    expect(screen.queryByRole("button", { name: "Copiar prompt e abrir IA" })).toBeNull();
+    expect(screen.getByLabelText("Prompt gerado")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Copiar prompt e abrir IA" })).toBeTruthy();
     expect(screen.getByRole("button", { name: "Importar arquivo JSON" })).toBeTruthy();
     fireEvent.change(screen.getByLabelText("Resposta da IA"), { target: { value: JSON.stringify(testGamePack) } });
     fireEvent.click(screen.getByRole("button", { name: "Validar e visualizar" }));
@@ -86,7 +86,7 @@ describe("assisted authoring and full games", () => {
       "noopener,noreferrer",
     );
     expect(await navigator.clipboard.readText()).toContain(
-      "Procedimento de qualidade",
+      "ETAPA 3 — REVISÃO FACTUAL E PEDAGÓGICA",
     );
     expect(localStorage.getItem(AI_PREFERENCE_KEY)).toBe("claude");
     cleanup();

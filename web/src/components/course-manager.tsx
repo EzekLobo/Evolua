@@ -1,11 +1,31 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Check, FileJson, Trash2, Upload, X } from "lucide-react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Check,
+  Copy,
+  Download,
+  ExternalLink,
+  FileJson,
+  Sparkles,
+  Trash2,
+  Upload,
+  X,
+} from "lucide-react";
 import {
   COURSE_PACK_LIMITS,
   type CoursePack,
 } from "../lib/course-schema";
+import {
+  buildCoursePackPrompt,
+  type CourseLevel,
+  type CoursePromptOptions,
+} from "../lib/course-authoring";
+import {
+  AI_PROVIDERS,
+  aiPreferenceStorageKey,
+  copyPrompt,
+} from "../lib/assisted-authoring";
 import type {
   CourseImportPreview,
   CoursePreview,
@@ -13,6 +33,7 @@ import type {
 } from "../lib/course-store";
 
 export type CourseManagerProps = {
+  uid?: string;
   activeCourses: StoredCourse[];
   drafts: StoredCourse[];
   preview: (value: unknown) => CourseImportPreview;
@@ -20,6 +41,208 @@ export type CourseManagerProps = {
   activate: (pack: CoursePack) => unknown;
   remove: (kind: "active" | "draft", id: string, revision?: number) => unknown;
 };
+
+function downloadText(name: string, body: string) {
+  const url = URL.createObjectURL(new Blob([body], { type: "text/plain" }));
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = name;
+  anchor.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+const CoursePromptBuilder = memo(function CoursePromptBuilder({ uid }: { uid: string }) {
+  const [options, setOptions] = useState<CoursePromptOptions>({
+    subject: "",
+    materialBase: "",
+    audience: "Estudantes em geral",
+    priorKnowledge: [],
+    objective: "",
+    level: "intermediario",
+    scope: [],
+    exclusions: [],
+    depth: "Completa, progressiva e suficiente para explicar conceitos, aplicação e limites",
+    moduleCount: 4,
+    lessonsPerModule: 3,
+  });
+  const [providerId, setProviderId] = useState<string>("chatgpt");
+  const [message, setMessage] = useState("");
+  const prompt = useMemo(() => buildCoursePackPrompt(options), [options]);
+  const provider =
+    AI_PROVIDERS.find((item) => item.id === providerId) ?? AI_PROVIDERS[0];
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(aiPreferenceStorageKey(uid));
+      if (AI_PROVIDERS.some((item) => item.id === saved)) setProviderId(saved!);
+    } catch {
+      setMessage("A preferência de IA vale somente nesta sessão.");
+    }
+  }, [uid]);
+
+  function update<K extends keyof CoursePromptOptions>(
+    key: K,
+    value: CoursePromptOptions[K],
+  ) {
+    setOptions((current) => ({ ...current, [key]: value }));
+  }
+
+  function openAndCopy() {
+    if (provider.url) window.open(provider.url, "_blank", "noopener,noreferrer");
+    void copyPrompt(prompt).then(setMessage);
+  }
+
+  return (
+    <section className="panel prompt-builder course-prompt-builder" aria-labelledby="course-prompt-title">
+      <span className="step-number">1</span>
+      <div className="authoring-panel-heading">
+        <div>
+          <span className="eyebrow">AUTORIA COM IA EXTERNA</span>
+          <h3 id="course-prompt-title">Monte o plano do seu curso</h3>
+          <p>
+            A Evolua prepara um prompt completo. A IA externa monta o JSON; a
+            aplicação valida a compatibilidade antes da ativação.
+          </p>
+        </div>
+        <Sparkles size={22} aria-hidden="true" />
+      </div>
+      <div className="course-prompt-fields">
+        <label className="field-label">
+          Assunto ou material-base
+          <textarea
+            rows={4}
+            value={options.subject}
+            onChange={(event) => update("subject", event.target.value)}
+            placeholder="Ex.: metodologia científica, com o material de apoio abaixo"
+          />
+        </label>
+        <label className="field-label">
+          Material-base para a IA revisar
+          <textarea
+            rows={7}
+            value={options.materialBase}
+            onChange={(event) => update("materialBase", event.target.value)}
+            placeholder="Cole aqui o texto, resumo ou referências que devem fundamentar o curso."
+          />
+        </label>
+        <div className="studio-field-row">
+          <label className="field-label">
+            Público
+            <input
+              value={options.audience}
+              onChange={(event) => update("audience", event.target.value)}
+            />
+          </label>
+          <label className="field-label">
+            Nível
+            <select
+              value={options.level}
+              onChange={(event) =>
+                update("level", event.target.value as CourseLevel)
+              }
+            >
+              <option value="iniciante">Iniciante</option>
+              <option value="intermediario">Intermediário</option>
+              <option value="avancado">Avançado</option>
+            </select>
+          </label>
+        </div>
+        <label className="field-label">
+          Objetivo de aprendizagem
+          <input
+            value={options.objective}
+            onChange={(event) => update("objective", event.target.value)}
+            placeholder="O que o aluno deverá compreender e conseguir fazer?"
+          />
+        </label>
+        <div className="studio-field-row">
+          <label className="field-label">
+            Módulos-alvo
+            <select
+              value={options.moduleCount}
+              onChange={(event) => update("moduleCount", Number(event.target.value))}
+            >
+              {[1, 2, 3, 4, 6, 8].map((value) => (
+                <option key={value} value={value}>{value}</option>
+              ))}
+            </select>
+          </label>
+          <label className="field-label">
+            Aulas por módulo
+            <select
+              value={options.lessonsPerModule}
+              onChange={(event) =>
+                update("lessonsPerModule", Number(event.target.value))
+              }
+            >
+              {[1, 2, 3, 4, 6].map((value) => (
+                <option key={value} value={value}>{value}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <label className="field-label">
+          Minha IA preferida
+          <select
+            value={provider.id}
+            onChange={(event) => {
+              setProviderId(event.target.value);
+              try {
+                localStorage.setItem(
+                  aiPreferenceStorageKey(uid),
+                  event.target.value,
+                );
+              } catch {
+                setMessage("A preferência de IA vale somente nesta sessão.");
+              }
+            }}
+          >
+            {AI_PROVIDERS.map((item) => (
+              <option key={item.id} value={item.id}>{item.name}</option>
+            ))}
+          </select>
+        </label>
+      </div>
+      <label className="field-label">
+        Prompt gerado para o curso
+        <textarea
+          aria-label="Prompt gerado para o curso"
+          className="generated-prompt"
+          rows={10}
+          readOnly
+          value={prompt}
+          onFocus={(event) => event.currentTarget.select()}
+        />
+      </label>
+      <div className="studio-actions">
+        <button className="button button-primary" onClick={openAndCopy}>
+          <Copy size={16} /> Copiar prompt e abrir IA
+        </button>
+        <button
+          className="button button-outline"
+          onClick={() => downloadText("prompt-evolua-curso.txt", prompt)}
+        >
+          <Download size={16} /> Baixar prompt
+        </button>
+        {provider.url && (
+          <a
+            className="text-button"
+            href={provider.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Abrir {provider.name} <ExternalLink size={14} />
+          </a>
+        )}
+      </div>
+      {message && <p className="inline-message" role="status">{message}</p>}
+      <p className="muted small-text">
+        O material não é enviado automaticamente pela Evolua. Depois, cole o
+        JSON retornado no importador abaixo para revisar a compatibilidade.
+      </p>
+    </section>
+  );
+});
 
 function statusLabel(status: CoursePack["editorial"]["status"]) {
   return status === "draft"
@@ -82,6 +305,7 @@ function PreviewDetails({ preview }: { preview: CoursePreview }) {
 }
 
 export function CourseManager({
+  uid,
   activeCourses,
   drafts,
   preview,
@@ -94,6 +318,23 @@ export function CourseManager({
   const [errors, setErrors] = useState<string[]>([]);
   const [message, setMessage] = useState("");
   const [confirmed, setConfirmed] = useState(false);
+  const [courseText, setCourseText] = useState("");
+
+  function validateText(value: string) {
+    setErrors([]);
+    setPending(null);
+    setConfirmed(false);
+    try {
+      if (new TextEncoder().encode(value).byteLength > COURSE_PACK_LIMITS.bytes)
+        throw Error("O arquivo excede o limite de 2 MB.");
+      const clean = value.replace(/^\uFEFF/, "").trim().replace(/^```(?:json)?\s*\n([\s\S]*?)\n```$/i, "$1");
+      const result = preview(JSON.parse(clean));
+      if (result.success) setPending(result.preview);
+      else setErrors(result.errors.map((error) => `${error.formattedPath}: ${error.message}`));
+    } catch (error) {
+      setErrors([error instanceof Error ? error.message : "JSON inválido."]);
+    }
+  }
 
   async function importFile(file: File) {
     setMessage("");
@@ -163,15 +404,12 @@ export function CourseManager({
     <section className="panel course-manager" aria-labelledby="course-manager-title">
       <div className="section-heading">
         <div>
-          <span className="eyebrow">CURSOS IMPORTADOS</span>
-          <h2 id="course-manager-title">Novo curso e estudo guiado</h2>
-          <p className="muted small-text">
-            A importacao e o estudo ficam disponiveis para usuarios autorizados;
-            somente a geracao automatica por IA/API e restrita ao administrador.
-          </p>
+          <span className="eyebrow">CURSOS E ESTUDO GUIADO</span>
+          <h2 id="course-manager-title">Crie, importe e estude</h2>
           <p>
-            Importe um JSON estruturado, revise a prévia e escolha entre manter
-            como rascunho ou ativar no seu catálogo pessoal.
+            Monte o conteúdo com o prompt de autoria ou importe um JSON pronto,
+            revise a prévia e escolha entre manter como rascunho ou ativar no
+            seu catálogo pessoal.
           </p>
         </div>
         <button
@@ -192,6 +430,20 @@ export function CourseManager({
           }}
         />
       </div>
+
+      <CoursePromptBuilder uid={uid ?? ""} />
+      <section className="panel course-prompt-builder" aria-label="Importar curso">
+        <span className="step-number">2</span>
+        <h3>Cole o curso retornado pela IA</h3>
+        <label className="field-label">
+          JSON do curso
+          <textarea rows={10} value={courseText} onChange={(event) => { setCourseText(event.target.value); setPending(null); setConfirmed(false); }} />
+        </label>
+        <div className="studio-actions">
+          <button className="button button-primary" disabled={!courseText.trim()} onClick={() => validateText(courseText)}>Validar e visualizar curso</button>
+          <button className="button button-outline" onClick={() => input.current?.click()}>Importar arquivo JSON</button>
+        </div>
+      </section>
 
       {errors.length > 0 && (
         <div className="authoring-errors" role="alert">

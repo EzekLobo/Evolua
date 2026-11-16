@@ -70,7 +70,7 @@ export function Library({
   }
   return (
     <>
-      <CourseManager {...courses} />
+      <CourseManager {...courses} uid={uid} />
       {courses.activeCourses.map(c=><CourseReader key={`${c.pack.id}:${c.pack.revision}`} pack={c.pack} uid={uid}/>)}
       <PageHeading
         eyebrow="SUA BIBLIOTECA"

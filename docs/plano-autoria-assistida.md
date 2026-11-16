@@ -198,6 +198,8 @@ Aceite: exemplo válido e legível cobre compreensão/aplicação/transferência
 
 ### EP-112 — Prompt canônico para autoria completa de cursos e jogos
 
+Execução em 16/11/2026: implementados os construtores `course-authoring.ts` e `game-authoring.ts`, com planejamento pedagógico, limites dos contratos e revisão estrutural/factual antes da resposta. Biblioteca oferece formulário e prompt de curso, cópia/abertura/download, colagem de JSON e prévia; Jogos oferece prompt externo para usuários autorizados. Geração por API não foi adicionada. Typecheck e build aprovados; suíte com timeout de 30 segundos: 93/94, com falha preexistente no teste de autorização do proprietário por provedor. Revisão visual em navegador e avaliação factual de um curso gerado por IA externa permanecem pendentes; autorrevisão do prompt não garante compatibilidade, que é conferida pelo importador.
+
 **Resultado:** usuário autenticado e autorizado informa o contexto do assunto, copia um prompt completo para uma IA externa e retorna com um JSON compatível com a Evolua. O mesmo prompt possui modos de saída separados para `evolua-course-pack` v1 e `evolua-game-pack` v2. O usuário não precisa conhecer a hierarquia, os IDs, os limites ou o JSON; a aplicação monta as instruções e valida o retorno. Dúvidas e analogias personalizadas continuam sendo responsabilidade do tutor por API dos EP-107/EP-108, depois da importação.
 
 **Escopo incluído:**

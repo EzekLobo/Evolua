@@ -19,6 +19,7 @@ import {
 } from "../lib/game-content";
 import { recordAttempt, shuffled, type Progress } from "../lib/learning-engine";
 import { PageHeading, ProgressBar } from "./ui";
+import { MathText } from "./math-text";
 import { GamePackStudio } from "./game-pack-studio";
 import type { CoursePack } from "../lib/course-schema";
 import { gamePackSchema } from "../lib/game-content";
@@ -432,7 +433,7 @@ function PairGame({
                   setFeedback("");
                 }}
               >
-                {item.prompt}
+                <MathText>{item.prompt}</MathText>
               </button>
             ))}
           </div>
@@ -469,7 +470,7 @@ function PairGame({
                   setSelected(null);
                 }}
               >
-                {answer.answer}
+                <MathText>{answer.answer}</MathText>
               </button>
             ))}
           </div>
@@ -531,7 +532,7 @@ function TrueFalseGame({
       />
       <section className="question-card game-question-card">
         <span className="eyebrow">ANALISE A AFIRMAÇÃO</span>
-        <h1>{item.statement}</h1>
+        <h1><MathText>{item.statement}</MathText></h1>
         <div className="truth-options">
           {[
             { value: true, label: "Verdadeiro", icon: CheckCircle2 },
@@ -564,7 +565,7 @@ function TrueFalseGame({
           role="status"
         >
           <h2>{correct ? "Boa leitura!" : "Quase — vale rever a ideia."}</h2>
-          <p>{item.explanation}</p>
+          <p><MathText>{item.explanation}</MathText></p>
           <button
             className="button button-primary"
             onClick={() => {
@@ -640,7 +641,7 @@ function ChoiceGame({
       />
       <section className="question-card game-question-card">
         <span className="eyebrow">ESCOLHA UMA ALTERNATIVA</span>
-        <h1>{item.question}</h1>
+        <h1><MathText>{item.question}</MathText></h1>
         <div className="quiz-options">
           {options.map((option, optionIndex) => {
             const isCorrect = option.originalIndex === item.correctOptionIndex;
@@ -664,7 +665,7 @@ function ChoiceGame({
                 <span className="option-letter">
                   {String.fromCharCode(65 + optionIndex)}
                 </span>
-                <span>{option.text}</span>
+                <span><MathText>{option.text}</MathText></span>
                 {answer !== null && isCorrect ? (
                   <CheckCircle2 size={19} />
                 ) : answer !== null && selected ? (
@@ -689,7 +690,7 @@ function ChoiceGame({
               {item.options[item.correctOptionIndex]}
             </p>
           )}
-          <p>{item.explanation}</p>
+          <p><MathText>{item.explanation}</MathText></p>
           {item.optionExplanations && (
             <details>
               <summary>Entender todas as alternativas</summary>

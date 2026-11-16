@@ -158,7 +158,12 @@ export function GamePackStudio({
       <div className="section-heading">
         <div>
           <span className="eyebrow">ENTRADA MODULAR</span>
-          <h2>Transforme um tema em novos jogos</h2>
+          <h2>{canGenerate ? "Transforme um tema em novos jogos" : "Importe novos jogos"}</h2>
+          <p className="muted">
+            {canGenerate
+              ? "Gere um pacote com apoio de uma IA e revise tudo antes de ativar."
+              : "Importe seus pacotes JSON para praticar. A geracao automatica por IA/API esta disponivel apenas para o administrador."}
+          </p>
         </div>
       </div>
       <div className={canGenerate ? "studio-columns" : "studio-import-only"}>
@@ -329,7 +334,7 @@ export function GamePackStudio({
         </section>)}
         <section className="panel pack-importer">
           <span className="step-number">{canGenerate ? "2" : "1"}</span>
-          <h3>Cole a resposta ou importe o arquivo</h3>
+          <h3>{canGenerate ? "Cole a resposta ou importe o arquivo" : "Importe seu arquivo de jogos"}</h3>
           <p>
             JSON puro ou envolto em um bloco Markdown. Limite de 1 MB. Seus
             dados atuais são mantidos até a ativação.

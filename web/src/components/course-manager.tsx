@@ -164,7 +164,11 @@ export function CourseManager({
       <div className="section-heading">
         <div>
           <span className="eyebrow">CURSOS IMPORTADOS</span>
-          <h2 id="course-manager-title">Cursos completos, no seu ritmo</h2>
+          <h2 id="course-manager-title">Novo curso e estudo guiado</h2>
+          <p className="muted small-text">
+            A importacao e o estudo ficam disponiveis para usuarios autorizados;
+            somente a geracao automatica por IA/API e restrita ao administrador.
+          </p>
           <p>
             Importe um JSON estruturado, revise a prévia e escolha entre manter
             como rascunho ou ativar no seu catálogo pessoal.
@@ -174,7 +178,7 @@ export function CourseManager({
           className="button button-primary"
           onClick={() => input.current?.click()}
         >
-          <Upload size={16} /> Importar curso
+          <Upload size={16} /> Novo curso
         </button>
         <input
           ref={input}

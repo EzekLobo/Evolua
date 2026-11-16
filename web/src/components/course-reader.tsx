@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { MathText } from "./math-text";
+import { Map } from "lucide-react";
 import type { CourseBlock, CoursePack } from "../lib/course-schema";
 import { privateStorageKey } from "../lib/private-storage";
 import { firebaseAuth } from "../lib/firebase-client";
@@ -59,7 +60,7 @@ export function CourseReader({ pack, uid }: { pack: CoursePack; uid: string }) {
     <h3>Módulos e aulas</h3>
     {pack.modules.map((module,i)=><details key={module.id} open={module.lessons.some(l=>l.id===lesson.id)}><summary>{i+1}. {module.title}<span className="module-count">{module.lessons.length} aulas</span></summary><p>{module.description}</p><ol className="course-lesson-list">{module.lessons.map(l=><li key={l.id}><button disabled={!isUnlocked(lessons.findIndex(item=>item.id===l.id))} onClick={()=>{navigate(lessons.findIndex(item=>item.id===l.id));setStudying(true);}}>{l.title}{l.id===lesson.id && learning[learningId(pack)] ? " · Em andamento" : ""}</button></li>)}</ol></details>)}
   </section>;
-  return <section className="panel course-reader"><button onClick={()=>setStudying(false)}>← Plano do curso</button><h2>{lesson.title}</h2><p className="muted">{pack.title} · Aula {index+1} de {lessons.length}</p><p>{pack.editorial.status === "draft" ? "Rascunho sem revisão editorial" : "Declaração editorial informada pelo autor do arquivo"}</p>
+  return <section className="panel course-reader lesson-horizontal"><button className="lesson-plan-icon" aria-label="Abrir plano do curso" title="Plano do curso" onClick={()=>setStudying(false)}><Map size={19}/></button><h2>{lesson.title}</h2><p className="muted">{pack.title} · Aula {index+1} de {lessons.length}</p><p>{pack.editorial.status === "draft" ? "Rascunho sem revisão editorial" : "Declaração editorial informada pelo autor do arquivo"}</p>
     <p><MathText>{lesson.description}</MathText></p><details><summary>Objetivos da aula</summary><ul>{pack.objectives.filter(o=>lesson.objectiveIds.includes(o.id)).map(o=><li key={o.id}><MathText>{o.description}</MathText></li>)}</ul></details>
     <div className="lesson-step-header"><span>Etapa {step+1} de {lesson.sections.length+lesson.activities.length+1}</span><span>{step<lesson.sections.length ? "Aprender" : step<lesson.sections.length+lesson.activities.length ? "Praticar" : "Conclusão"}</span></div>
     <progress aria-label="Progresso da aula" max={lesson.sections.length+lesson.activities.length+1} value={step+1}/>

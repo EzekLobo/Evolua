@@ -108,22 +108,26 @@ const CoursePromptBuilder = memo(function CoursePromptBuilder({ uid }: { uid: st
       </div>
       <div className="course-prompt-fields">
         <label className="field-label">
-          Assunto ou material-base
+          Tema do curso
           <textarea
             rows={4}
             value={options.subject}
             onChange={(event) => update("subject", event.target.value)}
-            placeholder="Ex.: metodologia científica, com o material de apoio abaixo"
+            placeholder="Ex.: metodologia científica"
           />
         </label>
         <label className="field-label">
-          Material-base para a IA revisar
+          Material de referência (opcional)
           <textarea
             rows={7}
             value={options.materialBase}
             onChange={(event) => update("materialBase", event.target.value)}
-            placeholder="Cole aqui o texto, resumo ou referências que devem fundamentar o curso."
+            placeholder="Cole trechos de apostila, anotações, ementa ou texto de referência. A IA usará esse conteúdo para fundamentar o curso."
           />
+          <span className="field-hint">
+            Use este campo para dar à IA uma fonte de conteúdo. Nesta versão,
+            ele aceita texto colado; arquivos PDF ainda não são lidos diretamente.
+          </span>
         </label>
         <div className="studio-field-row">
           <label className="field-label">

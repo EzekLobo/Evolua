@@ -32,7 +32,9 @@ describe("evolua-course-pack v1", () => {
       "application",
       "transfer",
     ]);
-    expect(courseEditorialWarnings(result.data)).toEqual([]);
+    expect(result.data.editorial.status).toBe("draft");
+    expect(result.data.sources.every(source => source.kind === "internal")).toBe(true);
+    expect(courseEditorialWarnings(result.data).length).toBeGreaterThan(0);
   });
 
   it("rejects duplicate IDs and reports the current path", () => {

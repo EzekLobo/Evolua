@@ -61,22 +61,22 @@
     {
       "id": "src-metodo-pergunta",
       "title": "Metodologia 1 — pergunta e problema",
-      "kind": "pdf",
-      "locator": "METODOLOGIA 1.pdf, seção Pergunta e problema",
+      "kind": "internal",
+      "locator": "Texto demonstrativo de autoria própria; sem verificação externa",
       "excerpt": "Uma investigação começa quando o problema é formulado de modo que possa ser examinado por observações e argumentos compartilháveis."
     },
     {
       "id": "src-metodo-evidencia",
       "title": "Metodologia 2 — evidência e argumento",
-      "kind": "pdf",
-      "locator": "METODOLOGIA 2.pdf, seção Evidência e argumento",
+      "kind": "internal",
+      "locator": "Texto demonstrativo de autoria própria; sem verificação externa",
       "excerpt": "A força de uma conclusão depende da relação entre a evidência observada, as premissas usadas e o alcance da generalização."
     },
     {
       "id": "src-metodo-limites",
       "title": "Metodologia 3 — limites da conclusão",
-      "kind": "pdf",
-      "locator": "METODOLOGIA 3.pdf, seção Limites e comunicação",
+      "kind": "internal",
+      "locator": "Texto demonstrativo de autoria própria; sem verificação externa",
       "excerpt": "Comunicar limites não enfraquece uma investigação; informa em que condições a conclusão é sustentada e onde ainda há incerteza."
     }
   ],
@@ -422,9 +422,7 @@
     }
   ],
   "editorial": {
-    "status": "reviewed",
-    "reviewer": "equipe-editorial",
-    "reviewedAt": "2026-11-16",
+    "status": "draft",
     "notes": [
       "Fixture de contrato: requer conferência factual contra os PDFs antes de entrar no catálogo oficial."
     ]

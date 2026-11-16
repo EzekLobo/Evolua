@@ -21,6 +21,7 @@ import { content } from "../lib/content";
 import type { Source } from "../lib/content-schema";
 import { useProgress } from "../hooks/use-progress";
 import { useGamePacks } from "../hooks/use-game-packs";
+import { useCourses } from "../hooks/use-courses";
 import { useAuth, type AuthState } from "../hooks/use-auth";
 import { AuthAccount } from "./auth-account";
 import {
@@ -56,6 +57,7 @@ function LearningApp({ auth, uid }: { auth: AuthState; uid: string }) {
   const { progress, update, ready, warning, loadRestoredProgress } =
     useProgress(uid);
   const gamePacks = useGamePacks(uid);
+  const courses = useCourses(uid);
   const [view, setView] = useState<View>("inicio"),
     [menu, setMenu] = useState(false),
     [session, setSession] = useState<SessionConfig | null>(null),
@@ -289,7 +291,13 @@ function LearningApp({ auth, uid }: { auth: AuthState; uid: string }) {
               start={start}
             />
           ) : view === "biblioteca" ? (
-            <Library progress={progress} update={update} onSource={setSource} />
+            <Library
+              progress={progress}
+              update={update}
+              onSource={setSource}
+              courses={courses}
+              uid={uid}
+            />
           ) : view === "jogos" ? (
             <Games
               uid={uid}
@@ -313,7 +321,13 @@ function LearningApp({ auth, uid }: { auth: AuthState; uid: string }) {
                 loadRestoredProgress(backup.progress);
                 if (backup.packs !== undefined)
                   gamePacks.loadRestoredPacks(backup.packs);
+                if (
+                  backup.courses !== undefined ||
+                  backup.courseDrafts !== undefined
+                )
+                  courses.loadRestoredCourses();
               }}
+              courseStore={courses.store}
             /></>
           )}
         </main>

@@ -14,6 +14,8 @@ import { content } from "../lib/content";
 import type { Source } from "../lib/content-schema";
 import type { Progress } from "../lib/learning-engine";
 import { PageHeading, SourceButton } from "./ui";
+import { CourseManager, type CourseManagerProps } from "./course-manager";
+import { CourseReader } from "./course-reader";
 type Tab = "guias" | "glossario" | "relacoes" | "discursivo" | "simulados";
 const tabs: { id: Tab; label: string }[] = [
   { id: "guias", label: "Guias de estudo" },
@@ -26,10 +28,14 @@ export function Library({
   progress,
   update,
   onSource,
+  courses,
+  uid,
 }: {
   progress: Progress;
   update: (fn: (p: Progress) => Progress) => void;
   onSource: (s: Source) => void;
+  courses: CourseManagerProps;
+  uid: string;
 }) {
   const [tab, setTab] = useState<Tab>("guias"),
     [search, setSearch] = useState(""),
@@ -64,6 +70,8 @@ export function Library({
   }
   return (
     <>
+      <CourseManager {...courses} />
+      {courses.activeCourses.map(c=><CourseReader key={`${c.pack.id}:${c.pack.revision}`} pack={c.pack} uid={uid}/>)}
       <PageHeading
         eyebrow="SUA BIBLIOTECA"
         title="Entenda. Conecte. Aprofunde."

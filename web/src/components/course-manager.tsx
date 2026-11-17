@@ -63,8 +63,6 @@ const CoursePromptBuilder = memo(function CoursePromptBuilder({ uid }: { uid: st
     scope: [],
     exclusions: [],
     depth: "Completa, progressiva e suficiente para explicar conceitos, aplicação e limites",
-    moduleCount: 4,
-    lessonsPerModule: 3,
   });
   const [providerId, setProviderId] = useState<string>("chatgpt");
   const [message, setMessage] = useState("");
@@ -162,11 +160,12 @@ const CoursePromptBuilder = memo(function CoursePromptBuilder({ uid }: { uid: st
         </label>
         <div className="studio-field-row">
           <label className="field-label">
-            Módulos-alvo
+            Módulos
             <select
-              value={options.moduleCount}
-              onChange={(event) => update("moduleCount", Number(event.target.value))}
+              value={options.moduleCount ?? ""}
+              onChange={(event) => update("moduleCount", event.target.value ? Number(event.target.value) : undefined)}
             >
+              <option value="">Automático</option>
               {[1, 2, 3, 4, 6, 8].map((value) => (
                 <option key={value} value={value}>{value}</option>
               ))}
@@ -175,11 +174,12 @@ const CoursePromptBuilder = memo(function CoursePromptBuilder({ uid }: { uid: st
           <label className="field-label">
             Aulas por módulo
             <select
-              value={options.lessonsPerModule}
+              value={options.lessonsPerModule ?? ""}
               onChange={(event) =>
-                update("lessonsPerModule", Number(event.target.value))
+                update("lessonsPerModule", event.target.value ? Number(event.target.value) : undefined)
               }
             >
+              <option value="">Automático</option>
               {[1, 2, 3, 4, 6].map((value) => (
                 <option key={value} value={value}>{value}</option>
               ))}

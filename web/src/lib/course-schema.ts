@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { gameModuleSchema } from "./game-content";
 
 /**
  * Limits for a complete course. These are deliberately independent from the
@@ -272,6 +273,7 @@ export const courseModuleSchema = z
     description: descriptionText,
     order: z.number().int().positive(),
     objectiveIds: idList,
+    games: gameModuleSchema.optional(),
     lessons: z
       .array(courseLessonSchema)
       .min(1)
@@ -344,6 +346,14 @@ export const coursePackSchema = z
   })
   .strict()
   .superRefine((pack, ctx) => {
+    if (pack.modules.some(module => module.games)) {
+      pack.modules.forEach((module, index) => {
+        const games = module.games;
+        if (!games || games.pairs.length < 2 || !games.trueFalse.length || !games.multipleChoice.length) {
+          ctx.addIssue({ code: "custom", path: ["modules", index, "games"], message: "Inclua pares, verdadeiro ou falso e múltipla escolha em cada módulo do curso." });
+        }
+      });
+    }
     const registeredIds = new Map<string, (string | number)[]>();
     const registerId = (id: string, path: (string | number)[]) => {
       const previousPath = registeredIds.get(id);
@@ -426,6 +436,14 @@ export const coursePackSchema = z
     pack.modules.forEach((module, moduleIndex) => {
       const modulePath = ["modules", moduleIndex] as (string | number)[];
       registerId(module.id, [...modulePath, "id"]);
+      if (module.games) {
+        registerId(module.games.id, [...modulePath, "games", "id"]);
+        for (const format of ["pairs", "trueFalse", "multipleChoice"] as const) {
+          module.games[format].forEach((item, index) => {
+            registerId(item.id, [...modulePath, "games", format, index, "id"]);
+          });
+        }
+      }
       checkReferences(
         module.objectiveIds,
         objectiveIds,

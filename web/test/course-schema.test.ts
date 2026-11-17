@@ -14,6 +14,23 @@ type CourseFixture = any;
 const cloneCourse = (): CourseFixture => structuredClone(rawCourse);
 
 describe("evolua-course-pack v1", () => {
+  it("imports a course with games and rejects a missing game format", () => {
+    const course = cloneCourse();
+    const games = {
+      id: "jogos-test", title: "Prática", description: "Revise a aula.",
+      pairs: [
+        { id: "par-teste-1", prompt: "Um", answer: "1", explanation: "Representação numérica." },
+        { id: "par-teste-2", prompt: "Dois", answer: "2", explanation: "Representação numérica." },
+      ],
+      trueFalse: [{ id: "vf-teste", statement: "1 é menor que 2.", answer: true, explanation: "1 vem antes de 2." }],
+      multipleChoice: [{ id: "mc-teste", question: "Quanto é 1 + 1?", options: ["1", "2"], correctOptionIndex: 1, explanation: "A soma dá 2." }],
+    };
+    course.modules[0].games = games;
+    expect(parseCoursePack(course).modules[0].games).toEqual(games);
+    course.modules[0].games.multipleChoice = [];
+    expect(validateCoursePack(course).success).toBe(false);
+  });
+
   it("accepts a complete, non-superficial fixture and exposes a useful summary", () => {
     const result = validateCoursePack(rawCourse);
 

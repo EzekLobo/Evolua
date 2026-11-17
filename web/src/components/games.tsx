@@ -29,7 +29,7 @@ type UpdateProgress = (change: (progress: Progress) => Progress) => void;
 
 export function Games({
   uid,
-  packs,
+  packs: savedPacks,
   customPacks,
   savePack,
   removePack,
@@ -52,12 +52,23 @@ export function Games({
   progress: Progress;
   update: UpdateProgress;
 }) {
+  const packs = useMemo(() => {
+    const coursePacks: GamePack[] = courses.flatMap(course => {
+      const modules = course.modules.flatMap(module => module.games ? [module.games] : []);
+      return modules.length ? [{
+        schema: "evolua-game-pack", version: 1,
+        id: `course:${course.id}`, title: course.title, description: course.description, modules,
+      }] : [];
+    });
+    return [...savedPacks, ...coursePacks];
+  }, [courses, savedPacks]);
   const [packId, setPackId] = useState(packs[0].id);
   const pack = packs.find((item) => item.id === packId) ?? packs[0];
   const [moduleId, setModuleId] = useState(pack.modules[0].id);
   const module =
     pack.modules.find((item) => item.id === moduleId) ?? pack.modules[0];
-  const [active, setActive] = useState<GameType | null>(null);
+  const [active, setActive] = useState<GameType | "flashcards" | null>(null);
+  const [pairRound, setPairRound] = useState(0);
   const [importing, setImporting] = useState(false);
   const [courseId,setCourseId]=useState("");
   const [generating,setGenerating]=useState(false);
@@ -89,15 +100,22 @@ export function Games({
     setActive(null);
   }
 
+  if (active === "flashcards") {
+    return <MaterialFlashcards key={`${pack.id}:${module.id}`} module={module} onClose={() => setActive(null)} />;
+  }
   if (active === "pairs") {
+    const roundCount = Math.ceil(module.pairs.length / 6);
+    const start = Math.floor(pairRound * module.pairs.length / roundCount);
+    const end = Math.floor((pairRound + 1) * module.pairs.length / roundCount);
     return (
       <PairGame
-        key={`${pack.id}:${module.id}:pairs`}
+        key={`${pack.id}:${module.id}:pairs:${pairRound}`}
         pack={pack}
-        module={module}
+        module={{ ...module, pairs: module.pairs.slice(start, end) }}
         progress={progress}
         update={update}
         onClose={() => setActive(null)}
+        onNext={pairRound + 1 < roundCount ? () => setPairRound(pairRound + 1) : undefined}
       />
     );
   }
@@ -189,8 +207,8 @@ export function Games({
         </div>
         <p className="module-description"><MathText>{module.description}</MathText></p>
         <div className="game-grid">
-          <GameCard icon={<Link2/>} tone="lime" title="Flashcards" description="Revise conceitos do conteúdo original da Evolua." count={0} disabled={!onFlashcards || pack.id!=="metodologia-cientifica"} onPlay={()=>onFlashcards?.()}/>
-          <GameCard icon={<ListChecks/>} tone="lavender" title="Quizzes" description="Teste seus conhecimentos do conteúdo original da Evolua." count={0} disabled={!onQuiz || pack.id!=="metodologia-cientifica"} onPlay={()=>onQuiz?.()}/>
+          <GameCard icon={<Link2/>} tone="lime" title="Flashcards" description="Tente lembrar a resposta antes de virar o cartão." count={module.pairs.length} disabled={!module.pairs.length} onPlay={() => pack.id === "metodologia-cientifica" && onFlashcards ? onFlashcards() : setActive("flashcards")}/>
+          {pack.id === "metodologia-cientifica" && onQuiz && <GameCard icon={<ListChecks/>} tone="lavender" title="Quizzes" description="Teste seus conhecimentos do conteúdo original da Evolua." count={module.multipleChoice.length} disabled={false} onPlay={onQuiz}/>}
           <GameCard
             icon={<Link2 />}
             tone="lime"
@@ -198,7 +216,7 @@ export function Games({
             description="Relacione conceitos e respostas antes que sua memória te pregue uma peça."
             count={module.pairs.length}
             disabled={module.pairs.length < 2}
-            onPlay={() => setActive("pairs")}
+            onPlay={() => { setPairRound(0); setActive("pairs"); }}
           />
           <GameCard
             icon={<Puzzle />}
@@ -365,20 +383,42 @@ function GameSummary({
   );
 }
 
+function MaterialFlashcards({ module, onClose }: { module: GameModule; onClose: () => void }) {
+  const [index, setIndex] = useState(0);
+  const [revealed, setRevealed] = useState(false);
+  const item = module.pairs[index];
+  if (!item) return <button className="button button-outline" onClick={onClose}>Voltar ao material</button>;
+  return (
+    <section className="panel game-catalog">
+      <button className="button button-outline" onClick={onClose}>Voltar ao material</button>
+      <p>Cartão {index + 1} de {module.pairs.length}</p>
+      <h2><MathText>{item.prompt}</MathText></h2>
+      {revealed && <><p><MathText>{item.answer}</MathText></p><p><MathText>{item.explanation}</MathText></p></>}
+      <button className="button button-primary" onClick={() => {
+        if (!revealed) setRevealed(true);
+        else if (index + 1 === module.pairs.length) onClose();
+        else { setIndex(index + 1); setRevealed(false); }
+      }}>{!revealed ? "Mostrar resposta" : index + 1 === module.pairs.length ? "Concluir revisão" : "Próximo cartão"}</button>
+    </section>
+  );
+}
+
 function PairGame({
   pack,
   module,
   progress,
   update,
   onClose,
+  onNext,
 }: {
   pack: GamePack;
   module: GameModule;
   progress: Progress;
   update: UpdateProgress;
   onClose: () => void;
+  onNext?: () => void;
 }) {
-  const [items] = useState(() => shuffled(module.pairs).slice(0, 6));
+  const [items] = useState(() => [...module.pairs]);
   const [answers] = useState(() => shuffled(items));
   const [selected, setSelected] = useState<string | null>(null);
   const [matched, setMatched] = useState<string[]>([]);
@@ -392,6 +432,7 @@ function PairGame({
 
   if (matched.length === items.length) {
     return (
+      <>
       <GameSummary
         title="Todas as conexões foram encontradas!"
         correct={correct}
@@ -399,6 +440,8 @@ function PairGame({
         gainedXp={progress.xp - initialXp}
         onClose={onClose}
       />
+      {onNext && <button className="button button-primary" onClick={onNext}>Próxima rodada de pares</button>}
+      </>
     );
   }
 
@@ -498,7 +541,7 @@ function TrueFalseGame({
   update: UpdateProgress;
   onClose: () => void;
 }) {
-  const [items] = useState(() => shuffled(module.trueFalse).slice(0, 10));
+  const [items] = useState(() => [...module.trueFalse]);
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState<boolean | null>(null);
   const [score, setScore] = useState(0);
@@ -595,7 +638,7 @@ function ChoiceGame({
   update: UpdateProgress;
   onClose: () => void;
 }) {
-  const [items] = useState(() => shuffled(module.multipleChoice).slice(0, 10));
+  const [items] = useState(() => [...module.multipleChoice]);
   const [index, setIndex] = useState(0);
   const [answer, setAnswer] = useState<number | null>(null);
   const [score, setScore] = useState(0);

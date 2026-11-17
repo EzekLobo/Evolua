@@ -16,4 +16,6 @@ node_modules/
 *.tsbuildinfo
 coverage/
 test-results/
+__pycache__/
+/work/content-ai/
 .vercel

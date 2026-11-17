@@ -34,8 +34,8 @@ export const COURSE_AUTHORING_DEFAULTS = {
   scope: ["Defina a cobertura necessária a partir do objetivo e do material fornecido"],
   exclusions: ["Conteúdo que o material não sustenta; registre a lacuna em vez de inventar"],
   depth: "Completa, progressiva e suficiente para explicar conceitos, aplicação e limites",
-  moduleCount: 4,
-  lessonsPerModule: 3,
+  moduleCount: null,
+  lessonsPerModule: null,
 } as const;
 
 const COURSE_CONTRACT = `
@@ -62,7 +62,7 @@ Forma dos registros:
 - prerequisite: id, title, description.
 - objective: id, title, description, evidenceOfLearning (1 a ${COURSE_PACK_LIMITS.objectiveEvidence} evidências observáveis).
 - source: id, title, kind (exatamente "book", "article", "pdf", "web", "internal" ou "other"), locator e excerpt.
-- module: id, title, description, order, objectiveIds e lessons.
+- module: id, title, description, order, objectiveIds, lessons e games.
 - lesson: id, title, description, order, objectiveIds, sections e activities.
 - section: id, title, order, objectiveIds, sourceIds e blocks.
 - editorial.status: exatamente "draft", "reviewed" ou "approved"; reviewer e reviewedAt são opcionais apenas no rascunho e obrigatórios nos dois estados revisados. reviewedAt usa AAAA-MM-DD. notes é uma lista de textos curtos.
@@ -101,7 +101,7 @@ EXEMPLO ESTRUTURAL DE ATIVIDADE TRANSFER (substitua conteúdo e referências por
 AUDITORIA DE TIPOS OBRIGATÓRIA
 Revise cada ocorrência dos campos, não apenas o primeiro exemplo. Confira especialmente constraints, limits, items, keyPoints, evidenceOfLearning e listas de IDs: todos devem permanecer arrays mesmo com um único item. Distinga limite de quantidade de itens do limite de caracteres de cada string. Confira os campos permitidos de cada variante pelo type. Ao juntar módulos, preserve esses tipos e refaça a auditoria no pacote inteiro.
 
-Não invente uma variante, campo ou envelope para combinar curso e jogos. Esta tarefa gera somente um objeto evolua-course-pack v1; atividades de curso não devem conter objetos de evolua-game-pack.
+Não invente uma variante do contrato. Entregue um objeto evolua-course-pack v1 com jogos no campo games de cada módulo. Preserve as atividades pedagógicas da aula em activities.
 `;
 
 const LIMIT_LABELS: ReadonlyArray<keyof typeof COURSE_PACK_LIMITS> = [
@@ -147,9 +147,9 @@ function nonEmptyList(
 
 function boundedCount(
   value: number | undefined,
-  fallback: number,
+  fallback: number | null,
   maximum: number,
-): number {
+): number | null {
   if (value === undefined || !Number.isFinite(value)) return fallback;
   return Math.min(maximum, Math.max(1, Math.trunc(value)));
 }
@@ -200,8 +200,6 @@ function renderRequest(options: CoursePromptOptions): string {
  */
 export function buildCoursePackPrompt(options: CoursePromptOptions = {}): string {
   const request = renderRequest(options);
-  const plannedModules = JSON.parse(request).metaDeModulos as number;
-  const plannedLessons = JSON.parse(request).metaDeAulasPorModulo as number;
 
   return `Você é o autor pedagógico da Evolua. Monte um curso completo, profundo, didático e importável para estudo. Sua tarefa é produzir o conteúdo final do curso, não apenas uma lista de tópicos nem um plano superficial. Não exponha seu raciocínio interno: execute as revisões abaixo e entregue somente o resultado solicitado.
 
@@ -219,7 +217,7 @@ ${request}
 FIM DOS DADOS DO PEDIDO
 
 PROTOCOLO DE AUTORIA INCREMENTAL
-O curso deve manter a quantidade de módulos solicitada, mas ser produzido em etapas para evitar truncamento. Primeiro, entregue um plano JSON de trabalho com a identidade do curso, objetivos, fontes e a ordem de todos os módulos. Depois, produza somente um módulo por resposta, na ordem definida. Antes de entregar cada módulo, revise sua coerência, profundidade, referências, atividades, IDs e compatibilidade com o contrato. Aguarde o comando “PRÓXIMO MÓDULO” antes de continuar.
+Defina a divisão no plano antes de escrever o curso e preserve a divisão planejada durante a autoria. Primeiro, entregue um plano JSON de trabalho com a identidade do curso, objetivos, fontes e a ordem de todos os módulos. Depois, produza somente um módulo por resposta, na ordem definida. Antes de entregar cada módulo, revise sua coerência, profundidade, referências, atividades, IDs e compatibilidade com o contrato. Aguarde o comando “PRÓXIMO MÓDULO” antes de continuar.
 
 Cada módulo deve ser um arquivo JSON parcial válido no formato definido em MÓDULO INCREMENTAL, sem prefácio, Markdown ou texto fora do JSON. Ao concluir o último módulo, aguarde o comando “MONTAR PACOTE FINAL”. Só então reúna plano e módulos e entregue um único objeto evolua-course-pack v1 completo, parseável e pronto para importação. O usuário não deve editar nem juntar JSON manualmente.
 
@@ -227,7 +225,7 @@ PLANO OBRIGATÓRIO DE AUTORIA
 Execute estas etapas antes de construir o JSON final:
 1. Planeje a cobertura: declare o que entra e o que não entra no scope/exclusions; identifique pré-requisitos, conceitos centrais, relações, pressupostos, limites e lacunas.
 2. Mapeie o objetivo geral em objetivos observáveis. Para cada objective, escreva evidenceOfLearning verificável e garanta que o objetivo apareça em explicações e atividades.
-3. Monte uma progressão do fundamento para a aplicação: ordene módulos, aulas e seções sem saltos, explique dependências entre conceitos e evite repetição artificial. A meta inicial é ${plannedModules} módulos com aproximadamente ${plannedLessons} aulas por módulo, mas reduza a quantidade quando o material não sustentar essa cobertura.
+3. Escolha a menor divisão que cubra o escopo com profundidade. Em metaDeModulos e metaDeAulasPorModulo, null significa automático, independentemente para cada campo. Um assunto simples pode caber em um módulo e uma aula completa. Abra outro módulo quando existir um eixo de estudo distinto. Abra outra aula quando houver uma habilidade ou pré-requisito que mereça explicação, exemplo resolvido e prática próprios. Em modo automático, os módulos podem ter quantidades diferentes de aulas. Quando houver uma meta numérica, trate-a como referência e reduza a quantidade se não houver conteúdo suficiente. Organize a progressão do fundamento à aplicação e elimine divisões que só repetiriam conteúdo.
 4. Escreva explicações completas: defina termos, explique por que e como, mostre condições de uso, relações, limites, erros comuns e diferenças entre conceitos próximos. Use blocos text e list para tornar a leitura recuperável.
 5. Demonstre o raciocínio: inclua exemplos resolvidos com prompt, pelo menos dois passos com action e reasoning e conclusion. Inclua contraexemplos quando ajudarem a mostrar um limite, erro comum ou distinção importante.
 6. Feche cada unidade com síntese: use synthesis com pelo menos dois keyPoints e takeaway. Use analogy quando ela realmente esclarecer o conceito; uma analogia válida precisa mapear familiarSituation para concept, declarar limits, retornar ao conceito e terminar com uma question. Não use analogia como substituto da explicação formal.
@@ -235,26 +233,28 @@ Execute estas etapas antes de construir o JSON final:
 8. Monte prática variada: crie atividades comprehension para verificar entendimento, application para usar o conceito em cenário conhecido e transfer para aplicar em cenário novo com constraints. Cada atividade deve ter resposta esperada e feedback explicativo, e deve apontar para objectiveIds e sectionIds existentes. Não declare domínio usando somente memorização.
 
 MÓDULO INCREMENTAL
-Quando estiver produzindo um módulo, responda com SOMENTE um objeto JSON com estas chaves: "protocol": "evolua-course-module-v1", "courseId", "module", "coveredObjectiveIds", "sourceIdsUsed", "review". O campo "module" deve conter id, title, description, order, objectiveIds e lessons conforme o contrato; cada aula deve conter explicação completa, seções, fontes, exemplos, síntese e atividades. Use IDs estáveis e únicos, preservando os IDs do plano. O campo "review" deve registrar apenas verificações objetivas realizadas, sem alegar validação externa. Não inclua outros módulos, comentários ou promessa de conteúdo futuro.
+Quando estiver produzindo um módulo, responda com SOMENTE um objeto JSON com estas chaves: "protocol": "evolua-course-module-v1", "courseId", "module", "coveredObjectiveIds", "sourceIdsUsed", "review". O campo "module" deve conter id, title, description, order, objectiveIds, lessons e games conforme o contrato; cada aula deve conter explicação completa, seções, fontes, exemplos, síntese e atividades. Use IDs estáveis e únicos, preservando os IDs do plano. O campo "review" deve registrar apenas verificações objetivas realizadas, sem alegar validação externa. Não inclua outros módulos, comentários ou promessa de conteúdo futuro.
 
 PLANO INCREMENTAL
 Na primeira resposta, antes do primeiro módulo, responda com SOMENTE um objeto JSON com "protocol": "evolua-course-plan-v1", "courseId", "course", "objectives", "sources" e "modules". O array "modules" deve listar todos os módulos previstos, com id, title, description, order, objectiveIds e lessonTitles. Esse plano não é importado diretamente; ele será usado para verificar a cobertura durante a montagem final.
 
 REQUISITOS DE PROFUNDIDADE
-BANCO DE QUESTÕES VINCULADO AO CURSO — ENTREGA COMPLEMENTAR
-- Após elaborar cada módulo, construa 10 itens de conhecimento por aula. Um módulo de 4 aulas terá 40 itens. Distribua compreensão, aplicação e transferência, cobrindo os objetivos sem duplicar perguntas ou criar variações apenas cosméticas. Não substitua explicações por perguntas.
-- Cada item deve conter, no registro de trabalho: id estável, moduleId, lessonId, objectiveId, sourceIds, difficulty; question, answer e explanation; options com 4 strings distintas, correctOptionIndex de 0 a 3 e optionExplanations com 4 justificativas; pairPrompt e pairAnswer curtos e inequívocos; trueStatement, falseStatement e explicações específicas de ambas. Todos esses campos se referem ao mesmo conceito. A definição curta do par não pode ser apenas a letra da alternativa correta. A afirmação falsa deve ser inequivocamente falsa nas condições ensinadas, nunca ambígua.
+JOGOS INCLUÍDOS NO CURSO
+- Para cada assunto ensinado, gere o máximo de itens distintos que o material sustentar, com meta de até 50 por formato em cada módulo. Distribua o espaço entre todos os assuntos antes de aprofundar um deles. Em cada lista, ordene do fácil ao difícil: compreensão, aplicação guiada e transferência. Em assuntos fáceis de esgotar, encerre quando novas atividades seriam repetitivas.
+- Planeje os três formatos para cada assunto central. Para cada formato, crie um item próprio que ensine ou avalie o mesmo conceito de um jeito apropriado. Use mais de um item quando houver aplicações ou erros distintos a explorar.
 - Esse registro é um banco de trabalho da autoria, não um campo novo do evolua-course-pack. Não insira esses campos nas activities ou na raiz do curso. Preserve a estrutura exata do contrato de importação.
 - Para cada item, confira a resposta na aula, a unicidade da alternativa correta, a plausibilidade dos distratores, a fidelidade das afirmações e a associação inequívoca do par. Confira notação matemática e condições de validade. Não use referências que não sustentem a questão.
-- Ao revisar um módulo, revise também seu banco antes de avançar. Mantenha os vínculos e IDs estáveis durante a consolidação. Flashcards usam question/answer/explanation e quizzes usam os mesmos dados de múltipla escolha; a integração dessas modalidades na aplicação depende do suporte do leitor de jogos.
+- Revise os três formatos antes de avançar. Use o banco como preparação para escrever games; entregue os jogos dentro do módulo incremental e preserve-os no pacote final.
 
-ARQUIVOS FINAIS COMPATÍVEIS COM A IMPORTAÇÃO ATUAL
-- O comando MONTAR PACOTE FINAL continua entregando somente curso.json no contrato evolua-course-pack v1, sem campos extras. Preserve separadamente o banco de trabalho gerado durante os módulos.
-- Após entregar o curso, aguarde o comando GERAR ARQUIVO DE JOGOS. Esse comando deve produzir jogos.json, um único objeto com schema "evolua-game-pack", version 1, revision 1, id diferente do ID do curso, title, description e modules. Não una curso e jogos em um envelope inventado: atualmente são duas importações distintas.
-- Cada módulo de jogos tem somente id, title, description, pairs, trueFalse e multipleChoice. Use os IDs e a ordem dos módulos de trabalho, garantindo unicidade global dos IDs do pacote. Não inclua moduleId, lessonId ou campos do banco de trabalho nesse arquivo, pois o contrato atual não os aceita.
-- pairs contém um objeto por item com id, prompt=pairPrompt, answer=pairAnswer e explanation. multipleChoice contém um objeto por item com id, question, options, correctOptionIndex, explanation e optionExplanations. trueFalse contém um objeto por item, alternando equilibradamente trueStatement com answer true e falseStatement com answer false, sempre com explanation correspondente. Use IDs diferentes para cada representação do mesmo item.
-- Limites de jogos: até 20 módulos; até 50 itens em cada array pairs, trueFalse e multipleChoice de cada módulo; IDs de 2 a 64 caracteres no padrão já declarado; title, prompt/answer de pares e cada alternativa até 240 caracteres; description, question, statement e cada explanation até 2000; arquivo até 1 MB. Respostas e prompts de pares devem ser únicos dentro do módulo. Se houver mais de 50 itens no módulo pedagógico, distribua em módulos de jogos numerados, sem perder itens e sem ultrapassar 20 módulos.
-- No comando GERAR ARQUIVO DE JOGOS entregue somente o JSON final completo ou o arquivo correspondente se houver ferramentas. Valide tipos, limites, índices, IDs e gabaritos antes da entrega. Não afirme validação executada se só revisou o texto. Não prometa que os cinco jogos já consomem esse arquivo: o suporte efetivo é definido pela aplicação.
+PACOTE ÚNICO PARA IMPORTAÇÃO
+- Cada módulo contém games com id, title, description, pairs, trueFalse e multipleChoice. Use IDs de jogo únicos no curso, diferentes dos IDs pedagógicos. Inclua ao menos dois pares e itens nos outros dois formatos.
+- Conectar pares e flashcards usam pairs: { id, prompt, answer, explanation }. O prompt funciona como pergunta ou termo isolado. A resposta é curta, completa e deve corresponder a um único prompt no módulo. Não use letras de alternativas como resposta. Confira a unicidade de prompts e respostas mesmo após normalizar maiúsculas e espaços. A explicação ensina por que o par está correto.
+- Verdadeiro ou falso usa trueFalse: { id, statement, answer, explanation }. Escreva uma única proposição que possa ser julgada com o contexto do próprio enunciado. Use true ou false como booleanos JSON, sem aspas. Misture gabaritos verdadeiros e falsos; para os falsos, mostre a formulação correta.
+- Quiz de alternativas usa multipleChoice: { id, question, options, correctOptionIndex, explanation, optionExplanations }. Inclua quatro alternativas de texto distintas e exatamente uma correta. correctOptionIndex é um inteiro de 0 a 3 na ordem do array options. optionExplanations contém quatro justificativas na mesma ordem. Não use referências como “a opção acima”, pois o jogo embaralha as alternativas.
+- Todo item deve ser resolvível quando exibido sozinho. Inclua no próprio enunciado os dados, unidades, hipóteses, trechos ou regras específicos necessários. Evite “na questão anterior”, “conforme o exemplo acima” e referências a imagens ausentes. Para cálculos, informe arredondamento quando ele afetar o gabarito.
+- Antes de entregar, simule os três leitores: vire o cartão usando apenas prompt e answer, confira se cada associação tem uma única correspondência, julgue statement sozinho e resolva question antes de olhar options. Refaça o cálculo e confirme que o texto no índice correto corresponde à solução. Corrija incompatibilidades antes de consolidar o JSON.
+- Limite de 50 itens por formato e módulo. Títulos, prompts e respostas de pares e alternativas têm até 240 caracteres. Descrição, questão, enunciado e explicações têm até 2000. Respeite também o limite total do curso. Se for preciso reduzir, preserve a cobertura dos assuntos e os três níveis de dificuldade.
+- MONTAR PACOTE FINAL entrega apenas o curso completo com games em todos os módulos, em um único JSON. Não solicite um segundo arquivo.
 ORGANIZAÇÃO DIDÁTICA OBRIGATÓRIA — UM CONCEITO POR UNIDADE
 - Antes de redigir, decomponha cada aula em conceitos ensináveis. Crie uma section com título específico para cada conceito central; não use uma seção genérica para reunir toda a teoria. Agrupe conceitos somente quando a explicação de um depender diretamente do outro.
 - Dentro de cada section, mantenha esta sequência: (1) bloco text com definição e significado, (2) outro bloco text ou list explicando funcionamento, condições e limites, (3) bloco resolved-example dedicado àquele conceito, (4) bloco synthesis com os pontos essenciais. Acrescente counterexample quando houver confusão frequente. Não coloque exemplo e explicação juntos no mesmo parágrafo.

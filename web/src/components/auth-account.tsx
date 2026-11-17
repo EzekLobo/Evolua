@@ -21,12 +21,12 @@ export function AuthAccount({ auth }: { auth: AuthState }) {
       : auth.user ? <>
         <p>Conectado como {auth.user.displayName || auth.user.email || "usuário"}.</p>
         <p className="muted">{auth.user.email}</p>
-        {!auth.allowed && <p>O administrador precisa autorizar esta conta para liberar a aplicação.</p>}
+        {!auth.allowed && <p>Saia da conta e entre com e-mail e senha.</p>}
         <p className="small-text">Identificador da conta (UID): <code>{auth.user.uid}</code></p>
         {auth.canGenerate && <p className="tag">Administrador · geração habilitada</p>}
         <button className="button button-outline" disabled={auth.busy} onClick={() => void auth.logout()}>Sair da conta</button>
       </> : <form onSubmit={(event) => void submit(event)}>
-        <p>Entre com a conta cadastrada e autorizada pelo administrador.</p>
+        <p>Entre com o e-mail e a senha cadastrados.</p>
         <label className="field-label">E-mail
           <input type="email" autoComplete="username" required maxLength={254} value={email} onChange={(event) => setEmail(event.target.value)} disabled={auth.busy} />
         </label>

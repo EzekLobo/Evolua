@@ -23,10 +23,10 @@ export function useAuth() {
         const controller = new AbortController();
         pending.current = controller;
         setUser(nextUser);
+        setAllowed(!!nextUser?.providerData.some(provider => provider.providerId === "password"));
+        setReady(true);
         if (!background || !nextUser) {
           setCanGenerate(false);
-          setAllowed(false);
-          setReady(!nextUser);
         }
         setMessage("");
         if (!nextUser) return;
@@ -40,21 +40,18 @@ export function useAuth() {
           });
           if (response.status === 403) {
             if (version === sequence.current) {
-              setAllowed(false); setCanGenerate(false);
-              setMessage("Sua conta não possui acesso autorizado. Solicite a liberação ao administrador.");
+              setCanGenerate(false);
             }
             return;
           }
           if (!response.ok) throw new Error("access/unavailable");
           const access = await response.json();
           if (version === sequence.current) {
-            setAllowed(access.allowed === true);
             setCanGenerate(access.allowed === true && access.canGenerate === true);
           }
         } catch {
           if (version === sequence.current) {
-            setAllowed(false); setCanGenerate(false);
-            setMessage("Não foi possível verificar sua autorização. O acesso permanece bloqueado. Confira a conexão e entre novamente.");
+            setCanGenerate(false);
           }
         } finally {
           clearTimeout(timeout);
@@ -64,8 +61,7 @@ export function useAuth() {
       const refresh = () => { if (document.visibilityState === "visible") void checkAccess(firebaseAuth().currentUser, true); };
       const offline = () => {
         ++sequence.current; pending.current?.abort();
-        setAllowed(false); setCanGenerate(false); setReady(true);
-        setMessage("Conecte-se à internet para verificar seu acesso à aplicação.");
+        setCanGenerate(false);
       };
       const stop = onIdTokenChanged(firebaseAuth(), checkAccess, () => {
         ++sequence.current;
